@@ -23,8 +23,8 @@ void Enum(int n)
 		memcpy(clocks,oriClocks,sizeof(clocks));//每次新案例, 重新赋值
 		int totalTimes = 0;
 		for( int i = 0;i < 9 ; ++ i ) { //依次进行9种移动
-			if( moveTimes[i] ) { //0表示不动, 不需要处理
-				for( int k = 0; moves[i][k]; ++k) {
+			if( moveTimes[i] ) { //0表示不动, 不需要处理 
+				for( int k = 0; moves[i][k]; ++k) {//寻找使这个位移动的方案
 					clocks[moves[i][k]-'A'] = (clocks[moves[i][k]-'A'] + moveTimes[i]) % 4;//calculate current state
 					totalTimes += moveTimes[i];
 				}
