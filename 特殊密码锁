@@ -64,29 +64,29 @@ int main()
 	cin >> line;
 	int N = strlen(line);
 	for(int i = 0; i < N; ++i)
-		SetBit(oriLock,i, line[i] - '0');
-	cin >> line;
-	for(int i = 0; line[i]; ++i)
+		SetBit(oriLock,i, line[i] - '0'); //line 1
+	cin >> line;//line 2 //也可以按照例题中一个一个输入数字 //line 2 表示目标状态！
+	for(int i = 0; line[i]; ++i)//这边也应该可以写 i < N, line[i]表示 line 的 i位上有值则运行for循环
 		SetBit(destLock,i, line[i] - '0');
-	int minTimes = 1 << 30;
+	int minTimes = 1 << 30; （最多的尝试的次数)
 	for(int p = 0; p < 2; ++p) { //p代表最左边按钮 
-		lock = oriLock;
+		lock = oriLock; //新的方案, 重新赋值开始
 		int times = 0;
-		int curButton = p;
+		int curButton = p; //一开始尝试, p可按下 可不按, 共两种方案
 		for(int i = 0; i < N; ++i) {
-			if(curButton) {
+			if(curButton) { // == 1 -> need to be pressed
 				++ times;
-				if( i > 0)
+				if( i > 0) //has left
 					FlipBit(lock,i-1);
 				FlipBit(lock,i);
-				if( i < N-1)
+				if( i < N-1) //has right
 					FlipBit(lock,i+1);
 			}
-			if( GetBit(lock,i) != GetBit(destLock,i))  
+			if( GetBit(lock,i) != GetBit(destLock,i))  //当前位置与目标是否一致, 不一致则current表示按下, 则处理下一位时, 可使当前为状态与目标一致
 				curButton = 1;
 			else 
 				curButton = 0;
-		}
+		} //处理完一行后比较 与dest是否一致
 		if( lock == destLock) 
 			minTimes = min(minTimes ,times);
 	}
