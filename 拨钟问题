@@ -16,25 +16,25 @@ int clocks[9];
 const char * moves[9] = { "ABDE","ABC","BCEF","ADG","BDEFH","CFI","DEGH","GHI","EFHI" };
 int moveTimes[9] = {0};
 int result[9];
-int minTimes = 1 << 30;
+int minTimes = 1 << 30;//选一个很大的值
 void Enum(int n) 
 {
 	if( n >= 9 ) {
-		memcpy(clocks,oriClocks,sizeof(clocks));
+		memcpy(clocks,oriClocks,sizeof(clocks));//每次新案例, 重新赋值
 		int totalTimes = 0;
 		for( int i = 0;i < 9 ; ++ i ) { //依次进行9种移动
-			if( moveTimes[i] ) { 
+			if( moveTimes[i] ) { //0表示不动, 不需要处理
 				for( int k = 0; moves[i][k]; ++k) {
-					clocks[moves[i][k]-'A'] = (clocks[moves[i][k]-'A'] + moveTimes[i]) % 4;
+					clocks[moves[i][k]-'A'] = (clocks[moves[i][k]-'A'] + moveTimes[i]) % 4;//calculate current state
 					totalTimes += moveTimes[i];
 				}
 			}
 		}
 		int i;
 		for( i = 0;i < 9; ++i )
-			if( clocks[i])
+			if( clocks[i])//完成拨钟后, 如果有一个不在12点, break, 重新方案
 				break;
-		if( i == 9) {
+		if( i == 9) {//9个都满足
 			if( minTimes > totalTimes) {
 				minTimes = totalTimes;
 				memcpy(result,moveTimes,sizeof(result)); 
@@ -42,9 +42,9 @@ void Enum(int n)
 		}
 		return ;
 	}
-	for( int i = 0;i < 4; ++ i ) {
+	for( int i = 0;i < 4; ++ i ) {  //通过观察得知, 一个钟拨4次回到原位 //所以操作只能是0,1,2,3 //0表示不作任何操作
 		moveTimes[n] = i;
-		Enum(n+1);
+		Enum(n+1); //先initialize, 完毕后, 先处理第九个, 依次往上推
 	}
 	return ;
 } 
@@ -53,7 +53,7 @@ int main()
 	for( int i = 0;i < 9 ; ++i )
 		cin >> oriClocks[i]; //input states of clock
 	Enum(0);
-	for( int i = 0; i < 9; ++i )
+	for( int i = 0; i < 9; ++i )//Output result
 		for( int k = 0; k < result[i] ; ++ k ) 
 			cout << i+1 << " ";
 	return 0;
