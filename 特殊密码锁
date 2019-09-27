@@ -31,6 +31,7 @@ By Guo Wei
 #include <cstring>
 using namespace std;
 //枚举第一个按钮是否按下的两种情况即可。对于指定的一种情况，后面的事情都是确定的 
+//这里相当于把某一行的每一列当做熄灯例题中的一行, 每一位的操作都确保前一位是熄灭的, 所以操作是确定的)
 int oriLock;
 int lock;
 int destLock;
