@@ -35,21 +35,27 @@ using namespace std;
 int oriLock;
 int lock;
 int destLock;
-inline void SetBit(int & n,int i,int v)
-{
-	if(v) 
-		n |= (1 << i);
-	else
-		n &= ~(1 << i);
+
+void SetBit(int &c, int j, int v){
+
+	if(v){//v = 1
+		c |= (1<<j);
+	}
+	else{ //v = 0
+		c &= ~(1<<j);
+	}
 }
-inline void FlipBit(int & n,int i)
-{
-	n ^= (1 << i);
+
+void FlipBit(int &c, int j){
+	c ^= (1<<j); 
 }
-inline int GetBit(int n,int i)
-{
-	return (n >> i) & 1;
+
+int GetBit(int c, int j){
+	return (c>>j)&1;
 }
+
+
+
 int main()
 {
 
@@ -90,5 +96,3 @@ int main()
 		cout << minTimes << endl;
 	return 0;
 }
-
-
