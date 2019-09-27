@@ -51,7 +51,7 @@ void Enum(int n)
 int main()
 {
 	for( int i = 0;i < 9 ; ++i )
-		cin >> oriClocks[i];
+		cin >> oriClocks[i]; //input states of clock
 	Enum(0);
 	for( int i = 0; i < 9; ++i )
 		for( int k = 0; k < result[i] ; ++ k ) 
