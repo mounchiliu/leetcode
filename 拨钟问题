@@ -23,8 +23,8 @@ void Enum(int n)
 		memcpy(clocks,oriClocks,sizeof(clocks));//每次新案例, 重新赋值
 		int totalTimes = 0;
 		for( int i = 0;i < 9 ; ++ i ) { //依次进行9种移动
-			if( moveTimes[i] ) { //0表示不动, 不需要处理 //第n种方案, 第n个字母一定包含（根据题意)
-				for( int k = 0; moves[i][k]; ++k) {//寻找使这个位移动的方案
+			if( moveTimes[i] ) { //0表示不动, 不需要处理 
+				for( int k = 0; moves[i][k]; ++k) {//依次进行9种移动里的移动
 					clocks[moves[i][k]-'A'] = (clocks[moves[i][k]-'A'] + moveTimes[i]) % 4;//calculate current state
 					totalTimes += moveTimes[i];
 				}
@@ -43,8 +43,22 @@ void Enum(int n)
 		return ;
 	}
 	for( int i = 0;i < 4; ++ i ) {  //通过观察得知, 一个钟拨4次回到原位 //所以操作只能是0,1,2,3 //0表示不作任何操作
-		moveTimes[n] = i;//每一位都有0,1,2,3三种操作
+		moveTimes[n] = i;//每一位都有0,1,2,3三种操作 //0,1,2,3 针对的是九种方案一起拨, 而不是单个位(钟), 这里列举了所有方案拨0,1,2,3次的可能
 		Enum(n+1); //先initialize, 完毕后, 先处理第九个, 依次往上推
+
+/*
+//递归 recursive
+// e.g. i = 0, n = 0, Enum(0) -> Enum(1) -> Enum(2) -> Enum(3) -> Enum(4) -> Enum(5) -> Enum(6) -> Enum(7) -> Enum(8) -> (n = 8) Enum(9) -> n>=9 
+	moveTimes[0-8] = 0；
+	
+	then, n = 8, i = 1 moveTimes = [ 0 0 0 0 0 0 0 0 1 ] 以此类推 末尾还可以是 2， 3
+	then, n = 8, i = 2 ...
+	then, n = 8, i = 3 ... (n = 8 处理完毕)
+	
+	then, n = 7， i = 1, moveTimes[7] = 0, 1, 2, 3, -> Enum(9) 在按照上面进行处理
+	
+	所以 这里就是把每一个方案进行处理, 分别尝试 0,1,2,3 次
+*/		
 	}
 	return ;
 } 
