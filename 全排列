@@ -41,7 +41,7 @@ int L = 0;
 void Permutation(int n)
 {	
 	if( n == L ) {
-		permutation[L] = 0;//the end
+		permutation[L] = 0;//the end of char
 		cout << permutation << endl;
 		return ;
 	}
@@ -52,7 +52,7 @@ void Permutation(int n)
                       // 每一位上都会按照 abc 的升序依次进行尝试, (abc已经排列好) 当前已经使用的则跳过尝试下一个字母  --> recursive
 			permutation[n] = str[i];
 			Permutation(n+1);
-			used[i] = false;
+			used[i] = false;//该层循环尝试完毕, 所有可能情况已试出, 恢复成false
 		}
 	}
   return;
