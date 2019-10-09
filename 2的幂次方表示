@@ -1,0 +1,50 @@
+http://cxsjsxmooc.openjudge.cn/2019t2summer2/002/
+
+ANS:
+
+该题需要明白二进制的运算方法 (不断除以2? 再对相关指数不断除以2再次进行分解?)
+https://baike.baidu.com/item/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0/108101?fr=aladdin 
+余数为1该位的数就为1, 并且从最低位往最高位添数
+
+#include <iostream>
+using namespace std;
+
+int pos[32];
+//8758
+inline int GetBit(int n,int i)
+{
+	return (n >> i ) & 1; //位运算符, e.g. 137 //右移一位相当于除以2 
+			      //搞清楚对于一个int数右移一位的结果是什么
+}
+void Print(int n) {
+	bool first = true;
+	for(int i = 15; i >= 0; --i) {//最大限制为15bit
+		
+		if( GetBit(n,i)) {
+			if(! first ) {
+				cout << "+" ;
+			}
+			else 
+				first = false;
+			if( i == 0)
+				cout << "2(0)" ;
+			else if( i == 1)
+			 	cout << "2";
+			else {
+				cout << "2(";
+				Print(i);//recursive
+				cout << ")";
+			}
+		}
+	}
+}
+int main()
+{
+	int n;
+	cin >> n; 
+	Print(n);
+	
+	return 0;
+}
+
+
