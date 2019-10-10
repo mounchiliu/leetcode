@@ -25,7 +25,7 @@ int main()
     return 0;
 }
 
-
+//Note: string's length ==> string s; s.length();
 
 
 #include <iostream>
