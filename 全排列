@@ -66,3 +66,50 @@ int main()
 	Permutation(0);
 	return 0;	
 }
+
+
+
+//Mine：
+#include <iostream>
+#include <algorithm>
+//#include <cstring>
+#include <string>
+using namespace std;
+const int M = 8;
+string s;//全局
+
+string p;//permutation term
+bool used[100] = {0};//false
+int L = 0;
+
+void Permutation (int i){
+    
+    //Output
+    if(i == s.length()){
+       cout<<p<<endl;
+    }
+    
+    for(int k = 0; k<s.length(); k++){
+        if(!used[k]){//not be used
+            used[k] = true; //label has used
+            p[k] = s[i];
+            Permutation(i+1);
+            used[k] = false;
+        }
+    }
+    
+    
+}
+
+int main(){
+    
+    cin>>s;
+    sort(s.begin(),s.end());
+    p = s; //initialize
+    //cout << s << endl;
+    
+    Permutation(0);
+    return 0;
+
+}
+
