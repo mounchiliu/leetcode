@@ -47,7 +47,8 @@ void Permutation(int n)
 	}
 	for(int i = 0;i < L; ++i) {
 		if( !used[i]) {//false
-			used[i] = true; //思路: 如有abc三个字母, 已经按照升序排好, 先排第一位a, 剩下两个, 排第二位时, a used, 所以尝试, 接着c... --> abc
+			used[i] = true; //label the char has used
+		      //思路: 如有abc三个字母, 已经按照升序排好, 先排第一位a, 剩下两个, 排第二位时, a used, 所以尝试, 接着c... --> abc
                       // 接着 返回到第二位, 尝试c, 第三位时c已用, --> acb
                       // 每一位上都会按照 abc 的升序依次进行尝试, (abc已经排列好) 当前已经使用的则跳过尝试下一个字母  --> recursive
 			permutation[n] = str[i];
