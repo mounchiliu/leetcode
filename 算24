@@ -3,7 +3,7 @@ http://bailian.openjudge.cn/practice/2787/submit/
 
 ANS: 
 //my answer
-//输入部分表达不清楚 
+//输入部分表达不清楚  //结果显示wrong ans
 
 
 
@@ -116,7 +116,7 @@ int main(){
     }
     
     return 0;
-}//结果显示wrong ans
+}
 
 
 //换了输入方式后ok
