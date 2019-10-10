@@ -120,7 +120,6 @@ int main(){
 
 
 //换了输入方式后ok
-//不是按照他的说法输入
 
 
 
@@ -185,8 +184,8 @@ int main()
 	int z = 0;
 	while(1){
         for(int i =0 ;i < 4; ++i){
-			cin >> a[i];
-			if(a[i] == 0)  z++;
+			cin >> a[i]; //自动省略空格读取
+			if(a[i] == 0)  z++;//算是不是4个都是0
 		}
 		if(z == 4) break;
 	    if(count24(a,4)){
