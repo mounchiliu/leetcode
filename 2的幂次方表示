@@ -21,22 +21,25 @@ void Print(int n) {
     for(int i = 15; i >= 0; --i) {//最大限制为15bit //算每个bit上是不是为1
         
         if( GetBit(n,i)) { //e.g. get the bit on the 15th position
+                           //If this bit is 1, run the operation
             if(! first ) {
                 cout << "+" ;
             }
             else
                 first = false;
-            if( i == 0)
+            if( i == 0)//i = 0 ==> if the bit is the last bit
                 cout <<"2(0)" ;
-            else if( i == 1)
+            else if( i == 1) // i = 1 ==> if the bit the the second last bit
                  cout << "2";
             else {
+                
                 cout << "2(";
-                Print(i);//recursive
+                Print(i);//recursive decomposition
                 cout << ")";
             }
         }
     }
+    return;
 }
 int main()
 {
