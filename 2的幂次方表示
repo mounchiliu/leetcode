@@ -22,18 +22,18 @@ void Print(int n) {
         
         if( GetBit(n,i)) { //e.g. get the bit on the 15th position
             if(! first ) {
-                //cout << "+" ;
+                cout << "+" ;
             }
             else
                 first = false;
-            if( i == 0){}
-                //cout <<"2(0)" ;
-            else if( i == 1){}
-                 //cout << "2";
+            if( i == 0)
+                cout <<"2(0)" ;
+            else if( i == 1)
+                 cout << "2";
             else {
-                //cout << "2(";
+                cout << "2(";
                 Print(i);//recursive
-                //cout << ")";
+                cout << ")";
             }
         }
     }
