@@ -1,0 +1,76 @@
+//My method
+//recursive lecture 2
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+using namespace std;
+int factor_value();
+int term_value();
+int expression_value();
+string s;
+
+int main()
+{
+    
+    cin>>s;
+    cout << expression_value() << endl;
+    return 0;
+    
+}
+
+
+ int expression_value() //求一个表达式的值
+{
+    int result = term_value(); //求第一项的值
+    
+    bool more = true;
+    while( more) {
+        char op = s[0]; //看一个字符,不取走
+        if( op == '+' || op == '-' ) {
+            s.erase(s.begin()); //string -> erase
+            int value = term_value();
+            if( op == '+' ) result += value; else result -= value;
+        }
+        else more = false;
+    }
+return result;
+}
+
+ int term_value() //求一个项的值
+{
+int result = factor_value(); //求第一个因子的值
+    while(true) {
+        char op = s[0];
+        if( op == '*' || op == '/') {
+            s.erase(s.begin());
+            int value = factor_value();
+            if( op == '*')
+                result *= value; else result /= value;
+        } else
+            break;
+        
+    }
+    return result;
+}
+ 
+
+
+int factor_value() //求一个因子的值
+{
+    int result = 0;
+    char c = s[0];
+    if( c == '(') {
+        s.erase(s.begin());
+        result = expression_value();
+        s.erase(s.begin());
+    } else {
+    
+        while(isdigit(c)) {
+            result = 10 * result + c - '0';
+            s.erase(s.begin());;
+            c = s[0];
+        }
+    }
+    return result;
+}
