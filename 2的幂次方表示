@@ -23,10 +23,10 @@ void Print(int n) {
         if( GetBit(n,i)) { //e.g. get the bit on the 15th position
                            //If this bit is 1, run the operation
             if(! first ) {
-                cout << "+" ;
+                cout << "+" ; 
             }
             else
-                first = false;
+                first = false; // Label --> Is this the first term?
             if( i == 0)//i = 0 ==> if the bit is the last bit
                 cout <<"2(0)" ;
             else if( i == 1) // i = 1 ==> if the bit the the second last bit
@@ -34,7 +34,7 @@ void Print(int n) {
             else {
                 
                 cout << "2(";
-                Print(i);//recursive decomposition
+                Print(i);//recursive decomposition //decomposition the index value
                 cout << ")";
             }
         }
