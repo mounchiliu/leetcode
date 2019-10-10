@@ -13,38 +13,38 @@ int pos[32];
 //8758
 inline int GetBit(int n,int i)
 {
-	return (n >> i ) & 1; //位运算符, e.g. 137 //右移一位相当于除以2 
-			      //搞清楚对于一个int数右移一位的结果是什么
+    return (n >> i ) & 1; //位运算符, e.g. 137 //右移一位相当于除以2
+                  //搞清楚对于一个int数右移一位的结果是什么
 }
 void Print(int n) {
-	bool first = true;
-	for(int i = 15; i >= 0; --i) {//最大限制为15bit
-		
-		if( GetBit(n,i)) {
-			if(! first ) {
-				cout << "+" ;
-			}
-			else 
-				first = false;
-			if( i == 0)
-				cout << "2(0)" ;
-			else if( i == 1)
-			 	cout << "2";
-			else {
-				cout << "2(";
-				Print(i);//recursive
-				cout << ")";
-			}
-		}
-	}
+    bool first = true;
+    for(int i = 15; i >= 0; --i) {//最大限制为15bit //算每个bit上是不是为1
+        
+        if( GetBit(n,i)) { //e.g. get the bit on the 15th position
+            if(! first ) {
+                //cout << "+" ;
+            }
+            else
+                first = false;
+            if( i == 0){}
+                //cout <<"2(0)" ;
+            else if( i == 1){}
+                 //cout << "2";
+            else {
+                //cout << "2(";
+                Print(i);//recursive
+                //cout << ")";
+            }
+        }
+    }
 }
 int main()
 {
-	int n;
-	cin >> n; 
-	Print(n);
-	
-	return 0;
+    int n;
+    cin >> n;
+    Print(n);
+    
+    return 0;
 }
 
 
