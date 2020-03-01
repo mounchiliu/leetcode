@@ -1,0 +1,51 @@
+https://www.lintcode.com/problem/implement-strstr/description
+
+
+
+class Solution {
+public:
+    int strStr(string source, string  target) {
+        int i, j, lenh = source.length(), lenn =  target.length(); //【Note: C++ string.length();】
+        if (lenn == 0)  return 0;//异常处理
+        for (i = 0; i <= lenh - lenn; i++) { //对于source从头开始搜的情况 只有这么多。 OR i < lenh-lenn + 1
+            for (j = 0; j < lenn; j++) 
+                if (source[i + j] !=  target[j]) break;
+            // 匹配成功
+            if (j == lenn)  return i;
+        }
+        return -1; //不用考虑source的长度小于target 因为会直接退出for循环return -1;
+    }
+};
+
+
+//my turn
+class Solution {
+public:
+    /**
+     * @param source: 
+     * @param target: 
+     * @return: return the index
+     */
+    int strStr(string source, string target) {
+        // Write your code here
+        int lens = source.length();
+        int lent = target.length();
+        //异常
+        if(lens == 0 || lent == 0) return -1;  //different with the answer.  【我觉得一下的考虑可能更优秀一点】 special case; source = target = empty should return 0;
+                                                                              他应该给一个情况target为空怎么处理. e.g. source = “1”， target = “” should return -1？
+        int i,j; 
+        for(i = 0; i < lens - lent; i++){//source
+            for( j = 0; j < lent; j++){//target
+                if(source[i + j] != target[j]){//source taret中同步往后一对一
+                    break;//不找了,从下一个头开始
+                }
+            }
+        } 
+        
+        if(j == lent){//find match
+            return i;
+        }
+        
+        return -1;        
+    }
+};
