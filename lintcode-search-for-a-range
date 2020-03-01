@@ -1,0 +1,128 @@
+https://www.lintcode.com/problem/search-for-a-range/description
+
+class Solution {
+  /** 
+   *@param A : an integer sorted array
+   *@param target :  an integer to be inserted
+   *return : a list of length 2, [index1, index2]
+   */
+public:
+  vector<int> searchRange(vector<int> &A, int target) {
+    // write your code here
+    vector<int> ans;
+    int ansl = -1;
+    for (int l = 0, r = A.size() - 1; l <= r;) {
+      int mid = l + (r - l) / 2;
+      if (A[mid] > target) {
+        r = mid - 1;
+      }
+      if (A[mid] < target) {
+        l = mid + 1;
+      }
+      if (A[mid] == target) {
+        ansl = mid;
+        r = mid - 1;
+      }
+    }
+    
+    int ansr = -1;
+    for (int l = 0, r = A.size() - 1; l <= r;) {
+      int mid = l + (r - l) / 2;
+      if (A[mid] > target) {
+        r = mid - 1;
+      }
+      if (A[mid] < target) {
+        l = mid + 1;
+      }
+      if (A[mid] == target) {
+        ansr = mid;
+        l = mid + 1;
+      }
+    }
+    ans.push_back(ansl);
+    ans.push_back(ansr);
+    return ans;
+  }
+};
+
+
+
+my turn:【has problem】
+class Solution {
+public:
+    /**
+     * @param A: an integer sorted array
+     * @param target: an integer to be inserted
+     * @return: a list of length 2, [index1, index2]
+     */
+    vector<int> searchRange(vector<int> &A, int target) {
+        // write your code here
+        
+        //Sol: do the binary search twice
+        //find the first postion then the last position
+        
+        
+        int start = 0;
+        int end = A.size() - 1; //index
+        vector<int> bound[2];// result; //pre-initialize it with size of 2.
+        
+        
+        //First, we consider the special case
+        if(A[start] > target || A[end] < target){
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+        
+        //1. search index1 --> first position
+        while(start + 1 < end){
+            mid = start + (end - start)*0.5;
+            if[A[mid] == target]{
+                end = mid;//左移
+            }else if(A[mid] < target){
+                start = mid;
+            }else{
+                end = mid
+            }
+        }
+        
+        //check two bound; // for case start + 1 = end;
+        if(A[start] == target){
+            bound[0] = start;
+        }
+        else if(A[end] == target){
+            bound[0] == end;
+        }else{ //start != target && end != target --> we did not find it
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+        
+        
+        
+        //2. search index2 --> last position
+        while(start + 1 < end){
+            mid = start = (end - start)*0.5;
+            if(A[mid] == target){
+                start = mid; //右移
+            }else if(A[mid] < target){
+                start = mid;
+            }else{
+                end = mid;
+            }
+        }
+        
+        //check the bound // for last position, we check end first
+        if(A[end] == target){
+            bound[1] = end;
+        }else if (A[start] == target){
+            bound[1] = start;
+        }else{
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+        
+        return bound;
+        
+        
+        
+    }
+};
