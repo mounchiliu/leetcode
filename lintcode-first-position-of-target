@@ -51,7 +51,7 @@ public:
         } 
         
         int start = 0;
-        int end = nums.size()-1; //C++ vector.sizeof
+        int end = nums.size() - 1; //C++ vector.size()
         int mid = start + (end - start)*0.5;//尽量用乘法 
         
         //binarySearch
