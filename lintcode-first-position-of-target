@@ -52,7 +52,7 @@ public:
         
         int start = 0;
         int end = nums.size() - 1; //C++ vector.size()
-        int mid = start + (end - start)*0.5;//尽量用乘法 
+        int mid = start + (end - start)*0.5;//尽量用乘法  【mid更新你放这神经病啊???】
         
         //binarySearch
         while((start + 1) < end){ //search in the interval
