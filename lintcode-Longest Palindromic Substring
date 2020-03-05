@@ -2,13 +2,14 @@ https://www.lintcode.com/problem/longest-palindromic-substring/description
 
 
 my trun:
+SOL1: Naive
 class Solution {
 public:
     /**
      * @param s: a string which consists of lowercase or uppercase letters
      * @return: the length of the longest palindromes that can be built
      */
-    int longestPalindrome(string s) {
+    string longestPalindrome(string &s) {
         // write your code here
         int i,j;
         int longestlength = 0;
@@ -47,3 +48,35 @@ public:
         //return false;
     }
 };
+
+
+
+SOL2:
+class Solution {
+public:
+    /**
+     * @param s: a string which consists of lowercase or uppercase letters
+     * @return: the length of the longest palindromes that can be built
+     */
+    string longestPalindrome(string &s) {
+        // write your code here
+
+        //优化:找最长的回文子串，反过来找，那么第一个找到的就应该是最优的 【SOL2】
+        //但是时间复杂度（最坏情况依然和上面一样是O(n^3)
+        int len,l,r,i;
+        for(len = s.length(); len > 0; len --){ 
+            for(i = 0; i < s.length()-len+1; i++){ //s.length()-len+1为i起点的极限值（画图可知）
+                l = i; r = i + len - 1;//index
+                while(i<r&&s[l]==s[r]){
+                    l++;
+                    r--;
+                }
+                if(i>=r){
+                    return s.substr(i,len);//the first one must be the result
+                }
+            }
+        }
+        
+        return "";
+        
+    }
