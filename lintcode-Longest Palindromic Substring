@@ -1,0 +1,49 @@
+https://www.lintcode.com/problem/longest-palindromic-substring/description
+
+
+my trun:
+class Solution {
+public:
+    /**
+     * @param s: a string which consists of lowercase or uppercase letters
+     * @return: the length of the longest palindromes that can be built
+     */
+    int longestPalindrome(string s) {
+        // write your code here
+        int i,j;
+        int longestlength = 0;
+        int start = 0;
+        for(i = 0; i < s.length(); i++){
+            for(j = i; j < s.length(); j++){
+                int length = j - i + 1;
+                if(length > longestlength && isPalindrome(s,i,j)){
+                    start = i;
+                    longestlength = length;
+                }
+                
+                
+            }
+        }
+        
+        return s.substr(start,longestlength);//c++ string 的用法！！！
+                                                //strVariable.substring(start, len)
+        
+    }
+    
+    
+    
+    bool isPalindrome(string &s, int i, int j){
+        while(i<j && s[i]==s[j]){
+            i++;//move to right
+            j--;//move to left
+        }
+        //until two pointer encounter with each other-->valid palindrome
+        
+        return i>=j; //【Note】
+        
+        //if(i>=j){
+       //     return true;
+        //}
+        //return false;
+    }
+};
