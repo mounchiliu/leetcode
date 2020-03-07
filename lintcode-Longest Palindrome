@@ -6,6 +6,47 @@ SOL1: 哈希表?
 
 
 SOL2:
+
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        int charArray[52];
+        
+        //初始化为0
+        memset(charArray,0,sizeof(charArray));
+
+    
+        // keep the times of appearance of each character in the array
+        for (char ch: s) {
+            if (ch >= 97) {
+                charArray[26 + ch - 'a']++; //Ascii a --> 97    A --> 65
+            }
+            else {
+                charArray[ch - 'A']++;
+            }
+        }
+
+            
+        int ans = 0;
+        for(int i: charArray){
+            ans += i/2*2; //e.g. 偶数次，则i个全算进去， 奇数次，算数去尾，算（i-1）--》偶数次；
+            
+            if(i%2==1 && ans%2 == 0)//可以选奇数次的字母作为一次对称轴，但要保证不能重复选取所以ans%2==0
+                ans++;
+        }
+       
+        return ans;
+            
+        }
+        
+        
+
+    
+};
+
+
+OR:
 class Solution {
 public:
     int longestPalindrome(string s) {
@@ -19,7 +60,7 @@ public:
         // keep the times of appearance of each character in the array
         for (char ch: s) {
             if (ch >= 97) {
-                charStatArray[26 + ch - 'a']++;
+                charStatArray[26 + ch - 'a']++; 
             }
             else {
                 charStatArray[ch - 'A']++;
@@ -50,3 +91,8 @@ public:
         return oneTimeOddCount > 0 ? 1 + evenCount : evenCount;
     }
 };
+
+
+
+
+
