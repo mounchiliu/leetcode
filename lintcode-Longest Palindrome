@@ -1,5 +1,11 @@
 https://www.lintcode.com/problem/longest-palindrome/description?_from=ladder&&fromId=1
 
+SOL1: 哈希表?
+
+
+
+
+SOL2:
 class Solution {
 public:
     int longestPalindrome(string s) {
