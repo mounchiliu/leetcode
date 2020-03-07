@@ -126,4 +126,40 @@ public:
 
 
 
-BEST SOL: dynamic programming
+OR 更加优化的方法
+  string longestPalindrome(string s) {
+        string str = "", ans = "";
+        int len = s.length();
+        int maxl = -1, cnt; //注意max1 = -1
+        for (int i = 0; i < len; i++) {
+            str += '#';
+            str += s[i];
+        }
+        str += '#';// the end #
+        // 将原字符串扩展成#a#b#的形式可以直接枚举长度，不用考虑回文串长度的奇偶性
+        for (int i = 1; i < 2 * len; i++) {
+            cnt = 0;
+            while ((i - cnt >= 0) && (i + cnt <= 2 * len) && (str[i - cnt] == str[i + cnt]))
+                cnt++;
+            cnt--;//循环出来cnt为第一个不满足的情况，所以回退
+            if (cnt > maxl) {
+                maxl = cnt;
+                ans = s.substr((i - cnt) / 2, (i + cnt) / 2 - (i - cnt) / 2);//这个len为什么是这个，没有+1
+                                                                             //这边可以只记录start 和 len
+                                                                             
+                                                                             //创造了奇数回文，中间一定是#，左右两边各偶数各元素，且其中一半是#
+                                                                          
+            }
+        }
+        return ans;
+    }
+
+
+SOL4: dynamic programming
+
+
+
+
+
+
+
