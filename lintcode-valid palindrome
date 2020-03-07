@@ -21,10 +21,11 @@ public:
         //如果全部的比较都相同, 说明是回文串. //类似于longest palindrome string哪一题中判断是不是回文的操作
         
         
-        
+        //[NOTE] 可以使用 isalnum
         for(int i=0, j=s.length()-1; i<j; i++,j--){
             //判断i,j 是不是字母或数
-            while(!isalpha(s[i]) && !isdigit(s[i]) && i<j)//i<j 可以没有
+            while(!isalpha(s[i]) && !isdigit(s[i]) && i<j)//i<j 不能没有， 反例 ., --> 只剩下空为可用元素--> 符合回文
+                                                            // i++后, 如果当前i位依然为非字母/数字，i要依然小于j 才能再次进行i++
                 i++;//不是就移动指针
             while(!isalpha(s[j]) && !isdigit(s[j]) && i<j) //因为i++了，所以要重新判断
                 j--;
