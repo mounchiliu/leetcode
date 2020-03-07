@@ -137,9 +137,9 @@ OR 更加优化的方法
         }
         str += '#';// the end #
         // 将原字符串扩展成#a#b#的形式可以直接枚举长度，不用考虑回文串长度的奇偶性
-        for (int i = 1; i < 2 * len; i++) {
+        for (int i = 1; i < 2 * len; i++) { //<s.length()*2 举例可得
             cnt = 0;
-            while ((i - cnt >= 0) && (i + cnt <= 2 * len) && (str[i - cnt] == str[i + cnt]))
+            while ((i - cnt >= 0) && (i + cnt <= 2 * len) && (str[i - cnt] == str[i + cnt])) //<=s.length()*2 举例可得
                 cnt++;
             cnt--;//循环出来cnt为第一个不满足的情况，所以回退
             if (cnt > maxl) {
