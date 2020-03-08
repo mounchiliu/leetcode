@@ -37,7 +37,7 @@ public:
                 Q.pop();//pop()删除首元素
                 level.push_back(head->val);
                 if (head->left != NULL) {//左儿子不是空，放左边
-                    Q.push(head->left);
+                    Q.push(head->left);//推入的是左树的根即左儿子
                 }
                 if (head->right != NULL) {
                     Q.push(head->right);
