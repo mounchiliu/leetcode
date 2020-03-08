@@ -32,6 +32,7 @@ public:
         }
         UndirectedGraphNode *p1 = node;
         UndirectedGraphNode *p2 = new UndirectedGraphNode(node->label); //用这个数值初始化一个Node, 但这个Node不需要记录neighbour
+                                                                        //p2用于复制
         unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> map; //【How to build unordered-map】
         queue<UndirectedGraphNode*> q;// queue模板使用: queue<queue中存储数据类型> 名字;
         q.push(node);
