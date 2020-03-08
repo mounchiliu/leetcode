@@ -29,7 +29,8 @@ public:
         queue<TreeNode *> Q;//queue模板的书写方式
         Q.push(root);
         while (!Q.empty()) {
-            int size = Q.size();
+            int size = Q.size();//先获取size, 不能把q.size()放到for循环里去
+                                //因为你不断在往queue里面加数值,size一直在改变, 这样的话就相当于循环追着size跑
             vector<int> level;
             
             for (int i = 0; i < size; i++) { //前一层有多少元素被push进queue我这里就忘level里push多少个元素进去，当前level元素都推送 再放到结果里去。
