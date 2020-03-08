@@ -21,9 +21,10 @@ class Solution {
      */
 public:
     vector<vector<int>> levelOrder(TreeNode *root) { //注意description的格式数组内有数组
+        //initialize
         vector<vector<int>> result;
         if (root == NULL) {//root无数值->直接返回空
-            return result;
+            return result;//empty vector
         }
         
         queue<TreeNode *> Q;//queue模板的书写方式
@@ -34,9 +35,9 @@ public:
             vector<int> level;
             
             for (int i = 0; i < size; i++) { //前一层有多少元素被push进queue我这里就忘level里push多少个元素进去，当前level元素都推送 再放到结果里去。
-                TreeNode *head = Q.front();//front()获取首元素  head获取了根的数值
-                Q.pop();//pop()删除首元素
-                level.push_back(head->val);
+                TreeNode *head = Q.front();//front()获取首元素  head获取了根的数值 //pointer
+                Q.pop();//pop()删除首元素//delete the num from queue
+                level.push_back(head->val);//push the first element into the vector
                 if (head->left != NULL) {//左儿子不是空，放左边
                     Q.push(head->left);//推入的是左树的根即左儿子
                 }
