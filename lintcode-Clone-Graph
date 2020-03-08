@@ -43,7 +43,7 @@ public:
             q.pop();
             for (int i = 0; i < p1->neighbors.size(); i++) { //遍历neighbour,并判断是不是在哈希表里  //这里可以用for(UndirectedGraphNode* neighbor: n1->neighbors)，下面需要些改动
                 UndirectedGraphNode *nb = p1->neighbors[i];
-                if (map.count(nb)) {//【Note】: 在map中如何查找数值: map.count[key]
+                if (map.count(nb)) {//【Note】: 在map中如何查找数值: map.count(key)
                     p2->neighbors.push_back(map[nb]);//若该neighbour已经存在map里,说明queue中已经出现，这里关联一下就可以
                                                     //注意这里关联空的那个, 因为要一个邻居一个邻居的往Queue里记录, 这边放邻居也要这么放, 才不会出现重复
                 } else {//如果邻居没有出现在map里，先关联，再把邻居放到map里和queue里
