@@ -1,0 +1,89 @@
+https://www.lintcode.com/problem/clone-graph/description
+
+
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;//数值
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+// BFS 版本的解法
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {}; //Node初始化
+ * };
+ */
+
+
+class Solution {
+public:
+    /*
+     * @param node: A undirected graph node
+     * @return: A undirected graph node
+     */
+    UndirectedGraphNode* cloneGraph(UndirectedGraphNode* node) {
+        if (!node) {
+            return nullptr;
+        }
+        UndirectedGraphNode *p1 = node;
+        UndirectedGraphNode *p2 = new UndirectedGraphNode(node->label); //用这个数值初始化一个Node, 但这个Node不需要记录neighbour
+        unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> map;
+        queue<UndirectedGraphNode*> q;
+        q.push(node);
+        map[node] = p2; //node 放入queue中就立即放入map里  node是key，关联p2, p2用来复制graph
+
+        while (!q.empty()) {
+            p1 = q.front(); p2 = map[p1];
+            q.pop();
+            for (int i = 0; i < p1->neighbors.size(); i++) { //遍历neighbour,并判断是不是在哈希表里
+                UndirectedGraphNode *nb = p1->neighbors[i];
+                if (map.count(nb)) {
+                    p2->neighbors.push_back(map[nb]);//若该neighbour已经存在map里,说明queue中已经出现，这里关联一下就可以
+                } else {//如果邻居没有出现在map里，先关联，再把邻居放到map里和queue里
+                    UndirectedGraphNode *temp = new UndirectedGraphNode(nb->label);
+                    p2->neighbors.push_back(temp);
+                    map[nb] = temp;
+                    q.push(nb);
+                }
+            }
+        }
+
+        return map[node];
+    }
+};
+
+// DFS 版本的解法
+class Solution {
+public:
+    UndirectedGraphNode *clone(UndirectedGraphNode *node, map<int, UndirectedGraphNode*> &table)
+    {
+        if (node == NULL)
+            return NULL;
+
+        if (table.find(node->label) != table.end())
+            return table[node->label];
+
+        UndirectedGraphNode *newnode = new UndirectedGraphNode(node->label);
+        table[newnode->label] = newnode;
+
+        for (int i = 0; i < node->neighbors.size(); i++)
+        {
+            UndirectedGraphNode *neighbor = clone(node->neighbors[i], table);
+            newnode->neighbors.push_back(neighbor);
+        }
+
+        return newnode;
+    }
+    /**
+     * @param node: A undirected graph node
+     * @return: A undirected graph node
+     */
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        map<int, UndirectedGraphNode*> visitTable;
+        return clone(node, visitTable);
+    }
