@@ -55,7 +55,7 @@ public:
             }
         }
 
-        return map[node];
+        return map[node]; //return 那个用于复制的, 注意这里不能return n2！因为n2在while里会变！
     }
 };
 
