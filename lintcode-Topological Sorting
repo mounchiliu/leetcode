@@ -1,0 +1,83 @@
+https://www.lintcode.com/problem/topological-sorting/description
+
+bfs(my solution)
+
+public class Solution {
+    /**
+     * @param graph: A list of Directed graph node
+     * @return: Any topological order for the given graph.
+     */    
+    public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
+        // write your code here
+        ArrayList<DirectedGraphNode> result = new ArrayList<DirectedGraphNode>();
+        HashMap<DirectedGraphNode, Integer> map = new HashMap();
+        //step 1: 统计入度
+        for (DirectedGraphNode node : graph) {
+            for (DirectedGraphNode neighbor : node.neighbors) {
+                if (map.containsKey(neighbor)) {
+                    map.put(neighbor, map.get(neighbor) + 1);//如果node只想neighbour, neighbour的入度+1
+                } else {
+                    map.put(neighbor, 1); 
+                }
+            }
+        }
+        Queue<DirectedGraphNode> q = new LinkedList<DirectedGraphNode>();
+        for (DirectedGraphNode node : graph) {//点没有入度，map里面没有他，放到queue里面
+            if (!map.containsKey(node)) {
+                q.offer(node);
+                result.add(node);
+            }
+        }
+        while (!q.isEmpty()) {
+            DirectedGraphNode node = q.poll();//每次取出最首点，他的neighbour入度均-1
+            for (DirectedGraphNode n : node.neighbors) {
+                map.put(n, map.get(n) - 1);
+                if (map.get(n) == 0) {
+                    result.add(n);//入度变成0，放入queue
+                    q.offer(n);
+                }
+            }
+        }
+        return result;
+    }
+}
+//一个点入度变成0只有一次-->相当于记录了 所以不需要visit数组
+
+
+
+
+
+dfs
+class Solution {
+public:
+    void dfs(DirectedGraphNode* i, vector<DirectedGraphNode*> &ans, map<DirectedGraphNode*, int> &countrd,vector<DirectedGraphNode*> graph)         
+    {
+        ans.push_back(i);
+        countrd[i]--;
+        for(int j = 0; j < i->neighbors.size(); j++) {
+		        countrd[i->neighbors[j]]--;
+                if(countrd[i->neighbors[j]] == 0)
+		        dfs(i->neighbors[j], ans, countrd, graph);
+	    }
+    }
+    /**
+     * @param graph: A list of Directed graph node
+     * @return: Any topological order for the given graph.
+     */
+    vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) {
+        // write your code here
+        map<DirectedGraphNode*, int> countrd;
+        vector<DirectedGraphNode*> ans;
+        for(int i = 0; i < graph.size(); i++)
+            for(int j = 0; j < graph[i]->neighbors.size(); j++)
+                 if (countrd.find(graph[i]->neighbors[j]) == countrd.end())
+                    countrd[graph[i]->neighbors[j]] = 1;
+                 else
+                    countrd[graph[i]->neighbors[j]] += 1;
+
+        for(int i = 0; i < graph.size(); i++)
+            if(countrd[graph[i]] == 0)
+                dfs(graph[i], ans, countrd, graph);
+        return ans;
+    }
+};
