@@ -52,6 +52,7 @@ public:
             return -1;
         return record[destination.x][destination.y];
         
+        //Question -> How does it knows BFS find the shortest path?
         
     }
 };
