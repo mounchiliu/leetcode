@@ -2,7 +2,10 @@ https://www.lintcode.com/problem/course-schedule/description?_from=ladder&&fromI
 
 Question: why use unordered_multiset， instead of unordered_set or vector?
 
-
+//unordered_multiset 与 unordered_set 的最大区别就是前者可以容纳多个相同的值，后者容器中的元素具有唯一性，相同点是两者都是无序的。
+//unordered_multiset 与set的最大区别是前者可以容纳多个相同的值并且容器内部无序，后者容器中的元素具有唯一性并且容器内部有序。
+//map保存关键字-值；set只保存关键字。
+//具体区分请看：https://blog.csdn.net/qq_41209741/article/details/89431595
 
 class Solution {
 public:
@@ -37,5 +40,60 @@ public:
             }
         }
         return node == numCourses;
+    }
+};
+
+
+my solution:
+class Solution {
+public:
+    /*
+     * @param numCourses: a total of n courses
+     * @param prerequisites: a list of prerequisite pairs
+     * @return: true if can finish all courses or false
+     */
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        // write your code here
+        //Similar to topilogical sorting
+        
+        //1. 统计入度
+        //initialize
+        vector<unordered_multiset<int>> multiset(numCourses);
+        vector<int> cnt(numCourses,0);
+        
+        for(auto &temp: prerequisites){
+            multiset[temp.first].insert(temp.second); //unordered_multiset不再像unordered_map是key-值相关，set中只存放value
+                                                      //e.g. 插入后最终结果为 0,1,3,5 这四层
+            cnt[temp.second]++;//second 的入度+1；
+            
+        }
+        
+        int num_node = 0;// for counting
+        queue<int> Q;
+        for(int i = 0; i < numCourses; i++){
+            if(cnt[i]==0){//入度为0.push进queue
+                Q.push(i);
+                //num_node++; //要不然取出的时候计数，要不然放入的时候计数。
+            }
+        }
+        
+        
+        while(!Q.empty()){
+            int head = Q.front();
+            Q.pop();
+            num_node++;//从queue中取出来，计数
+            
+            for(auto it = multiset[head].begin(); it != multiset[head].end(); it++){ //multiset是无序的//用multiset访问neighbor
+                cnt[*it]--; //注意指针的用法
+                
+                if(cnt[*it]==0){
+                    Q.push(*it);
+                   // num_node++;//要不然取出的时候计数，要不然放入的时候计数。
+                }
+            }
+            
+        }
+        return num_node == numCourses;
+
     }
 };
