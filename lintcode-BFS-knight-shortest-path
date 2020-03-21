@@ -59,7 +59,8 @@ public:
 
 
 
-mysolution
+mysolution:
+
 /**
  * Definition for a point.
  * struct Point {
@@ -94,7 +95,7 @@ public:
         
         //Initilize
         vector<vector<int>> recorder (m, vector<int>(n,-1)); //【Note】C++中二维数组的初试话方式
-        recorder[source.x][source.y] = 0 ;
+        recorder[source.x][source.y] = 0 ;////使用recorder是为了让他不往回走
         
         //initialize direction
         vector<vector<int>> dir = {{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{2,-1},{-2,1},{-2,-1}};
@@ -113,7 +114,7 @@ public:
                 
                 //in bound?
                 if(inBound(x,y,m,n)){
-                    if(!grid[x][y] && recorder[x][y]<0){//gridvalue == 0 && not be visited or recorded
+                    if(!grid[x][y] && recorder[x][y]<0){//gridvalue == 0 && not be visited or recorded //使用recorder是为了让他不往回走
                         recorder[x][y] = recorder[head.x][head.y]+1; // record it.
                         Q.push(Point(x,y));
                     }
