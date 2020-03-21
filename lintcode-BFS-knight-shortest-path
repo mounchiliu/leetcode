@@ -52,7 +52,7 @@ public:
             return -1;
         return record[destination.x][destination.y];
         
-        //Question -> How does it knows BFS find the shortest path?
+        //Question -> How does it knows BFS find the shortest path? --> 画图举例你就能想明白，即在简单图中寻找嘴短距离
         
     }
 };
