@@ -2,45 +2,73 @@ https://www.lintcode.com/problem/topological-sorting/description
 
 bfs(my solution)
 
-public class Solution {
-    /**
+/**
+ * Definition for Directed graph.
+ * struct DirectedGraphNode {
+ *     int label;
+ *     vector<DirectedGraphNode *> neighbors;
+ *     DirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+
+class Solution {
+public:
+    /*
      * @param graph: A list of Directed graph node
-     * @return: Any topological order for the given graph.
-     */    
-    public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
+     * @return: Any topological order for the given graph./
+     */
+    vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*>& graph) {
         // write your code here
-        ArrayList<DirectedGraphNode> result = new ArrayList<DirectedGraphNode>();
-        HashMap<DirectedGraphNode, Integer> map = new HashMap();
-        //step 1: 统计入度
-        for (DirectedGraphNode node : graph) {
-            for (DirectedGraphNode neighbor : node.neighbors) {
-                if (map.containsKey(neighbor)) {
-                    map.put(neighbor, map.get(neighbor) + 1);//如果node只想neighbour, neighbour的入度+1
-                } else {
-                    map.put(neighbor, 1); 
+        //初始化拓扑序列
+        vector<DirectedGraphNode*> result;
+        if (graph.empty())
+            return result;
+        
+        
+        //1.对于graph中的每一个点，统计所有点的入度
+        unordered_map<DirectedGraphNode*,int> MapForRecord;//unordered_map <key,value>
+        for(auto &node: graph){   //注意for循环中 引用的用法 C++书
+            for(auto &neighbor:node->neighbors){//如果node连向neighbour, neighbour的入度+1 
+                if(MapForRecord.count(neighbor) == 0){//初始化
+                    MapForRecord[neighbor] = 1;
+                }
+                else{
+                    MapForRecord[neighbor]++;
                 }
             }
         }
-        Queue<DirectedGraphNode> q = new LinkedList<DirectedGraphNode>();
-        for (DirectedGraphNode node : graph) {//点没有入度，map里面没有他，放到queue里面
-            if (!map.containsKey(node)) {
-                q.offer(node);
-                result.add(node);
+        
+        
+        //初始化queue
+        queue<DirectedGraphNode*> Q;
+        //2.将所有入度为0的点，放到宽度优先搜索的queue中
+        //点没有入度->map里面没有他，放到queue里面和结果里面
+        for(auto &node: graph){
+            if(MapForRecord.count(node)==0){
+                Q.push(node);
+                result.push_back(node);
             }
         }
-        while (!q.isEmpty()) {
-            DirectedGraphNode node = q.poll();//每次取出最首点，他的neighbour入度均-1
-            for (DirectedGraphNode n : node.neighbors) {
-                map.put(n, map.get(n) - 1);
-                if (map.get(n) == 0) {
-                    result.add(n);//入度变成0，放入queue
-                    q.offer(n);
+        
+        //3.将队列中的点一个个释放出来，放到拓扑序列中，每次释放出某个点的时候就访问他的邻居，并把这个点的入度-1
+        //如果发现入度为0->放入队列
+        //直至队列为空
+        while(!Q.empty()){
+            auto &node = Q.front();
+            Q.pop();
+            
+            for(auto &neighbor:node->neighbors){
+                MapForRecord[neighbor]--;
+                if(MapForRecord[neighbor]==0){
+                    Q.push(neighbor);
+                    result.push_back(neighbor);
                 }
             }
         }
-        return result;
+        return result;//这题return 任何一个拓扑即可，所以答案有多种
+        
     }
-}
+};
 //一个点入度变成0只有一次-->相当于记录了 所以不需要visit数组
 
 
