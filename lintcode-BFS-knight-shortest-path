@@ -56,3 +56,76 @@ public:
         
     }
 };
+
+
+
+mysolution
+/**
+ * Definition for a point.
+ * struct Point {
+ *     int x;
+ *     int y;
+ *     Point() : x(0), y(0) {}
+ *     Point(int a, int b) : x(a), y(b) {}
+ * };
+ */
+
+class Solution {
+public:
+    /**
+     * @param grid: a chessboard included 0 (false) and 1 (true)
+     * @param source: a point
+     * @param destination: a point
+     * @return: the shortest path 
+     */
+     
+     bool inBound(int x, int y, int m, int n){
+         return (x>=0 && x<m && y>=0 && y<n);
+     }
+     
+     
+    int shortestPath(vector<vector<bool>> &grid, Point &source, Point &destination) {
+        // write your code here
+        
+        //Explanation
+        //[2,0] 表示 row = 2; col = 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        //Initilize
+        vector<vector<int>> recorder (m, vector<int>(n,-1)); //【Note】C++中二维数组的初试话方式
+        recorder[source.x][source.y] = 0 ;
+        
+        //initialize direction
+        vector<vector<int>> dir = {{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{2,-1},{-2,1},{-2,-1}};
+        
+        //Initialize queue
+        queue<Point> Q;
+        Q.push(source);
+        
+        while(!Q.empty()){
+            Point head = Q.front();
+            Q.pop();
+            
+            for(int i = 0 ; i < dir.size(); i++){
+                int x = head.x + dir[i][0];
+                int y = head.y + dir[i][1];
+                
+                //in bound?
+                if(inBound(x,y,m,n)){
+                    if(!grid[x][y] && recorder[x][y]<0){//gridvalue == 0 && not be visited or recorded
+                        recorder[x][y] = recorder[head.x][head.y]+1; // record it.
+                        Q.push(Point(x,y));
+                    }
+                }
+            }
+        }
+        
+        ///没更新--> 跳不到
+        if(recorder[destination.x][destination.y]<0)
+            return -1;
+        else
+            return recorder[destination.x][destination.y];
+        
+    }
+};
