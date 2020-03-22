@@ -1,5 +1,43 @@
 https://www.lintcode.com/problem/sequence-reconstruction/description
 
+
+//这个解法是验证seq满不满足org
+class Solution {
+public:
+    /**
+     * @param org a permutation of the integers from 1 to n
+     * @param seqs a list of sequences
+     * @return true if it can be reconstructed only one or false
+     */
+    bool sequenceReconstruction(vector<int>& org, vector<vector<int>>& seqs) {
+        // Write your code here
+        unordered_map<int, int> pos, pre;
+        for (int i = 0; i < org.size(); ++i) pos[org[i]] = i;//对于org每个元素，记录他的位置
+        for (auto& seq : seqs) {
+            for (int i = 0; i < seq.size(); ++i) {
+                if (pos.find(seq[i]) == pos.end()) { //通过给定主键查找元素,没找到：返回unordered_map::end
+                    return false;//没找到
+                }
+                if (i > 0 && pos[seq[i - 1]] >= pos[seq[i]]) {//与org的位置矛盾
+                    return false;
+                }
+                if (pre.find(seq[i]) == pre.end()) {//pre中没找着
+                    pre[seq[i]] = (i > 0) ? pos[seq[i - 1]] : -1;//如果是seq第一位，就返回-1，否则pos[seq[i - 1]]
+                } else {//找到了//赋过值，就看现在位子对比之前有没有往后挪动
+                    pre[seq[i]] = max(pre[seq[i]], (i > 0) ? pos[seq[i - 1]] : -1); //找到了 如今pre[seq[i]]里存放的是上一个组合中这个元素前一位的位置，与现在的组合中前一元素的位置比大小
+                }
+            }
+        }
+        for (int i = 0; i < org.size(); ++i) {
+            if (pre[org[i]] != i - 1) 
+                return false;
+        }
+        return true;
+    }
+};
+
+
+//这个解法是根据创造拓扑序列看与org是否满足
 My solution 
 - First temp:(Got error) failed on case input: org,seqs
                                         [1],[] -> should return false.
