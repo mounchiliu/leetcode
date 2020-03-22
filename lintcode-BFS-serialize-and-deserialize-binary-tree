@@ -1,0 +1,259 @@
+https://www.lintcode.com/problem/serialize-and-deserialize-binary-tree/description
+
+
+class Solution {
+public:
+    /**
+     * This method will be invoked first, you should design your own algorithm 
+     * to serialize a binary tree which denote by a root node to a string which
+     * can be easily deserialized by your own "deserialize" method later.
+     */
+    vector<string> split(const string &str, string delim) {
+        vector<string> results;
+        int lastIndex = 0, index;
+        while ((index = str.find(delim, lastIndex)) != string::npos) {  //string::npos说明查找没有匹配
+            results.push_back(str.substr(lastIndex, index - lastIndex));
+            lastIndex = index + delim.length();
+        }
+        if (lastIndex != str.length()) {
+            results.push_back(str.substr(lastIndex, str.length() - lastIndex));
+        }
+        return results;
+    }
+    string serialize(TreeNode *root) {
+        if (root == NULL) {
+            return "{}";
+        }
+        vector<TreeNode *> q;
+        q.push_back(root);
+        for(int  i = 0; i < q.size(); i++) {
+            TreeNode * node = q[i];
+            if (node == NULL) {
+                continue;
+            }
+            q.push_back(node->left);
+            q.push_back(node->right);
+        }
+        while (q[q.size() - 1] == NULL) {
+                q.pop_back();//删除最后一个元素//销毁并抛弃vector的最后一个元素,vector的size改变
+        }//用来删除多于NULL
+        
+        
+        
+        string sb="";
+        sb += "{";
+        sb += to_string(q[0]->val);
+        for (int i = 1; i < q.size(); i++) {
+            if (q[i] == NULL) {
+                sb += (",#");
+            } 
+            else {
+                sb += ",";
+                sb += to_string(q[i]->val);
+            }
+        }
+        sb += "}";
+        return sb;
+    }
+    /**
+     * This method will be invoked second, the argument data is what exactly
+     * you serialized at method "serialize", that means the data is not given by
+     * system, it's given by your own serialize method. So the format of data is
+     * designed by yourself, and deserialize it here as you serialize it in 
+     * "serialize" method.
+     */
+    TreeNode * deserialize(string &data) {
+        // write your code here
+        if (data == "{}") return NULL;
+        vector<string> vals = split(data.substr(1, data.size() - 2), ",");
+        TreeNode *root = new TreeNode(atoi(vals[0].c_str()));
+        queue<TreeNode *> Q;
+        Q.push(root);
+        bool isLeftChild= true;
+        for (int i = 1; i < vals.size(); i++) {
+            if (vals[i] != "#") {
+                TreeNode *node = new TreeNode(atoi(vals[i].c_str()));
+                if (isLeftChild) Q.front()->left = node;
+                else Q.front()->right = node;
+                Q.push(node);
+            }
+            if (!isLeftChild) {
+                Q.pop();
+            }
+            isLeftChild = !isLeftChild;
+        }
+        return root;
+    }
+};
+
+
+
+myanswer:
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+
+class Solution {
+public:
+    /**
+     * This method will be invoked first, you should design your own algorithm 
+     * to serialize a binary tree which denote by a root node to a string which
+     * can be easily deserialized by your own "deserialize" method later.
+     */
+     
+     //Solution:
+     //serialize()采用bfs，对当前二叉树搜索，遍历vector，将当前节点左右儿子依次存入vector，空节点需要删去。
+     //deserialize()首先切割字符串，然后用isLeftChild标记是当前是左右儿子，数字转化为字符串，存为队列首节点的左右儿子。
+     
+     //Serialize: 基本是BFS的思路，缔造一个vector，然后把二叉树里的元素一层层往里塞，完了后移除最后的Null，然后转换成字符串
+     //Deserialize：先是字符串的切割，转换成vector，然后按照左右左右的次序依次把节点挂载在当前index所指向的节点上。
+     
+     //按照常规解法，serilize最后可能多几个#占位符。
+     
+    string serialize(TreeNode * root) {
+        // write your code here
+        if(root == NULL) return "{}";
+        
+        //常规解法
+/*        queue<TreeNode*> Q;
+        Q.push(root);
+        string result = "";
+        result+="{";
+        
+        
+       while(!Q.empty()){
+            auto head = Q.front();
+            Q.pop();
+            
+            if(head != NULL){
+                result+=to_string(head->val); //int to string
+                Q.push(head->left);
+                Q.push(head->right);
+                
+            }
+            else
+            {
+                result+="#";
+            }
+            
+            if(!Q.empty()){
+                result+=",";
+            }
+        }
+       
+       result+="}";
+       return result;
+*/
+
+
+    //用于BFS遍历并且整理节点
+    vector<TreeNode*> treeNodes;
+    treeNodes.push_back(root);
+    string result = "{";
+    
+    for(int i = 0; i < treeNodes.size(); i++){ //这里的size是动态的, 一直在变
+        auto node = treeNodes[i];
+        if(node != NULL){
+            treeNodes.push_back(node->left);
+            treeNodes.push_back(node->right);
+        }
+        else{
+            continue; //跳过
+        }
+    }
+    
+    while(treeNodes[treeNodes.size()-1] == NULL){ //最后一个元素是NULL-> 无意义，删除
+        treeNodes.pop_back();
+    }
+        
+    for(int i = 0; i < treeNodes.size(); i++){
+        if(treeNodes[i] != NULL){
+            result += to_string(treeNodes[i]->val);
+        }
+        else{
+            result += "#";
+        }
+        
+        if(i!=treeNodes.size()-1){ //the last element
+            result += ",";
+        }
+        
+    }
+
+    result += "}";
+    
+    return result;
+
+    }
+
+    /**
+     * This method will be invoked second, the argument data is what exactly
+     * you serialized at method "serialize", that means the data is not given by
+     * system, it's given by your own serialize method. So the format of data is
+     * designed by yourself, and deserialize it here as you serialize it in 
+     * "serialize" method.
+     */
+    //先是字符串的切割，转换成vector，然后按照左右左右的次序依次把节点挂载在当前index所指向的节点上。
+    vector<string> splitdata(const string &data, string delim){ //这个function这很重要
+        vector<string> result;
+        
+        int lastindex = 0, index;
+        
+        while((index=data.find(delim,lastindex))!=string::npos){//string.find(s,int); 从int这个下标处查找s
+            result.push_back(data.substr(lastindex,index-lastindex));
+            lastindex = index+delim.length(); //用于跳转到下一个不是delim的地方
+        }
+        
+        //余下的尾巴也要算进去
+        if(lastindex != data.length()){
+            result.push_back(data.substr(lastindex,data.length()-lastindex));
+        }
+        
+        return result;
+        
+    }
+     
+     
+    TreeNode * deserialize(string &data) {
+        // write your code here
+        if(data == "{}") return NULL;
+        
+        //splite input string
+        vector<string> ssplitdata = splitdata(data.substr(1,data.size()-2),",");//去除两个{、}
+        //atoi 将字符串转化成整数
+        TreeNode* root = new TreeNode(atoi(ssplitdata[0].c_str()));
+        queue<TreeNode*> Q;
+        Q.push(root);
+        
+        //先左后右
+        bool leftchild = true;
+        for(int i = 1; i < ssplitdata.size(); i++){
+            if(ssplitdata[i] != "#"){
+                TreeNode *node = new TreeNode(atoi(ssplitdata[i].c_str()));
+                if(leftchild)
+                    Q.front()->left = node;
+                else
+                    Q.front()->right = node;
+                
+                Q.push(node);
+            }
+
+            if (!leftchild) { // 右节点处理完，删去父节点。->是的Q.front()返回正确元素
+                Q.pop();
+            }
+            //遍历一个元素就翻转一次
+            leftchild = !leftchild;
+        }
+        return root;
+    }
+};
