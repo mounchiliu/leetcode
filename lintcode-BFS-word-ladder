@@ -50,8 +50,69 @@ public:
             length++;									//每循环一次，步数+1
         }
         return 0;
+    }
+};
+
+
+class Solution {
+public:
+    /*
+     * @param start: a string
+     * @param end: a string
+     * @param dict: a set of string
+     * @return: An integer
+     */
+    int ladderLength(string &start, string &end, unordered_set<string> &dict) {
+        // write your code here
         
+        if(start.size()!=end.size() || start.size() < 1)
+            return 0; //return 0 if there is no such transformation
+            
+        if(start == end)
+            return 1;
+            
+            
+        queue<string> Q;
+        Q.push(start);
+        dict.erase(start);//删除 防止后面find找到它误匹配造成回环
+        int length = 2; //start from 2  because 1 represents start = end
         
-        
+        while(!Q.empty()){
+            int size = Q.size();
+            
+            for(int j = 0; j<size; j++){//这题一定得分层，为啥
+                string cur_word = Q.front();
+                Q.pop();
+            
+                for(int i = 0; i < start.size(); i++){
+                    char oldChar = cur_word[i];
+                    for(char c = 'a'; c <= 'z'; c++){
+                        if(cur_word[i] == c){
+                            continue;
+                        }
+                    
+                        //build new word
+                        cur_word[i] = c;
+                    
+                        if(cur_word==end)
+                            return length;
+                    
+                        //find in the dict
+                        if(dict.find(cur_word) != dict.end()){ //can find it
+                            Q.push(cur_word);
+                            dict.erase(cur_word);
+                        }
+                    }
+                    //reset
+                    cur_word[i] = oldChar;
+                }
+                
+            }
+            
+
+            
+            length++;
+        }
+        return 0;
     }
 };
