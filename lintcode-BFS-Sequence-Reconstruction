@@ -142,7 +142,7 @@ public:
             for(const int &set_ele: element_seq[head]){
                 cnt_indegree[set_ele]--;
                 
-                if(cnt_indegree[set_ele]==0){ //分清 count和直接访问的区别
+                if(cnt_indegree[set_ele]==0){ //分清 count和直接访问的区别  count返回匹配给定主键的元素的个数，直接访问是访问这个key下储存的对应的值
                     Q.push(set_ele);
                 }
             }
