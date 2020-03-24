@@ -44,7 +44,7 @@ public:
                             dict.erase(word);			//从dict中除去当前单词
                         }
                     }
-                    word[i] = oldChar;
+                    word[i] = oldChar;//reset to replace the char in other position of original word(THAT IS find all links between cur_word and word in the dict)
                 }
             } // for size
             length++;									//每循环一次，步数+1
