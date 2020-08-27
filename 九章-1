@@ -1,0 +1,4 @@
+1.null 与 空字符串的区别
+-null不指向任何对象，相当于没有任何值，若访问length则报错；而“”代表一个长度为0的字符串
+-null不分配内存空间；而“”会分配内存空间
+-Summary: a empty string assigned to a empty string, while no value there assigned to null.
