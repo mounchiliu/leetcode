@@ -1,4 +1,4 @@
-https://www.lintcode.com/problem/longest-palindromic-substring/description
+https://www.lintcode.com/problem/longest-palindromic-substring/description   --- 重点掌握 sol 3的两种形式
 
 
 my trun:
@@ -97,7 +97,7 @@ public:
         //但是时间复杂度（最坏情况依然和上面一样是O(n^3)
         int len,l,r,i;
         for(len = s.length(); len > 0; len --){ //先长度固定、移动指针，再长度依次递减寻找
-            for(i = 0; i < s.length()-len+1; i++){ //s.length()-len+1为i起点的极限值（画图可知）
+            for(i = 0; i < s.length()-len+1; i++){ //s.length()-len+1为i起点的极限值（画图可知）  【OR i <= s.length()-len】
                 l = i; r = i + len - 1;//index
                 while(i<r&&s[l]==s[r]){
                     l++;
@@ -115,7 +115,7 @@ public:
 
 
 
-SOL3:
+SOL3: 【重要】
 class Solution {
 public:
     /**
