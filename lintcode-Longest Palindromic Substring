@@ -103,7 +103,7 @@ public:
                     l++;
                     r--;
                 }
-                if(i>=r){
+                if(i>=r){ //因为找的是最长的所以找到的第一个就是结果
                     return s.substr(i,len);//the first one must be the result
                 }
             }
