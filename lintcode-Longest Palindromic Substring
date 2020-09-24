@@ -11,6 +11,11 @@ public:
      */
     string longestPalindrome(string &s) {
         // write your code here
+        
+        //【NOTE】特殊情况的考虑 s is none or s is empty 下面的sol都要加上！
+        if(s.empty())
+            return s;
+            
         int i,j;
         int longestlength = 0;
         int start = 0;
