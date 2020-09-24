@@ -96,7 +96,7 @@ public:
         //优化:找最长的回文子串，反过来找，那么第一个找到的就应该是最优的 【SOL2】
         //但是时间复杂度（最坏情况依然和上面一样是O(n^3)
         int len,l,r,i;
-        for(len = s.length(); len > 0; len --){ 
+        for(len = s.length(); len > 0; len --){ //先长度固定、移动指针，再长度依次递减寻找
             for(i = 0; i < s.length()-len+1; i++){ //s.length()-len+1为i起点的极限值（画图可知）
                 l = i; r = i + len - 1;//index
                 while(i<r&&s[l]==s[r]){
