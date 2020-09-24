@@ -21,14 +21,27 @@ public:
                     start = i;
                     longestlength = length;
                 }
-                
-                
             }
         }
+        /*
+        OR
+         string longestPalindrome(string &s) {
+        // write your code here
+        int longest_result = 0;
+        int start;
+        
+        for(int i = 0; i < s.length(); i++){
+            for(int j = i; j < s.length(); j++){
+                if((j-i+1) > longest_result && checkPalidrome(s,i,j)){
+                    longest_result = j-i+1;
+                    start = i;
+                }
+            }
+        }
+        */
         
         return s.substr(start,longestlength);//c++ string 的用法！！！
-                                                //strVariable.substring(start, len)
-        
+                                                //strVariable.substring(start, len)     
     }
     
     
@@ -47,6 +60,20 @@ public:
         //}
         //return false;
     }
+    
+    
+    /*
+    OR
+        bool checkPalidrome(string &s, int i, int j){
+        while(i<j){
+            if(s[i]!=s[j]){
+                return false;
+            }
+            i++; j--;
+        }
+        return true;
+    }
+    */
 };
 
 
