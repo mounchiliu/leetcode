@@ -99,11 +99,11 @@ public:
         for(len = s.length(); len > 0; len --){ //先长度固定、移动指针，再长度依次递减寻找
             for(i = 0; i < s.length()-len+1; i++){ //s.length()-len+1为i起点的极限值（画图可知）  【OR i <= s.length()-len】
                 l = i; r = i + len - 1;//index
-                while(i<=r&&s[l]==s[r]){
+                while(i<=r&&s[l]==s[r]){ //while(i<r&&s[l]==s[r]){ 对应下方if加上=
                     l++;
                     r--;
                 }
-                if(i>r){ //因为找的是最长的所以找到的第一个就是结果
+                if(i>r){ // 因为找的是最长的所以找到的第一个就是结果  or if(i>=r)
                     return s.substr(i,len);//the first one must be the result
                 }
             }
