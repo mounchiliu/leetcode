@@ -51,15 +51,14 @@ class Solution {
 public:
     int longestPalindrome(string s) {
         int charStatArray[52];//大写+小写一共26*2=52个
-        int oneTimeOddCount = 0;
-        int evenCount = 0;
+        int oneTimeOddCount = 0, evenCount = 0; //连起来写两个都得赋值=0;
     
         // zero clearing of the array
         memset(charStatArray, 0, sizeof(charStatArray));
     
         // keep the times of appearance of each character in the array
         for (char ch: s) {
-            if (ch >= 97) {//Ascii a --> 97    A --> 65
+            if (ch >= 'A') {//Ascii a --> 97    A --> 65 【注意是单引号】
                 charStatArray[26 + ch - 'a']++; //前26个放大写统计，后26个放小写统计
             }
             else {
