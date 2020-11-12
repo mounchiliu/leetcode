@@ -1,5 +1,9 @@
 https://www.lintcode.com/problem/serialize-and-deserialize-binary-tree/description
-
+     //Solution:
+     //serialize()采用bfs，对当前二叉树搜索，遍历vector，将当前节点左右儿子依次存入vector，最后空节点需要删去，然后转成字符串。
+     //deserialize()首先切割字符串，然后用isLeftChild标记是当前是左右儿子，数字转化为字符串，存为队列首节点的左右儿子。
+  
+     //按照常规解法，serilize最后可能多几个#占位符。
 
 class Solution {
 public:
@@ -26,15 +30,15 @@ public:
         }
         vector<TreeNode *> q;
         q.push_back(root);
-        for(int  i = 0; i < q.size(); i++) {
+        for(int  i = 0; i < q.size(); i++) { //【这里的size是动态，因为不断更新vectorsize获取node】
             TreeNode * node = q[i];
-            if (node == NULL) {
+            if (node == NULL) { //该节点NULL 不往下搜索了
                 continue;
             }
             q.push_back(node->left);
             q.push_back(node->right);
         }
-        while (q[q.size() - 1] == NULL) {
+        while (q[q.size() - 1] == NULL) { //最后一个元素因为没有左右点一定有NULL， 所以删除最后连续的NULL
                 q.pop_back();//删除最后一个元素//销毁并抛弃vector的最后一个元素,vector的size改变
         }//用来删除多于NULL
         
