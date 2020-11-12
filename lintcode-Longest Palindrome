@@ -58,10 +58,10 @@ public:
     
         // keep the times of appearance of each character in the array
         for (char ch: s) {
-            if (ch >= 'A') {//Ascii a --> 97    A --> 65 【注意是单引号】
+            if (ch >= 'a') {//Ascii a --> 97    A --> 65 【注意是单引号且先要97大的再来判断小的65】
                 charStatArray[26 + ch - 'a']++; //前26个放大写统计，后26个放小写统计
             }
-            else {
+            else if(c >= 'A'){
                 charStatArray[ch - 'A']++;
             }
         }
