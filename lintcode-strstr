@@ -41,7 +41,7 @@ public:
             for(j = 0; j < len_t; j++){//source taret中同步往后一对一
                 if(target[j]!=source[i+j]) break; //不找了,从下一个头开始
             }
-             if(j==len_t) return i; 
+             if(j==len_t) return i; //运行完j=len_t-1循环中的if步骤后 执行j++；由于j<len_t以及不满足所以跳出， 但是此时+1的值以及加上去了。
         }
         
        
