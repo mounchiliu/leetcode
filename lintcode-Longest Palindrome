@@ -50,7 +50,7 @@ OR:
 class Solution {
 public:
     int longestPalindrome(string s) {
-        int charStatArray[52];
+        int charStatArray[52];//大写+小写一共26*2=52个
         int oneTimeOddCount = 0;
         int evenCount = 0;
     
@@ -59,8 +59,8 @@ public:
     
         // keep the times of appearance of each character in the array
         for (char ch: s) {
-            if (ch >= 97) {
-                charStatArray[26 + ch - 'a']++; 
+            if (ch >= 97) {//Ascii a --> 97    A --> 65
+                charStatArray[26 + ch - 'a']++; //前26个放大写统计，后26个放小写统计
             }
             else {
                 charStatArray[ch - 'A']++;
