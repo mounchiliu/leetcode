@@ -1,17 +1,17 @@
 https://www.lintcode.com/problem/implement-strstr/description
 
 
-
+//find target in source
 class Solution {
 public:
     int strStr(string source, string  target) {
-        int i, j, lenh = source.length(), lenn =  target.length(); //【Note: C++ string.length();】
-        if (lenn == 0)  return 0;//异常处理
-        for (i = 0; i <= lenh - lenn; i++) { //对于source从头开始搜的情况 只有这么多。 OR i < lenh-lenn + 1
-            for (j = 0; j < lenn; j++) 
+        int i, j, len_s = source.length(), len_t =  target.length(); //【Note: C++ string.length();】
+        if (len_t == 0)  return 0;//异常处理
+        for (i = 0; i <= len_s - len_t; i++) { //【注意等号】//对于source从头开始搜的情况 只有这么多。 OR i < len_s-len_t + 1
+            for (j = 0; j < len_t; j++) 
                 if (source[i + j] !=  target[j]) break;
             // 匹配成功
-            if (j == lenn)  return i;
+            if (j == len_t)  return i;
         }
         return -1; //不用考虑source的长度小于target 因为会直接退出for循环return -1;
     }
@@ -26,26 +26,28 @@ public:
      * @param target: 
      * @return: return the index
      */
-    int strStr(string source, string target) {
+    int strStr(string &source, string &target) {
         // Write your code here
-        int lens = source.length();
-        int lent = target.length();
-        //异常
-        if(lens == 0 || lent == 0) return -1;  //different with the answer.  【我觉得一下的考虑可能更优秀一点】 special case; source = target = empty should return 0;
-                                                                              他应该给一个情况target为空怎么处理. e.g. source = “1”， target = “” should return -1？
-        int i,j; 
-        for(i = 0; i < lens - lent; i++){//source
-            for( j = 0; j < lent; j++){//target
-                if(source[i + j] != target[j]){//source taret中同步往后一对一
-                    break;//不找了,从下一个头开始
-                }
-            }
-        } 
+        //find target in source
+        int len_t = target.size(), len_s = source.size();
         
-        if(j == lent){//find match
-            return i;
+        if(len_t==0) return 0;  //find target in source. target empty-> position in source is index of 0;
+        
+        if(len_t>len_s) return -1;
+        
+        int i, j = 0;
+        
+        for(i = 0; i <= len_s - len_t; i++){
+            for(j = 0; j < len_t; j++){//source taret中同步往后一对一
+                if(target[j]!=source[i+j]) break; //不找了,从下一个头开始
+            }
+             if(j==len_t) return i; 
         }
         
-        return -1;        
+       
+        return -1;
+        
+        
     }
+
 };
