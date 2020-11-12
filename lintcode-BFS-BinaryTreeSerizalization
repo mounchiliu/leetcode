@@ -12,18 +12,7 @@ public:
      * to serialize a binary tree which denote by a root node to a string which
      * can be easily deserialized by your own "deserialize" method later.
      */
-    vector<string> split(const string &str, string delim) {
-        vector<string> results;
-        int lastIndex = 0, index;
-        while ((index = str.find(delim, lastIndex)) != string::npos) {  //string::npos说明查找没有匹配
-            results.push_back(str.substr(lastIndex, index - lastIndex));
-            lastIndex = index + delim.length();
-        }
-        if (lastIndex != str.length()) {
-            results.push_back(str.substr(lastIndex, str.length() - lastIndex));
-        }
-        return results;
-    }
+
     string serialize(TreeNode *root) {
         if (root == NULL) {
             return "{}";
@@ -66,6 +55,19 @@ public:
      * designed by yourself, and deserialize it here as you serialize it in 
      * "serialize" method.
      */
+     vector<string> split(const string &str, string delim) {
+        vector<string> results;
+        int lastIndex = 0, index;
+        while ((index = str.find(delim, lastIndex)) != string::npos) {  //string::npos说明查找没有匹配
+            results.push_back(str.substr(lastIndex, index - lastIndex));
+            lastIndex = index + delim.length();
+        }
+        if (lastIndex != str.length()) {
+            results.push_back(str.substr(lastIndex, str.length() - lastIndex));
+        }
+        return results;
+    }
+    
     TreeNode * deserialize(string &data) {
         // write your code here
         if (data == "{}") return NULL;
