@@ -28,9 +28,11 @@ public:
      * @return: A undirected graph node
      */
     UndirectedGraphNode* cloneGraph(UndirectedGraphNode* node) {
-        if (!node) {
+        if (!node) { //if(node==NULL) return NULL;
             return nullptr;
         }
+        
+        
         UndirectedGraphNode *p1 = node;
         UndirectedGraphNode *p2 = new UndirectedGraphNode(node->label); //用这个数值初始化一个Node, 但这个Node不需要记录neighbour
                                                                         //p2用于复制
