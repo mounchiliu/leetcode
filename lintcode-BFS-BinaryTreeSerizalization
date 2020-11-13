@@ -18,7 +18,8 @@ public:
             return "{}";
         }
         
-        //使用容器方便存储、读取信息。
+        //使用容器方便存储、读取信息。//这里使用vector是因为一个根可能有多个子元素一次性压进去了，使用vector可以方便访问直接q[i]
+                                   //且vector尾巴可以出 即pop_back
         vector<TreeNode *> q;
         q.push_back(root);
         for(int  i = 0; i < q.size(); i++) { //【这里的size是动态，因为不断更新vectorsize获取node】
@@ -75,6 +76,8 @@ public:
     }
     
     TreeNode * deserialize(string &data) { //string -> tree //转化成二叉树，二叉树的遍历->queue BFS
+                                           //这里使用的是queue而非vector是因为，遍历一层后，pop头元素，queue是先进先出可以pop vector是pop_back删除尾元素
+                                           //而且使用vector还需要记录在string vector中走到哪，而queue是一层一层遍历，一层遍历完，子根就删除，更方便
         // write your code here
         if (data == "{}") return NULL;
         vector<string> vals = split(data.substr(1, data.size() - 2), ",");//-2是因为掐头去尾---两次len减少
