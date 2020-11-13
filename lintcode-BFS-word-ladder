@@ -10,8 +10,6 @@ public:
         // write your code here
         
         //先考虑集中简单的特殊情况。
-        if(start.size()!=end.size() || start.size() < 1)
-            return 0; //return 0 if there is no such transformation
         
         if (start == end) {
             return 1;
@@ -19,7 +17,7 @@ public:
         
         int n = start.size();
         if (n < 1 || n != end.size()) {
-            return 0;
+            return 0;//return 0 if there is no such transformation
         }
  
         unordered_set<string> dict;//这里为了不改变原给set wordList的值所以又建了一个。
