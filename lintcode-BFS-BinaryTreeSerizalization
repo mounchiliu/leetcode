@@ -17,6 +17,8 @@ public:
         if (root == NULL) {
             return "{}";
         }
+        
+        //使用容器方便存储、读取信息。
         vector<TreeNode *> q;
         q.push_back(root);
         for(int  i = 0; i < q.size(); i++) { //【这里的size是动态，因为不断更新vectorsize获取node】
@@ -31,11 +33,13 @@ public:
                 q.pop_back();//删除最后一个元素//销毁并抛弃vector的最后一个元素,vector的size改变
         }//用来删除多于NULL
         
-        
-        
+        //to string
+        //处理开头
         string sb="";
         sb += "{";
         sb += to_string(q[0]->val);
+        
+        //处理中间部分
         for (int i = 1; i < q.size(); i++) {
             if (q[i] == NULL) {
                 sb += (",#");
@@ -45,6 +49,8 @@ public:
                 sb += to_string(q[i]->val);
             }
         }
+        
+        //处理结尾
         sb += "}";
         return sb;
     }
