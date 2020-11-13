@@ -13,7 +13,7 @@ public:
      * can be easily deserialized by your own "deserialize" method later.
      */
 
-    string serialize(TreeNode *root) {
+    string serialize(TreeNode *root) { //tree -> string
         if (root == NULL) {
             return "{}";
         }
@@ -68,7 +68,7 @@ public:
         return results;
     }
     
-    TreeNode * deserialize(string &data) {
+    TreeNode * deserialize(string &data) { //string -> tree
         // write your code here
         if (data == "{}") return NULL;
         vector<string> vals = split(data.substr(1, data.size() - 2), ",");//-2是因为掐头去尾---两次len减少
