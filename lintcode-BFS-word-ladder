@@ -9,8 +9,7 @@ public:
     int ladderLength(string &start, string &end, unordered_set<string> &wordList) {
         // write your code here
         
-        //先考虑集中简单的特殊情况。
-        
+        //先考虑集中简单的特殊情况        
         if (start == end) {
             return 1;
         }
@@ -19,7 +18,8 @@ public:
         if (n < 1 || n != end.size()) {
             return 0;//return 0 if there is no such transformation
         }
- 
+        //
+        
         unordered_set<string> dict;//这里为了不改变原给set wordList的值所以又建了一个。
         for (int i = 0; i < wordList.size(); i++) {
             dict.insert(wordList[i]);
