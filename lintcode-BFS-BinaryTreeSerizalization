@@ -74,7 +74,7 @@ public:
         return results;
     }
     
-    TreeNode * deserialize(string &data) { //string -> tree
+    TreeNode * deserialize(string &data) { //string -> tree //转化成二叉树，二叉树的遍历->queue BFS
         // write your code here
         if (data == "{}") return NULL;
         vector<string> vals = split(data.substr(1, data.size() - 2), ",");//-2是因为掐头去尾---两次len减少
