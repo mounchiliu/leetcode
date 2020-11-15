@@ -37,12 +37,13 @@ public:
                     for (char c = 'a'; c <= 'z'; c++) {     //枚举替换的字母
                         if (c == oldChar) continue;
                         word[j] = c;
-                        if (dict.find(word) != dict.end()) {	//如果当前字符串在dict
-                            if (word == end) {
-                                return length;
-                            }
-                            Q.push(word);				//存入队列中，以后进入下一步数单词的搜索
-                            dict.erase(word);			//从dict中除去当前单词
+                        
+                         if (word == end) { //字典中可能没有start end e.g."a" "c" dic：["b"] ans：2
+                            return length;
+                        }
+                        if (dict.find(word) != dict.end()) {	//如果新单词存在于dict中
+                            Q.push(word);						//存入队列继续搜索
+                            dict.erase(word);
                         }
                     }
                     word[j] = oldChar;//每一个位置a~z试完，复原，尝试下一个位置a~z替换
