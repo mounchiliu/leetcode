@@ -8,7 +8,7 @@ public:
      * @param dict: a set of string
      * @return: An integer
      */
-    int ladderLength(string &start, string &end, unordered_set<string> &wordList) {
+    int ladderLength(string &start, string &end, unordered_set<string> &dict) {
         // write your code here
         
         //先考虑集中简单的特殊情况        
@@ -21,8 +21,54 @@ public:
             return 0;//return 0 if there is no such transformation
         }
         //
+       
+        queue<string> Q;
+        Q.push(start);
+        dict.erase(start);
+        int length = 2;
+ 
+        while (!Q.empty()) {           //bfs
+            int size = Q.size();
+            for (int i = 0; i < size; i++) {
+                string word = Q.front(); Q.pop();
+                for (int j = 0; j < n; j++) {   //枚举替换的每个位置
+                    char oldChar = word[j];  
+                    for (char c = 'a'; c <= 'z'; c++) {     //枚举替换的字母
+                        if (c == oldChar) continue;
+                        word[j] = c;
+                        if (dict.find(word) != dict.end()) {	//如果当前字符串在dict
+                            if (word == end) {
+                                return length;
+                            }
+                            Q.push(word);				//存入队列中，以后进入下一步数单词的搜索
+                            dict.erase(word);			//从dict中除去当前单词
+                        }
+                    }
+                    word[j] = oldChar;//reset to replace the char in other position of original word(THAT IS find all links between cur_word and word in the dict)
+                }
+            } // for size
+            length++;//一层找完，步数+1
+        }
+        return 0;
+    }
+};
+
+//leetcode version（function定义不同）
+
+// version LeetCode
+class Solution {
+public:
+    int ladderLength(string start, string end, vector<string>& wordList) {
+        if (start == end) {
+            return 1;
+        }
         
-        unordered_set<string> dict;//这里为了不改变原给set wordList的值所以又建了一个。
+        int n = start.size();
+        if (n < 1 || n != end.size()) {
+            return 0;
+        }
+ 
+        unordered_set<string> dict;
         for (int i = 0; i < wordList.size(); i++) {
             dict.insert(wordList[i]);
         }
@@ -49,74 +95,10 @@ public:
                             dict.erase(word);			//从dict中除去当前单词
                         }
                     }
-                    word[i] = oldChar;//reset to replace the char in other position of original word(THAT IS find all links between cur_word and word in the dict)
+                    word[i] = oldChar;
                 }
             } // for size
             length++;									//每循环一次，步数+1
-        }
-        return 0;
-    }
-};
-
-
-class Solution {
-public:
-    /*
-     * @param start: a string
-     * @param end: a string
-     * @param dict: a set of string
-     * @return: An integer
-     */
-    int ladderLength(string &start, string &end, unordered_set<string> &dict) {
-        // write your code here
-        
-        if(start.size()!=end.size() || start.size() < 1)
-            return 0; //return 0 if there is no such transformation
-            
-        if(start == end)
-            return 1;
-            
-            
-        queue<string> Q;
-        Q.push(start);
-        dict.erase(start);//删除 防止后面find找到它误匹配造成回环
-        int length = 2; //start from 2  because 1 represents start = end
-        
-        while(!Q.empty()){
-            int size = Q.size();
-            
-            for(int j = 0; j<size; j++){//这题一定得分层，为啥
-                string cur_word = Q.front();
-                Q.pop();
-            
-                for(int i = 0; i < start.size(); i++){
-                    char oldChar = cur_word[i];
-                    for(char c = 'a'; c <= 'z'; c++){
-                        if(cur_word[i] == c){
-                            continue;
-                        }
-                    
-                        //build new word
-                        cur_word[i] = c;
-                    
-                        if(cur_word==end)
-                            return length;
-                    
-                        //find in the dict
-                        if(dict.find(cur_word) != dict.end()){ //can find it
-                            Q.push(cur_word);
-                            dict.erase(cur_word);
-                        }
-                    }
-                    //reset
-                    cur_word[i] = oldChar;
-                }
-                
-            }
-            
-
-            
-            length++;
         }
         return 0;
     }
