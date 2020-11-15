@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/word-ladder/description?_from=ladder&&fromId=1
-
+//注意要求输出的不是跳转的次数，而是一共已经了几个word e.g.a->a：1 a->b：2
 class Solution {
 public:
     /*
@@ -29,9 +29,10 @@ public:
  
         while (!Q.empty()) {           //bfs
             int size = Q.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {//对于当前层的每一个节点，作以下操作
                 string word = Q.front(); Q.pop();
-                for (int j = 0; j < n; j++) {   //枚举替换的每个位置
+                
+                for (int j = 0; j < n; j++) {   //枚举替换的每个位置,找是否在dict中出现。即找当前节点的分支
                     char oldChar = word[j];  
                     for (char c = 'a'; c <= 'z'; c++) {     //枚举替换的字母
                         if (c == oldChar) continue;
@@ -44,7 +45,8 @@ public:
                             dict.erase(word);			//从dict中除去当前单词
                         }
                     }
-                    word[j] = oldChar;//reset to replace the char in other position of original word(THAT IS find all links between cur_word and word in the dict)
+                    word[j] = oldChar;//每一个位置a~z试完，复原，尝试下一个位置a~z替换
+                    //reset to replace the char in other position of original word(THAT IS find all links between cur_word and word in the dict)
                 }
             } // for size
             length++;//一层找完，步数+1
