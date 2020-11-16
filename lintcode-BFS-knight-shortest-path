@@ -22,6 +22,7 @@ public:
     int shortestPath(vector<vector<bool>> &grid, Point &source, Point &destination) {
         // write your code here
         if(grid.empty()) return -1;
+        if(source.x == destination.x && source.y == destination.y) return 0;
         
         //Explanation
         //[2,0] 表示 row = 2; col = 0;
