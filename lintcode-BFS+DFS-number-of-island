@@ -9,17 +9,20 @@ public:
      */
     int numIslands(vector<vector<bool>> &grid) {   
         // write your code here
-        if (grid.empty() || grid[0].empty()) return 0;//如果只有grid[0]不是empty()， 那他仅仅只是数组，不是2D matrix
-
+        if (grid.empty()) return 0;
+        //对于二位数组，2Dvector.empty()对于整个2D数组为空，
+        //grid[0].size=0 e.g.[{},{1}] 
+        //grid.size 对应几个vector自分量 && grid[0].size 对于vector[0]这个分量的元素个数
+        
         int n = grid.size();
-        int m = grid[0].size();
+        int m = grid[0].size();//m表示grid[0]的元素个数，所以下方j表示grid[0]的第几个元素
         int islands = 0;
         
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j]) {//遍历每一个元素
+            for (int j = 0; j < m; j++) {//遍历每一个元素
+                if (grid[i][j]) {//数值为1，尝试做BFS （做BFS的3个都必须满足的条件：数值1，inbound，没访问过）-->【这里的i,j注意与m,n声明对应】
                     markByBFS(grid, i, j);//mark当前元素所连接的所有元素，即遍历一个tree
-                    islands++;
+                    islands++;//因为此点已经是1，所以用BFS找连通分量，BFS一次就num+1
                 }
             }
         }       
@@ -27,36 +30,37 @@ public:
     }    
 
     bool inBound(int x, int y, vector<vector<bool>> &grid) {
-        int n = grid.size();//c++ vector.size()  string.length()
+        int n = grid.size();
         int m = grid[0].size();   
-        return x >= 0 && x < n && y >= 0 && y < m;
+        return x >= 0 && x < n && y >= 0 && y < m; //【注意m、n没有等于】
     }
 
     void markByBFS(vector<vector<bool>> &grid, int x, int y) {
         // magic numbers!
-        int directionX[4] = {0, 1, -1, 0}; //X、Y对应坐标
+        int directionX[4] = {0, 1, -1, 0}; //X、Y对应坐标 竖着对应，组成的坐标分别对应上下左右4个方向
         int directionY[4] = {1, 0, 0, -1};//c++ int数组初始化
         
 
         queue<pair<int,int>> q;//for record coordinate  注意C++ pair的用法
         q.push(make_pair(x,y));
-        grid[x][y] = false;
+        grid[x][y] = false;//mark -> cuz we visited
         
         while (!q.empty()) {
+        //这里也可以加上一个size循环->分层的写法
             //get first element
             pair<int,int> temp = q.front();
             q.pop();//delete the first element
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) { //因为这条题目只考虑4个方向的连通分量，所以对于每一个元素，循环4次
                 int x = temp.first+directionX[i];
                 int y = temp.second+directionY[i];
                 
-                if (!inBound(x, y,grid)) {
+                if (!inBound(x, y,grid)) { //not in bound
                     continue;
                 }
 
-                if (grid[x][y]) { //in bound
-                    grid[x][y] = false;//mark to false
+                if (grid[x][y]) { //inbound and 数值为1
+                    grid[x][y] = false;//mark to false-->访问过的就不会再被数
                     q.push(make_pair(x,y));
                 }
             }
