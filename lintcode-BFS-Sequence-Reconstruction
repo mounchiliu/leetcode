@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/sequence-reconstruction/description
+BFS：my solution 2
 
-
-//这个解法是验证seq满不满足org
+九章ANS:
 class Solution {
 public:
     /**
@@ -9,14 +9,15 @@ public:
      * @param seqs a list of sequences
      * @return true if it can be reconstructed only one or false
      */
+     //【判断是否序列 org 能唯一地由 seqs重构得出】
     bool sequenceReconstruction(vector<int>& org, vector<vector<int>>& seqs) {
         // Write your code here
-        unordered_map<int, int> pos, pre;
+        unordered_map<int, int> pos, pre;//两个map：pos记录org元素的position
         for (int i = 0; i < org.size(); ++i) pos[org[i]] = i;//对于org每个元素，记录他的位置
         for (auto& seq : seqs) {
             for (int i = 0; i < seq.size(); ++i) {
                 if (pos.find(seq[i]) == pos.end()) { //通过给定主键查找元素,没找到：返回unordered_map::end
-                    return false;//没找到
+                    return false;//没找到 seq的元素 org中没有
                 }
                 if (i > 0 && pos[seq[i - 1]] >= pos[seq[i]]) {//与org的位置矛盾
                     return false;
@@ -96,15 +97,10 @@ public:
                 
                 if(cnt_indegree.count(set_ele)==0){
                     Q.push(set_ele);
-                }
-            
-            
+                }            
             }
-        }
-        
+        }      
         return true;
-
-
     }
 };
 
@@ -119,9 +115,7 @@ public:
      */
     bool sequenceReconstruction(vector<int> &org, vector<vector<int>> &seqs) {
         // write your code here
-        
 
-        
         //org是父序列，应包含所有的元素
         //这题和course schedule有异曲同工之妙
         unordered_map<int,unordered_set<int>> element_seq;//record sequence element 
