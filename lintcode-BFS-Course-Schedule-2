@@ -1,113 +1,41 @@
 https://www.lintcode.com/problem/course-schedule-ii/description
 sol:https://www.jiuzhang.com/solution/course-schedule-ii/#tag-highlight-lang-cpp
-
-mysolution: wrong answer
-problem: you need to check whether it is able to form a topilogical order, like the question of Course-Schedule 1.
+【解法思路类似于course schedule 1】
 
 class Solution {
 public:
-    /*
-     * @param numCourses: a total of n courses
-     * @param prerequisites: a list of prerequisite pairs
-     * @return: the course order
+    /**
+     * @param numCourses a total of n courses
+     * @param prerequisites a list of prerequisite pairs
+     * @return the course order
      */
-    vector<int> findOrder(int numCourses, vector<pair<int, int>> &prerequisites) {
-        // write your code here
-        
-        vector<int> result;
-        if(numCourses==0) return result;
-        
-        
-        //1. count
-        vector<unordered_multiset<int>> CourseRecoder(numCourses);
-        vector<int> cnt(numCourses,0);
-        for(auto &temp: prerequisites){
-            CourseRecoder[temp.second].insert(temp.first);// take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
-            cnt[temp.first]++;
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        // Write your code here
+        vector<unordered_multiset<int>> edges(numCourses);
+        vector<int> d(numCourses, 0);
+        for(int i = 0; i < prerequisites.size(); ++ i) {
+            edges[prerequisites[i].second].insert(prerequisites[i].first);
+            d[prerequisites[i].first] ++;
         }
-        
-        
-        //2. == 0?
-        queue<int> Q;
-        for(int i = 0; i < numCourses; i++){
-            if(cnt[i] == 0){
-                Q.push(i);
-            }
-        }
-        
-        
-        while(!Q.empty()){
-            int head = Q.front();
-            Q.pop();
-            result.push_back(head);
-            
-            for(auto it = CourseRecoder[head].begin(); it != CourseRecoder[head].end(); it++){
-                cnt[*it]--;
-                
-                if(cnt[*it]==0){
-                    Q.push(*it);
+
+        queue<int> q;
+        for (int i = 0; i < numCourses; ++i)
+            if (d[i] == 0)
+                q.push(i);
+
+        vector<int> order;
+        while (!q.empty()) {
+            int x = q.front(); q.pop();
+            order.push_back(x);//要不然取出时计入，要不然push进的时候计入
+            for(auto it = edges[x].begin(); it != edges[x].end(); ++ it) {
+                -- d[*it];
+                if (d[*it] == 0) {
+                    q.push(*it);
                 }
             }
         }
-        
-        return result;        
-    }
-};
-
-
-
-my soltuion, temp 2:
-class Solution {
-public:
-    /*
-     * @param numCourses: a total of n courses
-     * @param prerequisites: a list of prerequisite pairs
-     * @return: the course order
-     */
-    vector<int> findOrder(int numCourses, vector<pair<int, int>> &prerequisites) {
-        // write your code here
-        
-        vector<int> result;
-        if(numCourses==0) return result;
-        
-        
-        //1. count
-        vector<unordered_multiset<int>> CourseRecoder(numCourses);
-        vector<int> cnt(numCourses,0);
-        for(auto &temp: prerequisites){
-            CourseRecoder[temp.second].insert(temp.first);// take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
-            cnt[temp.first]++;
-        }
-        
-        
-        //2. == 0?
-        queue<int> Q;
-        for(int i = 0; i < numCourses; i++){
-            if(cnt[i] == 0){
-                Q.push(i);
-            }
-        }
-        
-        
-        int num_node = 0;
-        while(!Q.empty()){
-            int head = Q.front();
-            Q.pop();
-            num_node++;
-            result.push_back(head);
-            
-            for(auto it = CourseRecoder[head].begin(); it != CourseRecoder[head].end(); it++){
-                cnt[*it]--;
-                
-                if(cnt[*it]==0){
-                    Q.push(*it);
-                }
-            }
-        }
-        
-        if(num_node == numCourses)
-            return result;
-        else
-            return vector<int>();//【Note】空数组初始化化
+        if (order.size() == numCourses)//类似course schedule 1, 判断是否符合要求：上完全部课程
+            return order;
+        return vector<int>();//返回空数组
     }
 };
