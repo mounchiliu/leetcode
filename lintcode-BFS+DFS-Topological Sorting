@@ -32,7 +32,7 @@ public:
         if (graph.empty())
             return result;
         
-        //1.对于graph中的每一个点，统计所有点的入度
+        //【1】对于graph中的每一个点，统计所有点的入度
         unordered_map<DirectedGraphNode*,int> MapForRecord;//【Hash_map<点,入度>】
 							   //unordered_map <key,value> 
         for(auto &node: graph){   //注意for循环中 引用的用法 C++书
@@ -49,7 +49,7 @@ public:
         
         //初始化queue
         queue<DirectedGraphNode*> Q;
-        //2.将所有入度为0的点，放到宽度优先搜索的queue中,他们在队列以及拓扑结构的前排
+        //【2】将所有入度为0的点，放到宽度优先搜索的queue中,他们在队列以及拓扑结构的前排
         //点没有入度->map里面没有他，放到queue里面和结果里面
         for(auto &node: graph){
             if(MapForRecord.count(node)==0){
@@ -58,8 +58,8 @@ public:
             }
         }
         
-        //3.将队列中的点一个个释放出来，放到拓扑序列中，每次释放出某个点的时候就访问他的邻居，并把这个点的入度-1
-        //如果发现入度为0->放入队列
+        //【3】将队列中的点一个个释放出来，放到拓扑序列中，每次释放出某个点的时候就访问他的邻居，并把这个点的入度-1
+        //【4】如果发现入度为0->放入队列
         //直至队列为空
         while(!Q.empty()){
             auto &node = Q.front();
