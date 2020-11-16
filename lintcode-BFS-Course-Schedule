@@ -28,7 +28,7 @@ public:
             d[prerequisites[i].first] ++;
         }
         
-        //【优化写法】
+        //【优化】
         //for(auto &i: prerequisites){
         //  d[i.first]++;
         //  edges[i.second].insert(i.first);
