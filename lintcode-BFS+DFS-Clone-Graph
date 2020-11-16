@@ -1,5 +1,6 @@
 https://www.lintcode.com/problem/clone-graph/description
 
+【一般能用BFS做的问题，不要用dfs解决】---因为recursion实现的DFS可能造成Stack Overflow
 【重要：BFS时间复杂度O（M+N）M点数 N边数】 --- 每个点遍历进queue，每个点又要查看neighbour即边
 
 /**
