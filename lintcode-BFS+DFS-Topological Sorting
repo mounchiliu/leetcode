@@ -1,7 +1,8 @@
 https://www.lintcode.com/problem/topological-sorting/description
+【拓扑排序的算法是典型的BFS算法，DFS也可以，但是不容易理解，所以不主流】
+【且一般能用BFS做的问题，不要用dfs解决】---因为recursion实现的DFS可能造成Stack Overflow
 
-bfs(my solution)
-
+//bfs(my solution) 
 /**
  * Definition for Directed graph.
  * struct DirectedGraphNode {
