@@ -1,149 +1,69 @@
 https://www.lintcode.com/problem/number-of-islands/description?_from=ladder&&fromId=1
 
-
 //bfs //this is my sol
-
 class Solution {
-
 public:
-
     /**
-
      * @param grid: a boolean 2D matrix
-
      * @return: an integer
-
      */
-
-    int numIslands(vector<vector<bool>> &grid) {
-
+    int numIslands(vector<vector<bool>> &grid) {   
         // write your code here
-
         if (grid.empty() || grid[0].empty()) return 0;//如果只有grid[0]不是empty()， 那他仅仅只是数组，不是2D matrix
 
-        
-
         int n = grid.size();
-
         int m = grid[0].size();
-
         int islands = 0;
-
         
-
         for (int i = 0; i < n; i++) {
-
             for (int j = 0; j < m; j++) {
-
                 if (grid[i][j]) {//遍历每一个元素
-
                     markByBFS(grid, i, j);//mark当前元素所连接的所有元素，即遍历一个tree
-
                     islands++;
-
                 }
-
             }
-
-        }
-
-        
-
+        }       
         return islands;
-
-    }
-
-    
-
-    
+    }    
 
     bool inBound(int x, int y, vector<vector<bool>> &grid) {
-
         int n = grid.size();//c++ vector.size()  string.length()
-
-        int m = grid[0].size();
-
-        
-
+        int m = grid[0].size();   
         return x >= 0 && x < n && y >= 0 && y < m;
-
     }
 
-    
-
-    
-
-    
-
     void markByBFS(vector<vector<bool>> &grid, int x, int y) {
-
         // magic numbers!
-
         int directionX[4] = {0, 1, -1, 0}; //X、Y对应坐标
-
         int directionY[4] = {1, 0, 0, -1};//c++ int数组初始化
-
         
 
         queue<pair<int,int>> q;//for record coordinate  注意C++ pair的用法
-
         q.push(make_pair(x,y));
-
         grid[x][y] = false;
-
         
-
         while (!q.empty()) {
-
             //get first element
-
             pair<int,int> temp = q.front();
-
             q.pop();//delete the first element
 
-
-
             for (int i = 0; i < 4; i++) {
-
                 int x = temp.first+directionX[i];
-
                 int y = temp.second+directionY[i];
-
                 
-
                 if (!inBound(x, y,grid)) {
-
                     continue;
-
                 }
 
                 if (grid[x][y]) { //in bound
-
                     grid[x][y] = false;//mark to false
-
                     q.push(make_pair(x,y));
-
                 }
-
             }
-
         }
-
     }
 
-    
-
-
-
-    
-
-    
-
 }; //这里因为遍历到了就把grid值改成false, 所以不需要像之前的图的问题用哈希表解决。
-
-
-
-
 
 
 
@@ -152,65 +72,34 @@ public:
 //dfs  --> recursive
 
 class Solution {
-
 public:
-
     /**
-
      * @param grid a boolean 2D matrix
-
      * @return an integer
-
      */
-
     void dfs(vector<vector<bool>> &grid, int x, int y) {
-
-        if (x < 0 || x >= grid.size()) return;//not in bound
-
-        if (y < 0 || y >= grid[0].size()) return;//not in bound
-
-        if (!grid[x][y]) return;//value = 0
-
+        if (x < 0 || x >= grid.size()) return;
+        if (y < 0 || y >= grid[0].size()) return;
+        if (!grid[x][y]) return;
         grid[x][y] = false;
-
         dfs(grid, x + 1, y);
-
         dfs(grid, x - 1, y);
-
         dfs(grid, x, y + 1);
-
         dfs(grid, x, y - 1);
-
     }
-
     int numIslands(vector<vector<bool>>& grid) {
-
         // Write your code here
-
         if (grid.empty() || grid[0].empty()) return 0;
-
-        int N = grid.size(), M = grid[0].size();//num of row & col
-
+        int N = grid.size(), M = grid[0].size();
         int cnt = 0;
-
         for (int i = 0; i < N; ++i) {
-
             for (int j = 0; j < M; ++j) {
-
-                if (grid[i][j]) {//value = 1
-
+                if (grid[i][j]) {
                     dfs(grid, i, j);
-
                     ++cnt;
-
                 }
-
             }
-
         }
-
         return cnt;
-
     }
-
 };
