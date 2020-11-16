@@ -30,7 +30,7 @@ public:
         int n = grid.size();
         int m = grid[0].size();
         
-        vector<vector<int>> record(n, vector<int>(m, INT_MAX));//C++ vector 初始化
+        vector<vector<int>> record(n, vector<int>(m, INT_MAX));//C++ vector 初始化 //初始化-1也可以
         record[source.x][source.y] = 0;//recorder用于记录步数,记录由上一层（上一点）跳到这一点的步数
 
         vector<vector<int>> d = {{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
@@ -47,6 +47,13 @@ public:
                     record[x][y] = record[head.x][head.y] + 1;//更新 record 值 从head跳至x、y坐标点处
                     Q.push(Point(x, y));
                 }
+                //如果recorder初始化是-1 按照如下写法：
+                //if(x>=0 && x<m && y>=0 && y<n){//in bound
+                //     if(!grid[x][y] && Recorder[x][y]<0){ //not occupied & not visited
+                //         Q.push(Point(x,y));
+                //         Recorder[x][y] = Recorder[head.x][head.y] + 1;
+                //     }
+                // }
             }
         }
         if (record[destination.x][destination.y] == INT_MAX)//没更新--> 跳不到
@@ -60,7 +67,7 @@ public:
 
 
 
-mysolution:  【与上方差别，recorder记录访问，length计算路径长度，这种情况一开始要处理两个特殊情况】
+mysolution:  【与上方差别:recorder记录访问，length计算路径长度，这种情况一开始要处理两个特殊情况】
 
 class Solution {
 public:
@@ -92,13 +99,14 @@ public:
         int length = 0; 
         
         while (!Q.empty()) {
-            int size = Q.size();
+            int size = Q.size();//这里需要一层层访问记录length，所以必须分层，上面的方法只需要访问每个必要节点，所以无需分层。
             for(int i = 0; i<size; i++){
                 Point head = Q.front(); Q.pop();
                 for (int k = 0; k < 8; ++k) {
                  int x = head.x + d[k][0];//dir x
                  int y = head.y + d[k][1];//dir y
-                 if (x >=0 && x < n && y >= 0 && y < m && !grid[x][y] &&
+                 
+                 if (x >=0 && x < n && y >= 0 && y < m && !grid[x][y] &&  //in bound & not occupied & not visited
                     record[head.x][head.y] + 1 < record[x][y]) {
                     record[x][y] = record[head.x][head.y] + 1;//更新 record 值 从head跳至x、y坐标点处
                     Q.push(Point(x, y));
