@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/sequence-reconstruction/description
 BFS：my solution 2
 
-九章ANS:
+九章ANS:HASH MAP
 class Solution {
 public:
     /**
@@ -104,7 +104,7 @@ public:
     }
 };
 
-
+【思路：拓扑序，且仅存在一个 --- queue中最多同时只有一个节点】
 - second temp accpeted
 class Solution {
 public:
@@ -134,15 +134,23 @@ public:
         int count = 0;
         for(auto &seq: seqs){
             count += seq.size();
-            if (seq.size() >= 1 && (seq[0] <= 0 || seq[0] > org.size())) //首先判断size会不会导致越界！
+            if (seq.size() >= 1 && (seq[0] <= 0 || seq[0] > org.size())) //首先判断size保证seq[0]存在，在查看seq[0]是否符合要求
                 return false;
+                //【判断当下seq中第一个元素是否符合】
+                //seq.size() >=1 --- 大于等于1列的情况 【改成seq[int]？？？答案是0】
+                //seq[0]<=0 -> 某条vector的第一个元素小于0，不符合题意，题中规定了n大小
+                //seq[0]>org.size() 某条vector中的第一个元素没有在org中出现。
+                //这样就不能再org中构造出来，因为一定有一个顺序不满足
+                
             for(int i = 1; i < seq.size(); i++){
-                //判断seq里的元素的合理性
+                //判断seq里除了第一个元素，其余元素的合理性
                 if(seq[i]<1 || seq[i] > org.size()){ 
                     return false;
                 }
+                //seq[i]范围判断 + 这个元素有没有在org中出现.
                 
-                if(element_seq[seq[i-1]].count(seq[i])==0){//this seq has not been recorded by map
+                //除了seq第一个元素，其余元素计算入度
+                if(element_seq[seq[i-1]].count(seq[i])==0){  //【not visited】 //this seq has not been recorded by map 
                     element_seq[seq[i-1]].insert(seq[i]);
                     cnt_indegree[seq[i]]++;
                 }
@@ -163,7 +171,7 @@ public:
         
         //Determine whether there is only one sequence that can be reconstructed from seqs and it is the org sequence. --> BFS
         int num = 0;
-        while(Q.size()==1){//queue中最多同时只有一个节点
+        while(Q.size()==1){//【queue中最多同时只有一个节点】
             int head = Q.front();
             Q.pop();
             if(head!=org[num])
