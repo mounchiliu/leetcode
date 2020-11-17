@@ -125,6 +125,7 @@ public:
                                                           //这题不用vector<mul-set>是因为这里是无序的（如题中 example 4）
         
         
+        //建立关联，相当于建图
         //to initialize the key; --- 【根据org让set和map知道key的值】---因为要保证org是组成的唯一的拓扑序,所以用org initialize it
         for(int &n: org){
             //for each element, initialize a set to it;
