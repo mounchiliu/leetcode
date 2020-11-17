@@ -118,30 +118,35 @@ public:
 
         //org是父序列，应包含所有的元素
         //这题和course schedule有异曲同工之妙
-        unordered_map<int,unordered_set<int>> element_seq;//record sequence element  //这题不用vector<mul-set>是因为这里是无序的，有通过key(int):序号的名字 访问set(element)
-        //这边不能像course schedule里用vector因为这里的数字可能是无序的 例如 example 4
-        unordered_map<int,int> cnt_indegree;
+        unordered_map<int,int> cnt_indegree; //key是序列名，val是indegree
+        unordered_map<int,unordered_set<int>> element_seq;//record relationship(谁前谁后)
+                                                          //【数据结构】通过key(int):序号的名字 访问set(element)。
+                                                          //一个key对应一个set, 一个set中可以无序存放多个元素
+                                                          //这题不用vector<mul-set>是因为这里是无序的（如题中 example 4）
         
+        
+        //to initialize the key; --- 【根据org让set和map知道key的值】---因为要保证org是组成的唯一的拓扑序,所以用org initialize it
         for(int &n: org){
             //for each element, initialize a set to it;
-            element_seq[n] = unordered_set<int>();
-            cnt_indegree[n] = 0;//initilize count value
+            element_seq[n] = unordered_set<int>();//element_seq[n];
+            cnt_indegree[n] = 0;//cnt_indegree[n];
             
         }
         
         
-        //统计入度
-        int count = 0;
-        for(auto &seq: seqs){
+        //【统计入度】
+        int count = 0;//?????
+        for(auto &seq: seqs){ //取seqs其中一条seq
             count += seq.size();
-            if (seq.size() >= 1 && (seq[0] <= 0 || seq[0] > org.size())) //首先判断size保证seq[0]存在，在查看seq[0]是否符合要求
+            if (seq.size() > 0 && (seq[0] < 1 || seq[0] > org.size())) //首先判断size保证seq[0]存在，在查看seq[0]是否符合要求
                 return false;
                 //【判断当下seq中第一个元素是否符合】
                 //seq.size() >=1 --- 大于等于1列的情况 【改成seq[int]？？？答案是0】
                 //seq[0]<=0 -> 某条vector的第一个元素小于0，不符合题意，题中规定了n大小
                 //seq[0]>org.size() 某条vector中的第一个元素没有在org中出现。
                 //这样就不能再org中构造出来，因为一定有一个顺序不满足
-                
+             
+             //【第一个元素和后面的元素分开判断是因为，对于后面的元素 不仅要判断后续还要计算入度。】
             for(int i = 1; i < seq.size(); i++){
                 //判断seq里除了第一个元素，其余元素的合理性
                 if(seq[i]<1 || seq[i] > org.size()){ 
@@ -150,17 +155,19 @@ public:
                 //seq[i]范围判断 + 这个元素有没有在org中出现.
                 
                 //除了seq第一个元素，其余元素计算入度
-                if(element_seq[seq[i-1]].count(seq[i])==0){  //【not visited】 //this seq has not been recorded by map 
+                //【如果这个元素和前一个元素的关系还没有在map中有记载,  则记录关系。 关系为前一个元素为key关联一系列他指向的元素】
+                if(element_seq[seq[i-1]].count(seq[i])==0){  //【count返回被查找元素关联的set中元素的个数】//count后放入的是被查找元素//这里返回的是元素个数为0的bool 
                     element_seq[seq[i-1]].insert(seq[i]);
                     cnt_indegree[seq[i]]++;
                 }
             }
         }
         
-        //for case [1] []
+        //【for case [1] [] 】
         if(count<org.size())
             return false;
         
+        // 【indegree==0， put into the queue】
         queue<int> Q;
         for(auto &temp: cnt_indegree){
             if(temp.second==0){ //【Note】map.count(element)
@@ -174,7 +181,7 @@ public:
         while(Q.size()==1){//【queue中最多同时只有一个节点】
             int head = Q.front();
             Q.pop();
-            if(head!=org[num])
+            if(head!=org[num])//【要保证仅有一个拓扑序的同时还要保证这个拓扑序和org给出的相同】
                 return false;
             num++;
             
