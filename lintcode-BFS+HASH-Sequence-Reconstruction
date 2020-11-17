@@ -118,7 +118,7 @@ public:
 
         //org是父序列，应包含所有的元素
         //这题和course schedule有异曲同工之妙
-        unordered_map<int,unordered_set<int>> element_seq;//record sequence element 
+        unordered_map<int,unordered_set<int>> element_seq;//record sequence element  //这题不用vector<mul-set>是因为这里是无序的，有通过key(int):序号的名字 访问set(element)
         //这边不能像course schedule里用vector因为这里的数字可能是无序的 例如 example 4
         unordered_map<int,int> cnt_indegree;
         
