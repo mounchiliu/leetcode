@@ -35,139 +35,86 @@ public:
         map<char, set<char> > graph; //因为题目要求有序 所以使用map
        
         // 【1.1】create nodes
-        for (int i = 0; i < words.size(); i++) {
-            for (int j = 0; j < words[i].size(); j++) {
-                char c = words[i][j];
-                if (graph.find(c) == graph.end()) {
-                    set<char> temp;
-                    graph[c] = temp;//initialize node, 即initialize the key value in the map
-                }
-            }
-        }
-        //【优化】
-        //for(auto &word: words){
-        //     for(int i=0; i<word.size(); i++){
-        //         char c = word[i];
+        for(auto &word: words){
+             for(int i=0; i<word.size(); i++){
+                 char c = word[i];
                 
-        //         if(graph.find(c) == graph.end()){
-        //             graph[c] = set<char>();
-        //         }
-        //     }
-        // }
+                 if(graph.find(c) == graph.end()){
+                     graph[c] = set<char>(); //initialize node, 即initialize the key value in the map
+                 }
+             }
+         }
         
         
 
-        // 【1.2】create edges //建立关联
-        for (int i = 0; i < words.size() - 1; i++) {
-            int index = 0;
-            while (index < words[i].size() && index < words[i + 1].size()) { //e.g. ["wrt","wrf"] 从 "wrt"和"wrf" ,我们可以得到 't'<'f'
-                if (words[i][index] != words[i + 1][index]) {
-                    graph[words[i][index]].insert(words[i + 1][index]);
-                    break; //后面的不用开了，因为是根据第一个不相同的字符进行排序的
-                }
-                index++;
-            }
-            //OR
-            //int index;
-            //for(index=0; index<(words[i].size()&&words[i+1].size()); index++){
-            //    if(word[i][index] != word[i][index+1]){
-            //         graph[words[i][index]].insert(words[i+1][index]);
-            //         break;
-            //    }
-            //}
-            
-            
-            if (index == min(words[i].size(), words[i + 1].size())) { //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的, 
-                if (words[i].size() > words[i + 1].size()) {//此时, words中后一个单词长度一定要比前一个单词长
-                    return map<char, set<char> >();
+        // 【1.2】create edges //建立关联        
+        for(int i=0; i<words.size()-1; i++){
+            int index;
+            int size = min(words[i].size(),words[i+1].size());
+            for(index=0; index<size; index++){ //e.g. ["wrt","wrf"] 从 "wrt"和"wrf" ,我们可以得到 't'<'f'
+                if(words[i][index] != words[i+1][index]){
+                    graph[words[i][index]].insert(words[i+1][index]);//后面的不看了，因为是根据第一个不相同的字符进行排序的
+                    break;
                 }
             }
-        }
-
+            
+            if(index ==size){  //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的,
+                if(words[i].size()>words[i+1].size()) //此时, words中后一个单词长度一定要比前一个单词长
+                    return map<char,set<char>>();
+            }
+         }
         return graph;
     }
 
     map<char, int> getIndegree(map<char, set<char>> &graph) {
         map<char, int> indegree;
-        map<char, set<char> >::iterator iter;
-        iter = graph.begin();
-        while (iter != graph.end()) {
-            indegree[iter->first] = 0; //【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
-            iter++;
+
+        for(auto &node_edges: graph){
+            indegree[node_edges->first] = 0;//【要先initialize key value】
+                                            //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
         }
-        //for(auto &node_edges: graph){
-        //    indegree[node_edges->first] = 0;//【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
-        //}
         
         //count indegree
-        iter = graph.begin();
-        while (iter != graph.end()) {
-            set<char>::iterator _iter = (iter->second).begin();
-            while (_iter != (iter->second).end()) {
-                indegree[*_iter] = indegree[*_iter] + 1;
-                _iter++;
-            }
-            iter++;
-        }
-
-        return indegree;
-    }
-    
-    ////////////////////////////////////////
-    map<char,int> getIndegree(map<char, set<char>> &graph){
-        map<char,int> indegree;
-        
         for(auto &node_edges: graph){
-            indegree[node_edges.first] = 0; //【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
-            
             for(auto &nb: node_edges.second){
                 indegree[nb]++;
             }
         }
-        
         return indegree;
-        
     }
-    ///////////////////////////////////////
     
     
     
-    string topologicalSorting(map<char, set<char>> &graph) {
-        map<char, int> indegree = getIndegree(graph); //【Step 2】 计算入度
-
-        priority_queue<char, vector<char>, greater<char> > Q;//【入度==0 put into the queue】
-        //升序队列
-
-        map<char, int>::iterator iter;
-        iter = indegree.begin();
-        while (iter != indegree.end()) {
-            if (indegree[iter->first] == 0) {
-                Q.push(iter->first);
-            }
-            iter++;
-        }//【改】
-
-        string s = "";//result
-        while (Q.size()) {
-            char head = Q.top();//【top 因为排序了】
+    
+    string topologicalSorting(map<char, set<char>> &graph){
+        map<char, int> indegree = getIndegree(graph);
+        priority_queue<char, vector<char>, greater<char>> Q;
+        
+        for(auto &in: indegree){
+            if(in.second == 0) 
+                Q.push(in.first);
+        }
+        
+        string result = "";
+        while(!Q.empty()){
+            char head = Q.top();【使用top 因为排序了】
             Q.pop();
-            s += head;
-            set<char>::iterator iter;
-            iter = graph[head].begin();
-            while (iter != graph[head].end()) {
-                char neighbor = *iter;
-                indegree[neighbor] -= 1;
-                if (indegree[neighbor] == 0) {
-                    Q.push(neighbor);
+            result += head;
+            
+            //find the neighbours
+            for(auto &nb: graph[head]){
+                indegree[nb]--;
+                
+                if(indegree[nb]==0){
+                    Q.push(nb);
                 }
-                iter++;//【改】
             }
         }
         
-        if (s.size() != indegree.size()) {
+        if(result.size() != indegree.size()) 
             return "";
-        }
-        return s;
+        
+        return result;
     }
 
 };
