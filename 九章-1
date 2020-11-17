@@ -1,4 +1,20 @@
-1.null 与 空字符串的区别
--null不指向任何对象，相当于没有任何值，若访问length则报错；而“”代表一个长度为0的字符串
--null不分配内存空间；而“”会分配内存空间
--Summary: a empty string assigned to a empty string, while no value there assigned to null.
+# 什么时候使用宽度优先搜索 #
+
+* 1. 图的遍历 Traversal in Graph *
+
+图的遍历，比如给出无向连通图(Undirected Connected Graph)中的一个点，找到这个图里的所有点。这就是一个常见的场景。
+
+LintCode 上的 Clone Graph 就是一个典型的练习题。
+
+更细一点的划分的话，这一类的问题还可以分为：
+
+层级遍历 Level Order Traversal
+由点及面 Connected Component
+拓扑排序 Topological Sorting
+层级遍历，也就是说我不仅仅需要知道从一个点出发可以到达哪些点，还需要知道这些点，分别离出发点是第几层遇到的，比如 Binary Tree Level Order Traversal 就是一个典型的练习题。
+
+由点及面，前面已经提到。
+
+拓扑排序，让我们在后一节中展开描述。
+
+最短路径 Shortest Path in Simple Graph
