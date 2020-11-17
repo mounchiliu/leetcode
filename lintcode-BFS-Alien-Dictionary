@@ -39,13 +39,11 @@ public:
              for(int i=0; i<word.size(); i++){
                  char c = word[i];
                 
-                 if(graph.find(c) == graph.end()){
+                 if(graph.find(c) == graph.end()){//没找到，initialize
                      graph[c] = set<char>(); //initialize node, 即initialize the key value in the map
                  }
              }
          }
-        
-        
 
         // 【1.2】create edges //建立关联        
         for(int i=0; i<words.size()-1; i++){
@@ -53,10 +51,11 @@ public:
             int size = min(words[i].size(),words[i+1].size());
             for(index=0; index<size; index++){ //e.g. ["wrt","wrf"] 从 "wrt"和"wrf" ,我们可以得到 't'<'f'
                 if(words[i][index] != words[i+1][index]){
-                    graph[words[i][index]].insert(words[i+1][index]);//后面的不看了，因为是根据第一个不相同的字符进行排序的
-                    break;
+                    if(graph[words[i][index]].count(words[i+1][index])==0){//没记录关联
+                        graph[words[i][index]].insert(words[i+1][index]);
+                        break;
+                    }
                 }
-            }
             
             if(index ==size){  //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的,
                 if(words[i].size()>words[i+1].size()) //此时, words中后一个单词长度一定要比前一个单词长
@@ -70,7 +69,7 @@ public:
         map<char, int> indegree;
 
         for(auto &node_edges: graph){
-            indegree[node_edges->first] = 0;//【要先initialize key value】
+            indegree[node_edges.first] = 0;//【要先initialize key value】
                                             //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
         }
         
@@ -83,16 +82,13 @@ public:
         return indegree;
     }
     
-    
-    
-    
     string topologicalSorting(map<char, set<char>> &graph){
         map<char, int> indegree = getIndegree(graph);
         priority_queue<char, vector<char>, greater<char>> Q;
         
-        for(auto &in: indegree){
-            if(in.second == 0) 
-                Q.push(in.first);
+        for(auto &node: indegree){
+            if(node.second == 0) 
+                Q.push(node.first);
         }
         
         string result = "";
