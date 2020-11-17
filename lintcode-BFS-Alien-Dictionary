@@ -53,7 +53,7 @@ public:
                 if(words[i][index] != words[i+1][index]){
                     if(graph[words[i][index]].count(words[i+1][index])==0){//没记录关联
                         graph[words[i][index]].insert(words[i+1][index]);
-                        break;
+                        break;//【重要】
                     }
                 }
             
@@ -69,7 +69,7 @@ public:
         map<char, int> indegree;
 
         for(auto &node_edges: graph){
-            indegree[node_edges.first] = 0;//【要先initialize key value】
+            indegree[node_edges.first] = 0;//【要先initialize key value】不然map的顺序会乱(你还没initialize key value 就已经用indegree[nb]++ 来访问了)
                                             //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
         }
         
@@ -107,7 +107,7 @@ public:
             }
         }
         
-        if(result.size() != indegree.size()) 
+        if(result.size() != indegree.size()) //没有用到所给的所有字符，表明有部分顺序条件不符合 所以返回空
             return "";
         
         return result;
