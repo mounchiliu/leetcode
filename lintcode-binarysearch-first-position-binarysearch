@@ -1,0 +1,60 @@
+https://www.lintcode.com/problem/classical-binary-search/description
+https://www.lintcode.com/problem/first-position-of-target/description
+
+两题一样
+
+【二分搜索的基本思路】
+start指向左边，end指向右边
+每次找正中间的坐标
+
+【模板的注意点】
+1.  while (start + 1 < end) --- 防止死循环 e.g.[1,1]中寻找1 若用start<end 会死循环
+2. mid = start + (end - start) / 2; --- 防止大数值溢出
+
+class Solution {
+public:
+    /**
+     * @param nums: An integer array sorted in ascending order
+     * @param target: An integer
+     * @return: An integer
+     */
+    int findPosition(vector<int> &nums, int target) {
+        // write your code here
+        //首先处理异常
+         if (nums.size() == 0) {
+            return -1;
+        }
+  
+        
+        int start = 0;
+        int end = nums.size() - 1;
+        int mid;
+
+        //【Step1 缩小范围】，保证答案在start~end
+        while (start + 1 < end) { //【防止死循环】//最后停下来的情况: 1. start和end挨着 2.start和end一个位置
+            mid = start + (end - start) / 2;//【mid选取】 //若直接使用(start+end)/2， start+end值很大时会溢出 
+            if (nums[mid] == target) {
+                end = mid; //因为要找的是第一次出现的位置，这里不一定是第一次，所以不跳出
+            } else if (nums[mid] < target) {
+                start = mid; //or//start = mid + 1； 反正mid这个我可以不要
+            } else if (nums[mid] > target) {
+                end = mid; //or end = mid - 1;
+                //for sorted array wit repeat numbers
+            }
+        }
+        //最后把答案锁在 [start][end]范围内，并且s和e可以挨着也可以重合，我们只需要检验start=end
+        //因为要找第一个所以先检查start。
+
+        //【Step2】 找答案
+        if (nums[start] == target) {//we only left case [start + 1 = target;] has not been considered
+            return start;//for the case where we find first position, check start first
+        }
+        if (nums[end] == target) {
+            return end;
+        }
+
+        return -1;
+    }
+};
+
+
