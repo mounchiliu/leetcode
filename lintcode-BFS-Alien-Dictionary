@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/alien-dictionary/description
-
+【思路：拓扑序 --- 且如果存在多个拓扑序，返回以正常字典顺序看来最小的】
 
 //题解：
 
@@ -15,41 +15,159 @@ public:
      * @param words: a list of words
      * @return: a string which is correct order
      */
-     
-    //首先construct graph, 你有多少个字母就有多少个点。 出现的字母建一个点
-    //construct edge, 任何两个单词之间，找出不相同的字符， 排在在前的字符里的不同的字母顺序一定在前。
-    //在构建拓扑sorting
-    
     string alienOrder(vector<string>& words) {
-        map<char, set<char>> suc, pre;
-        set<char> chars;
-        string s;
-        for (string t : words) {
-            chars.insert(t.begin(), t.end());
-            for (int i=0; i<min(s.size(), t.size()); ++i) {
-                char a = s[i], b = t[i];
-                if (a != b) {
-                    suc[a].insert(b);    	//保存每个字符的前缀和后缀
-                    pre[b].insert(a);
-                    break;
+        map<char, set<char> > graph = constructGraph(words);//【Step 1： 建图】 //map中会按key值排序
+        if (!graph.size()) { //如果graph为空， 返回空string   //
+            return "";  //if(graph.empty()) return "";
+        }
+
+        return topologicalSorting(graph); //【拓扑排序】
+    }
+
+    //map：【头文件为#include<map>】map内部是一颗红黑树（非严格平衡二叉树），红黑树有自动排序的功能，所以map内部的所有元素都是有序的，红黑树的每一个节点都代表这map的一个元素。
+    //因此对map进行插入、删除、查找等操作都是相当于对红黑树进行操作。最后根据树的中序遍历可以将键值按照大小顺序遍历出来。
+    //应用于对顺序有要求的问题，用map会更高效。
+
+    //unordered_map：【头文件#include<unordered_map>】unordered_map内部是一个哈希表（散列表，把关健值映射到哈希表中的某一个位置，这样查找时间复杂度是O(1)），元素的排列顺序是无序的。
+    //对于频繁查找的问题，用unordered_map更高效。
+
+    map<char, set<char> > constructGraph(vector<string> &words) {
+        map<char, set<char> > graph; //因为题目要求有序 所以使用map
+       
+        // 【1.1】create nodes
+        for (int i = 0; i < words.size(); i++) {
+            for (int j = 0; j < words[i].size(); j++) {
+                char c = words[i][j];
+                if (graph.find(c) == graph.end()) {
+                    set<char> temp;
+                    graph[c] = temp;//initialize node, 即initialize the key value in the map
                 }
             }
-            s = t;
-        }     
-        set<char> free = chars;     //free保存拓扑排序的起点
-        for (auto p : pre)      
-            free.erase(p.first);    //去除有前缀的字符
-        string order;               
-        while (free.size()) {
-            char a = *begin(free);   //free的首个字符，即为起点
-            free.erase(a);           //除去字符
-            order += a;              //加入答案
-            for (char b : suc[a]) {    //遍历a的后缀
-                pre[b].erase(a);       //从b的前缀中删除a
-                if (pre[b].empty())    //如果前缀为空，可以作为拓扑排序的起点
-                    free.insert(b);    //存入free
+        }
+        //【优化】
+        //for(auto &word: words){
+        //     for(int i=0; i<word.size(); i++){
+        //         char c = word[i];
+                
+        //         if(graph.find(c) == graph.end()){
+        //             graph[c] = set<char>();
+        //         }
+        //     }
+        // }
+        
+        
+
+        // 【1.2】create edges //建立关联
+        for (int i = 0; i < words.size() - 1; i++) {
+            int index = 0;
+            while (index < words[i].size() && index < words[i + 1].size()) { //e.g. ["wrt","wrf"] 从 "wrt"和"wrf" ,我们可以得到 't'<'f'
+                if (words[i][index] != words[i + 1][index]) {
+                    graph[words[i][index]].insert(words[i + 1][index]);
+                    break; //后面的不用开了，因为是根据第一个不相同的字符进行排序的
+                }
+                index++;
+            }
+            //OR
+            //int index;
+            //for(index=0; index<(words[i].size()&&words[i+1].size()); index++){
+            //    if(word[i][index] != word[i][index+1]){
+            //         graph[words[i][index]].insert(words[i+1][index]);
+            //         break;
+            //    }
+            //}
+            
+            
+            if (index == min(words[i].size(), words[i + 1].size())) { //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的, 
+                if (words[i].size() > words[i + 1].size()) {//此时, words中后一个单词长度一定要比前一个单词长
+                    return map<char, set<char> >();
+                }
             }
         }
-        return order.size() == chars.size() ? order : "";// 图中有环--> 不对，返回空串
+
+        return graph;
     }
+
+    map<char, int> getIndegree(map<char, set<char>> &graph) {
+        map<char, int> indegree;
+        map<char, set<char> >::iterator iter;
+        iter = graph.begin();
+        while (iter != graph.end()) {
+            indegree[iter->first] = 0; //【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
+            iter++;
+        }
+        //for(auto &node_edges: graph){
+        //    indegree[node_edges->first] = 0;//【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
+        //}
+        
+        //count indegree
+        iter = graph.begin();
+        while (iter != graph.end()) {
+            set<char>::iterator _iter = (iter->second).begin();
+            while (_iter != (iter->second).end()) {
+                indegree[*_iter] = indegree[*_iter] + 1;
+                _iter++;
+            }
+            iter++;
+        }
+
+        return indegree;
+    }
+    
+    ////////////////////////////////////////
+    map<char,int> getIndegree(map<char, set<char>> &graph){
+        map<char,int> indegree;
+        
+        for(auto &node_edges: graph){
+            indegree[node_edges.first] = 0; //【initialize key value】 //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
+            
+            for(auto &nb: node_edges.second){
+                indegree[nb]++;
+            }
+        }
+        
+        return indegree;
+        
+    }
+    ///////////////////////////////////////
+    
+    
+    
+    string topologicalSorting(map<char, set<char>> &graph) {
+        map<char, int> indegree = getIndegree(graph); //【Step 2】 计算入度
+
+        priority_queue<char, vector<char>, greater<char> > Q;//【入度==0 put into the queue】
+        //升序队列
+
+        map<char, int>::iterator iter;
+        iter = indegree.begin();
+        while (iter != indegree.end()) {
+            if (indegree[iter->first] == 0) {
+                Q.push(iter->first);
+            }
+            iter++;
+        }//【改】
+
+        string s = "";//result
+        while (Q.size()) {
+            char head = Q.top();//【top 因为排序了】
+            Q.pop();
+            s += head;
+            set<char>::iterator iter;
+            iter = graph[head].begin();
+            while (iter != graph[head].end()) {
+                char neighbor = *iter;
+                indegree[neighbor] -= 1;
+                if (indegree[neighbor] == 0) {
+                    Q.push(neighbor);
+                }
+                iter++;//【改】
+            }
+        }
+        
+        if (s.size() != indegree.size()) {
+            return "";
+        }
+        return s;
+    }
+
 };
