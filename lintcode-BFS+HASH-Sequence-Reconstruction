@@ -125,7 +125,7 @@ public:
                                                           //这题不用vector<mul-set>是因为这里是无序的（如题中 example 4）
         
         
-        //建立关联，相当于建图
+        //建立关联，相当于建图中的建立点
         //to initialize the key; --- 【根据org让set和map知道key的值】---因为要保证org是组成的唯一的拓扑序,所以用org initialize it
         for(int &n: org){
             //for each element, initialize a set to it;
@@ -158,7 +158,7 @@ public:
                 //除了seq第一个元素，其余元素计算入度
                 //【如果这个元素和前一个元素的关系还没有在map中有记载,  则记录关系。 关系为前一个元素为key关联一系列他指向的元素】
                 if(element_seq[seq[i-1]].count(seq[i])==0){  //【count返回被查找元素关联的set中元素的个数】//count后放入的是被查找元素//这里返回的是元素个数为0的bool 
-                    element_seq[seq[i-1]].insert(seq[i]);
+                    element_seq[seq[i-1]].insert(seq[i]); //统计关联，相当于建图中的建立边
                     cnt_indegree[seq[i]]++;
                 }
             }
