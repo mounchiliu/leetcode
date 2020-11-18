@@ -5,11 +5,13 @@ https://www.lintcode.com/problem/classical-binary-search/description --- 任意�
 【二分搜索的基本思路】
 start指向左边，end指向右边
 每次找正中间的坐标
+【注意：递归和非递归写法都要会】
 
 【模板的注意点】
 1.  while (start + 1 < end) --- 防止死循环 e.g.[1,1]中寻找1 若用start<end 会死循环
 2. mid = start + (end - start) / 2; --- 防止大数值溢出
 
+【Non-recursive】 --- while loop
 class Solution {
 public:
     /**
@@ -56,7 +58,13 @@ public:
     }
 };
 
+【Recursive】
 
+
+
+
+
+【Non-Recursive】
 任意一个位置：
 class Solution {
 public:
@@ -97,5 +105,48 @@ public:
     }
 };
 
+【Recursive】
+class Solution {
+public:
+    /**
+     * @param nums: An integer array sorted in ascending order
+     * @param target: An integer
+     * @return: An integer
+     */
+     
+    int BinarySearch(vector<int> &nums, int start, int end, int &target){
+        
+        //【Step3】 递归何时结束
+        if(start > end){
+            return -1;//下面找到了mid
+        }
+        
+        int mid = start + (end-start)/2;
+        
+        if(nums[mid] == target){
+            return mid;
+        }
+        //若if中含有return，则可以不用else， 【else 会降低代码的可读性】
+        
+        if(nums[mid] > target){
+            end = mid-1;
+            //【Step2】 问题的拆解 --- 这里是缩小范围继续二分搜索
+            return BinarySearch(nums, start, end, target);
+        }
+        
+        if(nums[mid] < target){
+            start = mid+1;
+            return BinarySearch(nums, start, end, target);
+        }
 
+    }
+     
+    int findPosition(vector<int> &nums, int target) {
+        // write your code here
+        //【Step 1】递归的定义：参数，返回值，表达什么含义
+        int start = 0;
+        int end = nums.size()-1;
+        return BinarySearch(nums, start, end, target);
+    }
+};
 
