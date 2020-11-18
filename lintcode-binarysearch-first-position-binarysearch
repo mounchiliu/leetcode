@@ -87,6 +87,8 @@ public:
                                           //2. start 与 end 在同一个位置，即start==end
                                           //总结 start+1<=end
         if(start + 1 >= end){ //相当于把while loop 里面取反 while(start+ 1<end)
+            //停止后，已经固定到[start][end]这样很小的范围
+            //【搜索答案】
             if(nums[start] == target)
                 return start;
             if(nums[end] == target)
@@ -160,40 +162,38 @@ public:
      * @param target: An integer
      * @return: An integer
      */
-     
-    int BinarySearch(vector<int> &nums, int start, int end, int &target){
-        
-        //【Step3】 递归何时结束
-        if(start > end){
-            return -1;//下面找到了mid
-        }
-        
-        int mid = start + (end-start)/2;
-        
-        if(nums[mid] == target){
-            return mid;
-        }
-        //若if中含有return，则可以不用else， 【else 会降低代码的可读性】
-        
-        if(nums[mid] > target){
-            end = mid-1;
-            //【Step2】 问题的拆解 --- 这里是缩小范围继续二分搜索
-            return BinarySearch(nums, start, end, target);
-        }
-        
-        if(nums[mid] < target){
-            start = mid+1;
-            return BinarySearch(nums, start, end, target);
-        }
-
-    }
-     
     int findPosition(vector<int> &nums, int target) {
         // write your code here
-        //【Step 1】递归的定义：参数，返回值，表达什么含义
-        int start = 0;
-        int end = nums.size()-1;
-        return BinarySearch(nums, start, end, target);
+        if(nums.size()==0) 
+            return -1;
+        return binarySearch(nums,0, nums.size()-1, target);
+    }
+    
+    
+    int binarySearch(vector<int> &nums, int start, int end, int &target){
+        
+        if(start + 1 >= end){
+            // if(nums[start] == target)
+            //     return start;
+            //【因为mid = start + (end - start)/2;是偏向start的】
+            //所以最后如果没有因为nums[mid] return出去一定只有一种情况也就是end位置是target
+            if(nums[end] == target)
+                return end;
+            return -1;
+        }
+        
+        
+        
+        int mid = start + (end - start)/2;
+        
+        if(nums[mid] == target)
+            return mid;
+        //若if中含有return，则可以不用else， 【else 会降低代码的可读性】    
+        if(nums[mid] < target)
+            start = mid + 1;
+        if(nums[mid] > target)
+            end = mid - 1;
+        return binarySearch(nums, start, end, target);
+ 
     }
 };
-
