@@ -2,28 +2,6 @@ https://www.lintcode.com/problem/search-in-a-big-sorted-array/description
 
 该题目有两种思路: 【二分和倍增】. 其实这两种方法有一些相似之处, 很多时候可以在相同的时空分析下解决同一个问题.
 
-【方法1 倍增】：
-首先特判一下首个元素. 然后设定 idx = 0 为查找的下标, jump = 1 为向后跳跃的长度.
-
-每次循环将 idx 向后移动 jump 个元素, 并将 jump 翻倍. 而如果移动后的位置不小于 target, 则 jump 缩小至一半.
-
-即我们在保证每次跳跃后的 idx 的位置都小于target的前提下, 倍增式地跳跃, 以此保证 O(logn) 的时间复杂度.
-
-循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置以及不小于 target 了 (此时idx位置的仍然是小于target)
-
-也就是说, 到最后idx指向的元素是: 最大的小于target的元素. 返回答案前判断一下 idx + 1 是否 target 即可.
-
-【方法2 二分】:
-
-二分查找第一个不小于target的元素很简单. 但是需要确定二分区间的范围. 此时还是需要倍增地找到右边界.
-
-初始右边界为1, 如果右边界的数小于 target, 就将其倍增, 直到右边界不小于target.
-
-这时就可以二分查找了.
-
-注意: 越界访问是没有关系的, 因为这个ArrayReader在越界访问时, 返回 INT_MAX, 一定不小于 target. 而即使是返回 -1 之类的数值, 我们也可以加一个判断搞定.
-
-
 /**
 * 本参考程序由九章算法用户提供。版权所有，转发请注明出处。
 * - 九章算法致力于帮助更多中国人找到好的工作，授课老师均来自硅谷和国内的一线大公司在职工程师。
@@ -45,6 +23,8 @@ https://www.lintcode.com/problem/search-in-a-big-sorted-array/description
  *     }
  * };
  */
+ 
+ 
 class Solution {
 public:
     /*
@@ -52,20 +32,36 @@ public:
      * @param target: An integer
      * @return: An integer which is the first index of target.
      */
+ /*    
+【方法1 倍增】：
+1. 首先特判一下首个元素. 然后设定 idx = 0 为查找的下标, jump = 1 为向后跳跃的长度.
+
+2. 每次循环将 idx 向后移动 jump 个元素, 并将 jump 翻倍. 而如果移动后的位置不小于 target, 则 jump 缩小至一半.
+
+即我们在保证每次跳跃后的 idx 的位置都小于target的前提下, 倍增式地跳跃, 以此保证【 O(logn)】 的时间复杂度.
+
+3. 循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置已经不小于 target 了 (此时idx位置的仍然是小于target)
+
+也就是说, 到最后idx指向的元素是: 最大的小于target的元素. 返回答案前判断一下 idx + 1 是否 target 即可.*/
+
     int searchBigSortedArray(ArrayReader * reader, int target) {
-        int firstElement = reader->get(0);
+        int firstElement = reader->get(0);//get start
         if (firstElement == target)
             return 0;
-        else if (firstElement > target)
+        else if (firstElement > target) //target<最小的 --- 不存在
             return -1;
             
-        int idx = 0, jump = 1;
-        while (jump) {
-            while (jump && reader->get(idx + jump) >= target)   // 越界时返回INT_MAX, 必然不小于target
-                jump >>= 1;
-            idx += jump;
-            jump <<= 1;     // 当jump为0时, 左移一位不影响它的值, 不影响循环结束
+        //【位运算符】
+        //因为jump是从1开始的,所以左移直接相当于x2，右移直接相当于÷2
+        //若不是从1开始，比如对于数7（二进制111）， 左移后为1110---十进制：14， 右移后为11---十进制：3 也是相当于x2，÷2
+        int idx = 0, jump = 1; 
+        while (jump) {//【 idx 向后移动 jump 个元素, 并将 jump 翻倍】
+            while (jump && reader->get(idx + jump) >= target)   //【找第一个大于等于target数,找到后jump缩小一半】// 越界时返回INT_MAX, 必然不小于target
+                jump >>= 1; //位运算 右移操作 相当于每次÷2 然后再赋值
+            idx += jump;//更新id
+            jump <<= 1;     //左移相当于x2 // 当jump为0时, 左移一位不影响它的值, 不影响循环结束
         }
+        //【循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置已经不小于 target 了 (此时idx位置的仍然是小于target)】
         
         if (reader->get(idx + 1) == target)
             return idx + 1;
@@ -75,6 +71,8 @@ public:
 };
 
 ////////////// 【方法2 二分】
+
+
 
 /**
  * Definition of ArrayReader:
@@ -94,22 +92,65 @@ public:
      * @param target: An integer
      * @return: An integer which is the first index of target.
      */
+  /*   
+     【方法2 二分】: 一开始start = 0，end 和 mid 不知道取哪里，所以倍增找end，然后二分
+
+二分查找第一个不小于target的元素很简单. 但是需要确定二分区间的范围. 此时还是需要倍增地找到右边界.
+
+初始右边界为1, 如果右边界的数小于 target, 就将其倍增, 直到右边界不小于target.
+
+这时就可以二分查找了.
+
+注意: 越界访问是没有关系的, 因为这个ArrayReader在越界访问时, 返回 INT_MAX, 一定不小于 target. 而即使是返回 -1 之类的数值, 我们也可以加一个判断搞定.
+   */  
+     
     int searchBigSortedArray(ArrayReader * reader, int target) {
         int l = 0, r = 1, mid;
         while (reader->get(r) < target)     // 越界返回INT_MAX, 必然大于target, 所以没有关系
-            r <<= 1;
+            r <<= 1; //x2 找到第一个大于target的位置
         
         while (l < r) {
-            mid = (l + r) >> 1;
-            if (reader->get(mid) >= target)
+            mid = (l + r) >> 1; //右移1，相当于除以2
+            if (reader->get(mid) >= target)//target在左边，左移区间 【这里吧mid位置大于等于target合在一起写了】
                 r = mid;
-            else
+            else       //target在右边，右移区间
                 l = mid + 1;
         }
         
-        if (reader->get(l) == target)
+        if (reader->get(l) == target) //区间左端不是target就表明找不到//因为while中是l<r, 退出循环的情况只能是l=r
             return l;
         else
             return -1;
+    }
+};
+
+//【二分常规写法】
+class Solution {
+public:
+    /**
+     * @param reader: An instance of ArrayReader.
+     * @param target: An integer
+     * @return: An integer which is the first index of target.
+     */
+    int searchBigSortedArray(ArrayReader * reader, int target) {
+        int l = 0, r = 1, mid;
+        while (reader->get(r) < target)     // 越界返回INT_MAX, 必然大于target, 所以没有关系
+            r <<= 1; //x2 找到第一个大于target的位置
+        
+        while (l+1 < r) {
+            mid = l+(r-l)/2; 
+            if (reader->get(mid) == target)
+                r = mid;
+            if (reader->get(mid) < target)       //target在右边，右移区间
+                l = mid + 1;
+            if (reader->get(mid) > target)
+                r = mid - 1;
+        }
+        
+        if (reader->get(l) == target) 
+            return l;
+        if(reader->get(r) == target)
+            return r;
+        return -1;
     }
 };
