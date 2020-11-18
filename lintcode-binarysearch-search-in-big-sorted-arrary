@@ -1,9 +1,8 @@
 https://www.lintcode.com/problem/search-in-a-big-sorted-array/description
 
-该题目有两种思路: 二分和倍增. 其实这两种方法有一些相似之处, 很多时候可以在相同的时空分析下解决同一个问题.
+该题目有两种思路: 【二分和倍增】. 其实这两种方法有一些相似之处, 很多时候可以在相同的时空分析下解决同一个问题.
 
-方法1 倍增:
-
+【方法1 倍增】：
 首先特判一下首个元素. 然后设定 idx = 0 为查找的下标, jump = 1 为向后跳跃的长度.
 
 每次循环将 idx 向后移动 jump 个元素, 并将 jump 翻倍. 而如果移动后的位置不小于 target, 则 jump 缩小至一半.
@@ -14,7 +13,7 @@ https://www.lintcode.com/problem/search-in-a-big-sorted-array/description
 
 也就是说, 到最后idx指向的元素是: 最大的小于target的元素. 返回答案前判断一下 idx + 1 是否 target 即可.
 
-方法2 二分:
+【方法2 二分】:
 
 二分查找第一个不小于target的元素很简单. 但是需要确定二分区间的范围. 此时还是需要倍增地找到右边界.
 
