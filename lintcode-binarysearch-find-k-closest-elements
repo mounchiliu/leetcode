@@ -20,33 +20,19 @@ class Solution
         // 3. compare A[left] and A[right] to decide move which pointer
 
         vector<int> result;
-        int index = firstIndex(A, target);
+        int index = firstIndex(A, target); //【Step1】找比target大的第一个数字（也可以找到比target小的最后一个数字）
         int left = index - 1, right = index;
         for (int i = 0; i < k; i++)
         {
             // compare A[left] and A[right] to decide move which pointer
-
-            if (left < 0)
-            {
-                result.push_back(A[right++]);
-            }
-            else if (right >= A.size())
-            {
-                result.push_back(A[left--]);
-            }
-            else
-            {
-                if (target - A[left] <= A[right] - target)
-                {
-                    result.push_back(A[left--]);
-                }
-                else
-                {
-                    result.push_back(A[right++]);
-                }
+            if(isLeftCloser(A, target, left, right)){
+                result.push_back(A[left]) ;
+                left--;
+            }else{
+                result.push_back(A[right]);
+                right++;
             }
         }
-
         return result;
     }
 
@@ -54,32 +40,39 @@ class Solution
     int firstIndex(vector<int> &A, int target)
     {
         // use binary search algorithm to find the first index that
-        // A[index] >= target
+        // A[index] >= target 找到第一个比target大或等于target的数
 
         int start = 0, end = A.size() - 1;
         while (start + 1 < end)
         {
             int mid = start + (end - start) / 2;
-            if (A[mid] < target)
-            {
-                start = mid;
-            }
-            else
-            {
+            if (A[mid] < target) //target在右侧，右移区间
+                start = mid;  
+            else  //target在左侧，或者target=mid, 左移区间
                 end = mid;
-            }
         }
 
+       //最后只剩下两个元素查看
+       ////如果找的是比target小的最后一个数字, 先查看end，且比较符号变成<，其余不变
         if (A[start] >= target)
-        {
             return start;
-        }
-
+        
         if (A[end] >= target)
-        {
             return end;
-        }
-
-        return A.size();
+      
+        return A.size();//没找到
     }
 };
+
+  bool isLeftCloser(vector<int> &A, int &target, int left, int right){
+        //判断边界
+        if(left < 0)
+            return false;
+        if(right >= A.size()) //注意等号
+            return true;
+            
+        if(target - A[left] != A[right] - target)
+            return target - A[left] < A[right] - target; //比较大小
+            
+        return true;//如果左右指针的数都相等，返回任意一个都可以
+    }
