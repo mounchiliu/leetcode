@@ -62,7 +62,6 @@ class Solution
       
         return A.size();//没找到
     }
-};
 
   bool isLeftCloser(vector<int> &A, int &target, int left, int right){
         //判断边界
@@ -76,3 +75,6 @@ class Solution
             
         return true;//如果左右指针的数都相等，返回任意一个都可以
     }
+};
+
+
