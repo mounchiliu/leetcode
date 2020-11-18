@@ -1,8 +1,5 @@
 # 九章算法笔记
 
-[TOC]
-
-
 ## BFS适用情况 
 
 ### 1. 图的遍历 Traversal in Graph 
