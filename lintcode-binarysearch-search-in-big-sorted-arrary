@@ -1,0 +1,116 @@
+https://www.lintcode.com/problem/search-in-a-big-sorted-array/description
+
+该题目有两种思路: 二分和倍增. 其实这两种方法有一些相似之处, 很多时候可以在相同的时空分析下解决同一个问题.
+
+方法1 倍增:
+
+首先特判一下首个元素. 然后设定 idx = 0 为查找的下标, jump = 1 为向后跳跃的长度.
+
+每次循环将 idx 向后移动 jump 个元素, 并将 jump 翻倍. 而如果移动后的位置不小于 target, 则 jump 缩小至一半.
+
+即我们在保证每次跳跃后的 idx 的位置都小于target的前提下, 倍增式地跳跃, 以此保证 O(logn) 的时间复杂度.
+
+循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置以及不小于 target 了 (此时idx位置的仍然是小于target)
+
+也就是说, 到最后idx指向的元素是: 最大的小于target的元素. 返回答案前判断一下 idx + 1 是否 target 即可.
+
+方法2 二分:
+
+二分查找第一个不小于target的元素很简单. 但是需要确定二分区间的范围. 此时还是需要倍增地找到右边界.
+
+初始右边界为1, 如果右边界的数小于 target, 就将其倍增, 直到右边界不小于target.
+
+这时就可以二分查找了.
+
+注意: 越界访问是没有关系的, 因为这个ArrayReader在越界访问时, 返回 INT_MAX, 一定不小于 target. 而即使是返回 -1 之类的数值, 我们也可以加一个判断搞定.
+
+
+/**
+* 本参考程序由九章算法用户提供。版权所有，转发请注明出处。
+* - 九章算法致力于帮助更多中国人找到好的工作，授课老师均来自硅谷和国内的一线大公司在职工程师。
+* - 现有的求职课程包括：九章算法班 2020升级版，算法强化班，算法基础班，北美算法面试高频题班，Java 高级工程师 P6+ 小班课，面试软技能指导 - BQ / Resume / Project 2020版
+* - Design类课程包括：系统设计 System Design，面向对象设计 OOD
+* - 专题及项目类课程包括：动态规划专题班，Big Data - Spark 项目实战，Django 开发项目课
+* - 更多详情请见官方网站：http://www.jiuzhang.com/?utm_source=code
+*/
+///////////// 【方法1 倍增】
+
+/**
+ * Definition of ArrayReader:
+ * 
+ * class ArrayReader {
+ * public:
+ *     int get(int index) {
+ *          // return the number on given index, 
+ *          // return 2147483647 if the index is invalid.
+ *     }
+ * };
+ */
+class Solution {
+public:
+    /*
+     * @param reader: An instance of ArrayReader.
+     * @param target: An integer
+     * @return: An integer which is the first index of target.
+     */
+    int searchBigSortedArray(ArrayReader * reader, int target) {
+        int firstElement = reader->get(0);
+        if (firstElement == target)
+            return 0;
+        else if (firstElement > target)
+            return -1;
+            
+        int idx = 0, jump = 1;
+        while (jump) {
+            while (jump && reader->get(idx + jump) >= target)   // 越界时返回INT_MAX, 必然不小于target
+                jump >>= 1;
+            idx += jump;
+            jump <<= 1;     // 当jump为0时, 左移一位不影响它的值, 不影响循环结束
+        }
+        
+        if (reader->get(idx + 1) == target)
+            return idx + 1;
+        else
+            return -1;
+    }
+};
+
+////////////// 【方法2 二分】
+
+/**
+ * Definition of ArrayReader:
+ * 
+ * class ArrayReader {
+ * public:
+ *     int get(int index) {
+ *          // return the number on given index, 
+ *          // return 2147483647 if the index is invalid.
+ *     }
+ * };
+ */
+class Solution {
+public:
+    /*
+     * @param reader: An instance of ArrayReader.
+     * @param target: An integer
+     * @return: An integer which is the first index of target.
+     */
+    int searchBigSortedArray(ArrayReader * reader, int target) {
+        int l = 0, r = 1, mid;
+        while (reader->get(r) < target)     // 越界返回INT_MAX, 必然大于target, 所以没有关系
+            r <<= 1;
+        
+        while (l < r) {
+            mid = (l + r) >> 1;
+            if (reader->get(mid) >= target)
+                r = mid;
+            else
+                l = mid + 1;
+        }
+        
+        if (reader->get(l) == target)
+            return l;
+        else
+            return -1;
+    }
+};
