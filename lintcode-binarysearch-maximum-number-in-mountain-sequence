@@ -10,7 +10,7 @@ public:
     int mountainSequence(vector<int>& nums) {
         // Write your code here
         if(nums.empty())
-            return 0;
+            return -1;
             
         int left = 0, right = nums.size() - 1;
         while (left + 1 < right) {
@@ -37,6 +37,9 @@ public:
      */
     int mountainSequence(vector<int>& nums) {
         // Write your code here
+        if(nums.empty())
+            return -1;
+
         int left = 0, right = nums.size() - 1;
         while (left + 1 < right) {
             int m1 = left + (right - left) / 2;//中点1 //偏向start
