@@ -1,8 +1,9 @@
 https://www.lintcode.com/problem/find-k-closest-elements/description
 
-//思路:直接在数组中二分查找 target, 如果不存在则返回大于 target 的最小的或者小于 target 的最大的元素均可.
+//思路:直接在数组中二分查找 target, 如果不存在则返回大于 target 的最小的或者小于 target 的最大的元素均可. 分别见sol1 和sol2
 
 //然后使用两根指针从该位置开始向两端遍历, 每次把差值比较小的元素放入答案中然后将该指针向边界方向移动一下即可.
+
 class Solution
 {
   public:
@@ -26,7 +27,7 @@ class Solution
           return A;
         
         vector<int> result
-        int index = firstIndex(A, target); //【Step1】二分法找比target大的第一个数字（也可以找到比target小的最后一个数字）
+        int index = firstIndex(A, target); //【Step1】二分法找比【target大的第一个数字】（也可以找到比target小的最后一个数字）
         int left = index - 1, right = index;
         
         
@@ -85,7 +86,7 @@ class Solution
     }
 };
 
-//找最后一个小于等于的
+//【找最后一个小于等于的】
 class Solution {
 public:
     /**
