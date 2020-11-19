@@ -28,7 +28,7 @@ public:
 
 
 
-//一个比较啰嗦的版本，本质也是2分法，每次取两个点
+//一个比较啰嗦的版本，本质也是2分法，每次取两个点 ---- 每次比较的是中点的数
 class Solution {
 public:
     /**
@@ -39,8 +39,8 @@ public:
         // Write your code here
         int left = 0, right = nums.size() - 1;
         while (left + 1 < right) {
-            int m1 = left + (right - left) / 2;//对于左侧升序
-            int m2 = right - (right - m1) / 2;//对于右侧降序
+            int m1 = left + (right - left) / 2;中点1
+            int m2 = right - (right - m1) / 2;//中点2为start到M1的中点
             if (nums[m1] < nums[m2]) {
                 left = m1 + 1;//上山往右走
             } else if (nums[m1] > nums[m2]) {
