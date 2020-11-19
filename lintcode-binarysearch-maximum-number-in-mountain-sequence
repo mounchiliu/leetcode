@@ -17,9 +17,9 @@ public:
             int mid = left + (right - left) / 2;
             
             if (nums[mid] > nums[mid+1]) { //此时降序数组
-                right = mid;//上山，往左
+                right = mid;//右侧上山
             } else {//升序数组
-                left = mid; //下山往右
+                left = mid; //左侧上山
             }
         }
         return nums[left] > nums[right] ? nums[left] : nums[right]; //取两者最大的
