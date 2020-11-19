@@ -53,7 +53,7 @@ public:
             return -1;
         
         //STEP 2.找第一个比target大的数以及最后一个比target小的数
-        //【=位运算符】
+        //【位运算符】
         //因为jump是从1开始的,所以左移直接相当于x2，右移直接相当于÷2
         //若不是从1开始，比如对于数7（二进制111）， 左移后为1110---十进制：14， 右移后为11---十进制：3 也是相当于x2，÷2
         int idx = 0, jump = 1; 
@@ -63,10 +63,12 @@ public:
             idx += jump;//更新id
             jump <<= 1;     //左移相当于x2 // 当jump为0时, 左移一位不影响它的值, 不影响循环结束
         }
-        //e.g.
+        //e.g. 可画图得出算法
         //get(0+1) id = 1; jump = 2;
         //get (1+2), id = 1+2, jump = 4;
-        //(id+jump)位置处找到第一个比target大的数, jump再缩小，找从id到(id+jump)位置处里target最近比target小的数 --- 或者上一次的id就是比target小且最近的，这时jump会减小到0。
+        //(id+jump)位置处找到第一个比target大的数,此时id是上一次get里的值
+        //jump再缩小，即找从id到(id+jump)位置处里找比target小的数，更新id
+        //再找比target大的，然后缩小jump找比他小的，更新id，如此循环，【直到id处就是最后一个比target小的数---jump=0终止循环】
         //【循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置已经不小于 target 了 (此时idx位置的仍然是小于target)】
         
         if (reader->get(idx + 1) == target)
@@ -112,7 +114,7 @@ public:
         while (reader->get(r) < target)     // 越界返回INT_MAX, 必然大于target, 所以没有关系
             r <<= 1; //x2 找到第一个大于target的位置
         
-        while (l < r) {
+        while (l < r) {//下面的处理方法(mid 与 mid+1)使得这样写不会一直循环
             mid = (l + r) >> 1; //右移1，相当于除以2
             if (reader->get(mid) >= target)//target在左边，左移区间 【这里吧mid位置大于等于target合在一起写了】
                 r = mid;
@@ -139,6 +141,7 @@ public:
         int l = 0, r = 1, mid;
         while (reader->get(r) < target)     // 越界返回INT_MAX, 必然大于target, 所以没有关系
             r <<= 1; //x2 找到第一个大于target的位置
+        //找到的第一个比target大的位置。
         
         while (l+1 < r) {
             mid = l+(r-l)/2; 
