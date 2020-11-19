@@ -63,6 +63,7 @@ class Solution
         }
 
        //最后只剩下两个元素查看 【只有这里和模板不一样，因为要找大于等于的】
+       //因为原来的二分法也就是根据target缩小范围，我们这里只要比较范围的两个元素是不是满足要求，也就是（>=target就行）
         if (A[start] >= target)
             return start;
         
