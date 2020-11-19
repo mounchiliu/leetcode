@@ -1,0 +1,110 @@
+https://www.lintcode.com/problem/search-in-rotated-sorted-array/description
+【思路】1. 两次二分 首先找到分界线---第一次二分；然后根据target和分界线确定在左边还是右边进行第二次二分
+不直接二分，通过二分使题目可以二分
+
+【Version1】---两次二分
+class Solution {
+    /** 
+     * param A : an integer ratated sorted array
+     * param target :  an integer to be searched
+     * return : an integer
+     */
+public:
+    int search(vector<int> &A, int target) {
+        if(A.empty()) 
+            return -1;
+        
+        //find min Position
+        int minPosition = findminPosition(A);
+        
+        //判断target在哪边
+        if(minPosition == 0)
+            return binarySearch(A,0,A.size()-1,target);
+        
+        if(target <= A[A.size()-1])//在右边的升序数组
+            return binarySearch(A, minPosition, A.size()-1, target);
+        else
+            return binarySearch(A,0,minPosition-1,target);
+}
+private:
+    int findminPosition(vector<int> &A){
+        int left = 0;
+        int end = A.size() - 1;
+        int right = end;
+        if(A[left] < A[right]) //升序数组
+            return left;
+        
+        while(left + 1 < right){
+            int mid = left + (right - left)/2;
+            
+            if(A[mid] > A[end])
+                left = mid;
+            else
+                right = mid;
+        }
+        return A[left] > A[right] ? left:right;
+    }
+    
+    int binarySearch(vector<int> &A, int start, int end, int &target){
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            
+            if(A[mid] == target)
+                return mid; //相当于找任意一个，因为没有重复的
+            if(A[mid] < target)
+                start = mid;
+            if(A[mid] > target)
+                end = mid;
+        }
+        if(A[start] == target)
+            return start;
+        if(A[end] == target)
+            return end;
+        
+        return -1;
+    }
+};
+
+
+
+【Version2】--- 一次二分
+class Solution {
+    /** 
+     * param A : an integer ratated sorted array
+     * param target :  an integer to be searched
+     * return : an integer
+     */
+public:
+    int search(vector<int> &A, int target) {
+        if(A.empty()) 
+            return -1;
+        
+        //首先二分找中界限, 再判断target在乱序的位置来移动range
+        int start = 0, end = A.size() - 1;
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            
+            if(A[mid] >= A[start]){ //start~mid乱序
+                //判断target在start~mid哪
+                if(A[start] <= target && target <= A[mid]) //target 在乱序中间
+                    end = mid; //左移
+                else
+                    start = mid; //右移
+            }else{  //start~mid有序
+                //判断target在mid~end哪
+                if(A[mid] <= target && target <= A[end])//target在乱序中
+                    start = mid;
+                else
+                    end = mid;
+                
+            }
+        }
+        
+        if(A[start] == target)
+            return start;
+        if(A[end] == target)
+            return end;
+        
+        return -1;
+    }
+};
