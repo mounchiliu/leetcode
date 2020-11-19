@@ -19,6 +19,37 @@ public:
      */
     int findPeak(vector<int> &A) {
         // write your code here
+        if(A.empty())
+            return -1;
+            
+        int start = 1, end = A.size() - 2; //数据上，LintCode 保证数据第一个数比第二个数小，倒数第一个数比到倒数第二个数小。 因此 start, end 的范围要取 1, A.length - 2
+        
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            
+            if(A[mid] > A[mid + 1])
+                end = mid;//注意界限的选取，每次start从第二个开始选，end 从倒数第二个开始选
+            else
+                start = mid + 1;//注意界限的选取，每次start从第二个开始选，end 从倒数第二个开始选
+        }
+        
+        //  在最后的范围内定位。    
+        if(A[start]<A[end])
+            return end;
+        else
+            return start;
+    }
+};
+
+
+class Solution {
+public:
+    /**
+     * @param A: An integers array.
+     * @return: return any of peek positions.
+     */
+    int findPeak(vector<int> &A) {
+        // write your code here
         
         if(A.empty())
             return -1;
