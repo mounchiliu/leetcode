@@ -56,7 +56,6 @@ public:
             return -1;
             
         int start = 1, end = A.size() - 2;//数据上，LintCode 保证数据第一个数比第二个数小，倒数第一个数比到倒数第二个数小。 因此 start, end 的范围要取 1, A.length - 2
-        while (l + 1 < r) {
         while(start + 1 < end){
             int mid = start + (end - start) / 2;
  
@@ -67,7 +66,7 @@ public:
             else // m-1<m, m>m+1 --- peak
                 return mid;
         }
-  //  在最后的范围内定位。        
+  //  在最后的范围内定位。---这是针对导数第二个和第二个符合条件的情况，按照上面的算法找可能不能找出来        
         if(A[start] < A[end])
             return end;
         else
