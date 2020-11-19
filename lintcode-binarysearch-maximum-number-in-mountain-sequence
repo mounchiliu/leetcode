@@ -42,9 +42,9 @@ public:
             int m1 = left + (right - left) / 2;中点1
             int m2 = right - (right - m1) / 2;//中点2为right到m1的中点
             if (nums[m1] < nums[m2]) {
-                left = m1 + 1;//m2大 left往右靠 
+                left = m1 + 1;//m2大---右移，所以left往右靠 
             } else if (nums[m1] > nums[m2]) {
-                right = m2 - 1;//m1大 right往左靠
+                right = m2 - 1;//m1大---左移 所以right往左靠
                 
             } else {
                 left = m1;
