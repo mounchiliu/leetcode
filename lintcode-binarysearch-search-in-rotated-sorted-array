@@ -85,20 +85,37 @@ public:
         while(start + 1 < end){
             int mid = start + (end - start) / 2;
             
-            if(A[mid] >= A[start]){ //start~mid乱序
+            if(A[mid] >= A[start]){ //start~mid有序 。这个等号可有可无
                 //判断target在start~mid哪
-                if(A[start] <= target && target <= A[mid]) //target 在乱序中间
+                if(A[start] <= target && target <= A[mid]) //target 在有序中间
                     end = mid; //左移
                 else
                     start = mid; //右移
-            }else{  //start~mid有序
-                //判断target在mid~end哪
-                if(A[mid] <= target && target <= A[end])//target在乱序中
+            }else{  //start~mid乱序
+                //判断target在mid~end有序的哪
+                if(A[mid] <= target && target <= A[end])//target在有序中
                     start = mid;
                 else
                     end = mid;
                 
             }
+  
+            //或者比较最后的数
+                        // if(A[mid] <= A[end])
+            //     if(A[mid] <= target && target <= A[end]){
+            //         start = mid;
+            //     else
+            //         end = mid;
+                
+            // }else{
+            //     if(A[start] <= target && target <= A[mid])
+            //         end = mid;
+            //     else
+            //         start = mid;
+                
+            // }
+            
+            
         }
         
         if(A[start] == target)
