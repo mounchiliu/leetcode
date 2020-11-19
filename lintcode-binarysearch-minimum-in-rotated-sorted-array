@@ -43,7 +43,7 @@ public:
         //         right = mid;
         // }
 
-        return nums[left]; //返回left指针处
+        return nums[left]; //返回left指针处//因为 while (nums[left] > nums[right]) ，循环停止时一定是left小于right或者重合的时候
     }
 };
 
