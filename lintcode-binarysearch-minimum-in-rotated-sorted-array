@@ -29,6 +29,19 @@ public:
             else //小于右移，等于时 mid与right处数值相等，end = mid 在往左边找，因为要找的是第一个
                 right = mid;//否则左移
         }
+        
+        //详细情况讨论
+        // while(nums[left] > nums[right]){
+        //     int mid = left + (right - left) / 2;
+            
+        //     if(nums[mid] > nums[right])
+        //         left = mid + 1;
+        //     if(nums[mid] < nums[right]) //mid 小于right, mid可能是分界点 e.g. 4 5 6 7| 0 1 2   mid=0，right=2
+        //         right = mid;
+                
+        //     if(nums[mid] = nums[right])//mid 小于right, mid可能是分界点
+        //         right = mid;
+        // }
 
         return nums[left]; //返回left指针处
     }
