@@ -31,7 +31,8 @@ private:
         int left = 0;
         int end = A.size() - 1;
         int right = end;
-        if(A[left] < A[right]) //升序数组
+        
+        if(A[left] < A[right]) //升序数组 [2,5]报错， 这题和rotated找最小不一样，他可能有直接升序的数组
             return left;
         
         while(left + 1 < right){
