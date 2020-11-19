@@ -19,11 +19,20 @@ class Solution
         // 2. set two pointers left = index - 1 and right = index
         // 3. compare A[left] and A[right] to decide move which pointer
 
-        vector<int> result;
-        int index = firstIndex(A, target); //【Step1】找比target大的第一个数字（也可以找到比target小的最后一个数字）
+        
+        if(A.empty())
+          return result;
+        if(k>A.length())
+          return A;
+        
+        vector<int> result
+        int index = firstIndex(A, target); //【Step1】二分法找比target大的第一个数字（也可以找到比target小的最后一个数字）
         int left = index - 1, right = index;
+        
+        
         for (int i = 0; i < k; i++)
         {
+            //找到之后归并排序 e.g. 离target的左边1号和找到的index比较， 23456【7】9 6与7比较，7是target近，右移指针；6与9比较，6近，左移指针...
             // compare A[left] and A[right] to decide move which pointer
             if(isLeftCloser(A, target, left, right)){
                 result.push_back(A[left]) ;
@@ -52,7 +61,7 @@ class Solution
                 end = mid;
         }
 
-       //最后只剩下两个元素查看
+       //最后只剩下两个元素查看 【只有这里和模板不一样，因为要找大于等于的】
        ////如果找的是比target小的最后一个数字, 先查看end，且比较符号变成<，其余不变
         if (A[start] >= target)
             return start;
@@ -60,17 +69,17 @@ class Solution
         if (A[end] >= target)
             return end;
       
-        return A.size();//没找到
+        return A.size();//没找到,则A中都比target小，所以离target最近的是最后一个，所以先返回size，之后要-1；
     }
 
   bool isLeftCloser(vector<int> &A, int &target, int left, int right){
         //判断边界
-        if(left < 0)
+        if(left < 0)//A中的第一个就是比target大的数，也就是A中所有的都是比target大的。
             return false;
         if(right >= A.size()) //注意等号
             return true;
             
-        if(target - A[left] != A[right] - target)
+        if(target - A[left] != A[right] - target)//或者直接使用abs，比较绝对值
             return target - A[left] < A[right] - target; //比较大小
             
         return true;//如果左右指针的数都相等，返回任意一个都可以
