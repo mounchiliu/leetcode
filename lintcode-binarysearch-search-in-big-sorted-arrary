@@ -45,13 +45,15 @@ public:
 也就是说, 到最后idx指向的元素是: 最大的小于target的元素. 返回答案前判断一下 idx + 1 是否 target 即可.*/
 
     int searchBigSortedArray(ArrayReader * reader, int target) {
-        int firstElement = reader->get(0);//get start
+        //STEP 0. 处理特殊情况
+        int firstElement = reader->get(0);//STEP1.get start
         if (firstElement == target)
             return 0;
         else if (firstElement > target) //target<最小的 --- 不存在
             return -1;
-            
-        //【位运算符】
+        
+        //STEP 2.找第一个比target大的数以及最后一个比target小的数
+        //【=位运算符】
         //因为jump是从1开始的,所以左移直接相当于x2，右移直接相当于÷2
         //若不是从1开始，比如对于数7（二进制111）， 左移后为1110---十进制：14， 右移后为11---十进制：3 也是相当于x2，÷2
         int idx = 0, jump = 1; 
@@ -61,6 +63,10 @@ public:
             idx += jump;//更新id
             jump <<= 1;     //左移相当于x2 // 当jump为0时, 左移一位不影响它的值, 不影响循环结束
         }
+        //e.g.
+        //get(0+1) id = 1; jump = 2;
+        //get (1+2), id = 1+2, jump = 4;
+        //(id+jump)位置处找到第一个比target大的数, jump再缩小，找从id到(id+jump)位置处里target最近比target小的数 --- 或者上一次的id就是比target小且最近的，这时jump会减小到0。
         //【循环终止的条件就是 jump == 0, 就是说, 这时 idx + 1 的位置已经不小于 target 了 (此时idx位置的仍然是小于target)】
         
         if (reader->get(idx + 1) == target)
