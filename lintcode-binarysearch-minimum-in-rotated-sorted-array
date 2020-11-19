@@ -1,6 +1,6 @@
 https://www.lintcode.com/problem/find-minimum-in-rotated-sorted-array/description
 
-题目的意思：首先有一个排好序的数组，左边x个元素移动至最右端成为rotated 【注意这题没有重复的数字，如果有重复的数字，logN做不了】
+题目的意思：首先有一个排好序的数组，左边x个元素移动至最右端成为rotated 【注意这题没有重复的数字，如果有重复的数字，logN做不了 --- 不满足ooooxxxx存在明显分界线的情况】
 
 【思路】找分界 --- oooxxx，依然是找第一个满足条件的位置
 什么条件？--- 找左边和右边数的不同：e.g. 4 5 6 7| 0 1 2   
