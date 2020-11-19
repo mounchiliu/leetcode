@@ -8,8 +8,7 @@ https://www.lintcode.com/problem/find-minimum-in-rotated-sorted-array/descriptio
 不同2: 左边的数定义任意左右指针，都是左小于右，没有包含分界点；而对于整个数组，任意定义左右指针，若出现左大于右，则是包含分界点
 所以分类讨论：1.比较左右指针，左小于右则没包含分界点，左大于右看第二个分类情况 2. 比较mid与右，mid<=右，不含分界，往右（因为找第一个）；mid>右，往左
 
-//【Verision1】 --- 比较left和right指针处的值，成上升状态则有序，否则无序，找到第一个越过无序边界的位置
-class Solution {
+//【Verision1】 --- 比较left和right指针处的值，成上升状态则有序，否则无序，找到第一个越过无序边界的位class Solution {
 public:
     /**
      * @param nums: a rotated sorted array
@@ -70,7 +69,17 @@ public class Solution {
             } else {
                 start = mid;			 
             }
+
+            //详细情况分界：
+            // if(nums[mid] == target)
+            //     end = mid;
+            // if(nums[mid] < target)
+            //     end = mid;
+            // if(nums[mid] > target)
+            //     start = mid + 1; //这样写上方while可以写start < end
+
         }
+
         //第一个小于target的元素可能在start中也可能在end中
         return min(nums[start],nums[end]);  //最终返回start和end位置上较小的数字即可
         
