@@ -15,19 +15,19 @@ public:
      * @return: An integer which is the first bad version.
      */
     int findFirstBadVersion(int n) {
-        int start = 1, end = n;
+        int start = 1, end = n; //从第1个开始找，根据题目含义n最小为1
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            if (SVNRepo::isBadVersion(mid)) {
-                end = mid;
+            if (SVNRepo::isBadVersion(mid)) {//查看mid处的版本
+                end = mid;  //  mid已坏，左移
             } else {
-                start = mid;
+                start = mid;//否则右移 //若写mid+1，在n = 2147483647 会报错，应该是int越界超过最大数
             }
         }
         
         if (SVNRepo::isBadVersion(start)) {
             return start;
         }
-        return end;
+        return end;//根据题目要求一定有坏的情况， 所以最后查找的时候不是start就是end
     }
 };
