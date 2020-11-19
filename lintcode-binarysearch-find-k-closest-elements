@@ -49,7 +49,7 @@ class Solution
     int firstIndex(vector<int> &A, int target)
     {
         // use binary search algorithm to find the first index that
-        // A[index] >= target 找到第一个比target大或等于target的数
+        // A[index] >= target 【找到第一个比target大或等于target的数】
 
         int start = 0, end = A.size() - 1;
         while (start + 1 < end)
@@ -62,14 +62,13 @@ class Solution
         }
 
        //最后只剩下两个元素查看 【只有这里和模板不一样，因为要找大于等于的】
-       ////如果找的是比target小的最后一个数字, 先查看end，且比较符号变成<，其余不变
         if (A[start] >= target)
             return start;
         
         if (A[end] >= target)
             return end;
       
-        return A.size();//没找到,则A中都比target小，所以离target最近的是最后一个，所以先返回size，之后要-1；
+        return A.size();//没找到,则A中都比target小，所以离target最近的是最后一个，比最后一个大的也就是size()；
     }
 
   bool isLeftCloser(vector<int> &A, int &target, int left, int right){
@@ -86,4 +85,80 @@ class Solution
     }
 };
 
-
+//找最后一个小于等于的
+class Solution {
+public:
+    /**
+     * @param A: an integer array
+     * @param target: An integer
+     * @param k: An integer
+     * @return: an integer array
+     */
+    vector<int> kClosestNumbers(vector<int> &A, int target, int k) {
+        // write your code here
+        if(A.empty())
+            return A;
+            
+        if(k>A.size())
+            return A;
+            
+        vector<int> result;
+        int index = findlast(A,target);//<=
+        int left = index, right = index+1;
+        
+        for(int i = 0; i < k; i++){
+            if(isLeftSmaller(A,target,left,right)){
+                result.push_back(A[left]);
+                left--;
+            }else{
+                result.push_back(A[right]);
+                right++;
+            }
+        }
+        
+        return result;
+    
+        
+    }
+    
+    bool isLeftSmaller(vector<int> &A, int &target, int left, int right){
+        if(left<0)
+            return false;
+        if(right>A.size())
+            return true;
+            
+        if(abs(A[left]-target) != abs(A[right]-target)){
+            return abs(A[left] - target) < abs(A[right] - target);
+        }
+        
+        return true;
+    }
+    
+    int findlast(vector<int> &A, int &target){
+        int start = 0;
+        int end = A.size()-1;
+        int mid;
+        
+        while(start + 1 < end){
+            mid = start + (end - start) / 2;
+            
+            if(A[mid] == target)
+                start = mid;
+                
+            if(A[mid] < target)
+                start = mid;
+                
+            if(A[mid] > target)
+                end = mid;
+        }
+        
+        if(A[end] <= target){
+            return end;
+        }
+        if(A[start] <= target)
+            return start;
+        return -1;//没找到就是A中所有都大于target,所以返回比0还小的也就是-1
+        
+        
+    }
+};
