@@ -10,7 +10,7 @@ https://www.lintcode.com/problem/find-peak-element/description
 1. A0 < A1 && An-2 > An-1 所以一定存在一个peek元素。 
 2. 二分时，选择大的一边, 则留下的部分仍然满足1 的条件，即最两边的元素都小于相邻的元素。所以仍然必然存在peek。 
 3. 二分至区间足够小，长度为3, 则中间元素就是peek。
-
+//简洁版
 class Solution {
 public:
     /**
@@ -41,7 +41,7 @@ public:
     }
 };
 
-
+//详细版
 class Solution {
 public:
     /**
