@@ -39,10 +39,10 @@ public:
         // Write your code here
         int left = 0, right = nums.size() - 1;
         while (left + 1 < right) {
-            int m1 = left + (right - left) / 2;中点1 //偏向start
-            int m2 = right - (right - m1) / 2;//中点2为right到m1的中点， 偏向right
+            int m1 = left + (right - left) / 2;//中点1 //偏向start
+            int m2 = right - (right - m1) / 2;//中点2为right到m1的中点， 偏向right,这样写防止m1 m2重合
             if (nums[m1] < nums[m2]) {
-                left = m1 + 1;//m2大---右移，所以left往右靠 //必须+1
+                left = m1 + 1;//m2大---右移，所以left往右靠 //必须+1 //防止m1，m2重合
             } else if (nums[m1] > nums[m2]) {
                 right = m2 - 1;//m1大---左移 所以right往左靠 //必须-1
                 
