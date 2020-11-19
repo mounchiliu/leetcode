@@ -22,7 +22,7 @@ public:
                 end = mid;  //  mid已坏，左移
             } else {
                 start = mid;//否则右移 //若写mid+1，在n = 2147483647 会报错，应该是int越界超过最大数
-                //或当n等于INT MAX的时候会溢出超时， 把left和right改成long就可以了
+                //或当n等于INT MAX的时候会溢出超时， 把start和end改成long就可以了
             }
         }
         
