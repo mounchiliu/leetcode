@@ -1,5 +1,6 @@
 https://www.lintcode.com/problem/maximum-number-in-mountain-sequence/description
-//VERSION1 二分法 【思路】找出这个数组中的变化：升序数组中a[i]<a[i+1], 降序数组中a[i]>a[i+1]
+//VERSION1 二分法 【思路】符合寻找第一个(最后一个)符合条件的情况---二分法
+//没法直接二分，因为数组不是一个顺序排列的，所以，找出这个数组中的变化：升序数组中a[i]<a[i+1], 降序数组中a[i]>a[i+1]，二分找到这个变化
 class Solution {
 public:
     /**
