@@ -22,11 +22,11 @@ class Solution
 
         
         if(A.empty())
-          return result;
-        if(k>A.length())
+          return A;
+        if(k>A.size())
           return A;
         
-        vector<int> result
+        vector<int> result;
         int index = firstIndex(A, target); //【Step1】二分法找比【target大的第一个数字】（也可以找到比target小的最后一个数字）
         int left = index - 1, right = index;
         
@@ -83,7 +83,8 @@ class Solution
         if(target - A[left] != A[right] - target)//或者直接使用abs，比较绝对值
             return target - A[left] < A[right] - target; //比较大小
             
-        return true;//如果左右指针的数都相等，返回任意一个都可以
+        return true;//如果左右指针的数都相等，返回左边//返回右边会报错
+                    //因为题目要求如果接近程度相当，那么小的数排在前面
     }
 };
 
@@ -126,7 +127,7 @@ public:
     bool isLeftSmaller(vector<int> &A, int &target, int left, int right){
         if(left<0)
             return false;
-        if(right>A.size())
+        if(right>=A.size())
             return true;
             
         if(abs(A[left]-target) != abs(A[right]-target)){
