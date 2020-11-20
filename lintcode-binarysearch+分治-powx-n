@@ -45,6 +45,14 @@ public:
             return x;
         
         //n分情况讨论，偶数or奇数
+        //Version 1
+        //if(n % 2 == 1){ 
+        //     return x*myPowRecursive(x*x, n>>1);
+        // }else{
+        //     return myPowRecursive(x*x,n>>1);
+        // }
+        
+        //Version 2
         if(n%2 != 0){
             double half = myPowRecursive(x, n>>1);//【分解问题】
             return half*half*x;
