@@ -1,0 +1,43 @@
+https://www.lintcode.com/problem/fast-power/ --- 和pow(x,n)题目类似只是多了一个求余数的运算,且题目规定n为正数
+
+class Solution {
+public:
+    /**
+     * @param a: A 32bit integer
+     * @param b: A 32bit integer
+     * @param n: A 32bit integer
+     * @return: An integer
+     */
+    int fastPower(int a, int b, int n) {
+        // write your code here
+        if(a == 1 || n == 0)
+            return 1 % b;
+        
+        return myPow(a,b, n);
+    }
+    
+    //a和n是正数所以用 整数型
+    int myPow(int a,int b, int n){
+        if(n == 1)
+            return a % b;
+            
+        long half = myPow(a, b, n>>1); //使用long防止溢出 //e.g. 4 % 3 = (2%3)*(2%3)%3; 这里的half = 2%3
+        if(n%2 == 0)//偶数
+            return half * half %b;
+        else{//奇数
+            return ((half * half % b) * a) % b; //---k*(a*a) % b = (a*a+...+a*a)*b = (a*a % b + ... + a*a % b) % b = [(a%b)*(a%b)%b + ... +(a%b)*(a%b)%b]%b
+                                                //[k*[(a%b)*(a%b)%b]]%b
+                                                // a%b --- half 所以原式等于 a*((half*half)%b)%b
+            
+          //使用同余定理，把每一次运算的结果范围缩小，防止出现溢出，简化运算
+          /*
+          同余定理
+          1. 如果 a%b = c, 则有(a+kb)%b = c; (k为非0整数)
+          2. 如果 a%b = c, 则有(k*a)%b = k*c%b; (k为正整数)
+          3. (a+b)%c = ((a%c) + (b%c)) % c;
+          4. (a*b)%c = ((a%c)*(b%c)) % c;
+          */
+
+        }
+    }
+};
