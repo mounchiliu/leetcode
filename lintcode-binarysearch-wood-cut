@@ -1,1 +1,52 @@
 https://www.lintcode.com/problem/wood-cut/description
+
+【思路】 二分答案---给定一个假定的答案，验证是否可以，再移动区间
+先看一块木材，一块木材的长度为L，小段的长度为l，则这一块木材能切[L/l]个小块---向下取整
+1. 当小段长度为1的时候，所有木材得到的块数最多---为sum(L(i))，即把每块大木材的长度相加得到总快数
+2. 当小块的长度增加到MAX(L(i))时，即小块长度比木材最长的长度还长，给的所有木材，都切不出来这样的小块。
+3. 画出[x=小块长度]和所得[y=快数]的函数图，得到一个非增整体下降的函数 --- 非增，可能有平的情况，但是整体下降
+4. 现在我们要求至少k段，画出一条块数=k的水平线--- 转化成 ooxx的问题, k线上方都是可以的, k线下方都是不可以, 找第一个不可以的情况，则得到且出k块最长的小块的情况
+
+时间复杂度 O(logMax(L[i])*N) N 为木材的块数
+class Solution {
+public:
+    /**
+     * @param L: Given n pieces of wood with length L[i]
+     * @param k: An integer
+     * @return: The maximum length of the small pieces
+     */
+    int woodCut(vector<int> &L, int k) {
+        // write your code here
+        //特殊情况
+        if(L.empty())
+            return 0;
+        
+        int start = 1;//小木块长度的起点值
+        int end = 0;//end = Max(L[i])
+        for(int i = 0; i < L.size(); i++){
+            end = max(end, L[i]);
+        }
+        
+        int result = 0;//初始化---0不能切
+        while( start <= end){  //[=，mid+1,mid-1,不可写错] 因为这样写是定位到一个 所以当start==end时才出循环
+            int mid = start + (end - start) / 2;
+            if(Cut(L,mid) >= k){//如果mid处可以cut，右移
+                start = mid + 1;//更新寻找的区间
+                result = mid;//找到一个更大的length, 更新result
+            }
+            else
+                end = mid - 1;
+        }
+        
+        return result;
+        
+    }
+    
+    int Cut(vector<int> &L, int length){
+        int sum = 0;
+        for(int &l: L){
+            sum += l/length;
+        }
+        return sum;
+    }
+};
