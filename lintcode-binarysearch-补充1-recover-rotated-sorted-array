@@ -1,0 +1,41 @@
+https://www.lintcode.com/problem/recover-rotated-sorted-array/description
+题目要求---挑战
+使用O(1)的额外空间和O(n)时间复杂度
+补充：时间复杂度，最坏的情况，每一个数都要挪动，所以最好的O（n）
+Reverse算法是空间复杂度O(1)， 时间复杂度O(n)的算法
+
+【思路】
+1 先用find min in rotated array的思路找到分界线, 再挪动
+2 题目给出的挑战是使用O(1)的额外空间，则不能再开一个数组，所以上述思路不行 --- 如果只能使用O(1)的额外空间，则考虑在原数组上swap，即使用【三步翻转法】
+
+三步翻转法：[4,5,1,2,3]
+1. 4,5 -> 5,4
+2. 1,2,3 ->3,2,1
+3. 5,4,3,2,1 -> 1,2,3,4,5
+
+【C++】Reverse用法：e.g. reverse(str.begin(),str.end()) --- 参数是起、结的[指针]
+
+class Solution {
+public:
+    /**
+     * @param nums: An integer array
+     * @return: nothing
+     */
+    void recoverRotatedSortedArray(vector<int> &nums) {
+        // write your code here
+        int offset = getOffset(nums);//【Step1】 找到中界限，即第一个reverse的位置
+        reverse(nums.begin(), nums.begin() + offset);//【Step2】 Reverse --- 3 times //翻转begin到begin+offset-1的元素，【不含end处的】
+        reverse(nums.begin() + offset, nums.end());//翻转begin+offset到end处的元素
+        reverse(nums.begin(), nums.end());//全员翻转
+    }
+    
+private:
+    int getOffset(vector<int> & nums) {
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] < nums[i - 1]) { //4 5 1 2 3 暴力查找---按顺序找到第一个下降的数 
+               return i;                 //也可以二分查找, 但是题目说时间复杂度O(n) Reverse复杂度已经O(n)了，所以这里也可以直接暴力
+            }
+        }
+        return 0;
+    }
+};
