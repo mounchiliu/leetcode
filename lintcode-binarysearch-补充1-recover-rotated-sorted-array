@@ -24,6 +24,10 @@ public:
     void recoverRotatedSortedArray(vector<int> &nums) {
         // write your code here
         int offset = getOffset(nums);//【Step1】 找到中界限，即第一个reverse的位置
+        //特殊情况处理
+        if(offset == 0) //原数组没有翻转，无需下列操作直接return
+            return;
+            
         reverse(nums.begin(), nums.begin() + offset);//【Step2】 Reverse --- 3 times //翻转begin到begin+offset-1的元素，【不含end处的】
         reverse(nums.begin() + offset, nums.end());//翻转begin+offset到end处的元素
         reverse(nums.begin(), nums.end());//全员翻转
