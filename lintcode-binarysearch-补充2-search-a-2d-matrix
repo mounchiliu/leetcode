@@ -1,0 +1,47 @@
+https://www.lintcode.com/problem/search-a-2d-matrix
+
+【思路】把二位数组看做一个sorted array，即把每行数按序排好，只是二位数组是通过行、列来访问元素
+这样就可以进行二分
+
+class Solution {
+public:
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    bool searchMatrix(vector<vector<int> > &matrix, int target) {
+        int n = matrix.size();
+        if (n == 0) {
+            return false;
+        }
+        
+        int m = matrix[0].size();
+        if (m == 0) {
+            return false;
+        }
+        
+        int start = 0, end = n * m - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            int row = mid / m;
+            int col = mid % m;
+            
+            if (matrix[row][col] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (matrix[start / m][start % m] == target) {
+            return true;
+        }
+        
+        if (matrix[end / m][end % m] == target) {
+            return true;
+        }
+        
+        return false;
+    }
+};
