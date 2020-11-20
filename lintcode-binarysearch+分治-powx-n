@@ -45,7 +45,7 @@ public:
             return x;
         
         //n分情况讨论，偶数or奇数
-        //Version 1
+        //Version 1 e.g. 要计算2^4，我们等价计算 (2^2)^2---依此类推直到n=1
         //if(n % 2 == 1){ 
         //     return x*myPowRecursive(x*x, n>>1);
         // }else{
