@@ -1,0 +1,61 @@
+https://www.lintcode.com/problem/powx-n/description
+
+【思路】首先一个一个乘上去时间复杂度是O（n）
+我们尝试时间复杂度为O（logN）的，也就是把幂n二分 其实就是分治的思想
+
+需要注意的是我们要分情况讨论n的范围
+1. n>0   1.1 n 是偶数
+         1.2 n是奇数 
+         所以如果n是偶数，一直对之前的结果平法；如果n是奇数，先分解一个底数出来，其余二分，最后一起相乘
+         
+2. n<0 result = 1/(底数^n) = (1/底数)^n
+
+最后我们testcase要注意考虑以下所有特殊情况
+- x = 0,1
+- n = 0,1
+- n为负
+- 是否溢出
+
+class Solution {
+public:
+    /**
+     * @param x: the base number
+     * @param n: the power number
+     * @return: the result
+     */
+    double myPow(double x, int n) {
+        //【函数的接口处理特殊情况+定义递归如何实现】
+        //特殊情况处理
+        if(n == 0 || x ==1)
+            return 1;
+        
+        //分情况讨论 n>0,n<0
+        if(n<0)
+            return 1/myPowRecursive(x,-n);
+        return myPowRecursive(x,n);//if有return不写else，因为else降低可读性
+    }
+    
+    //常出现问题：n = -2147483648  即-INT_MAX 会溢出 
+    //因为做-n翻转时，int_max = 2147483647, 溢出
+    //使用unsigned int, 因为之前都把数字调整为正数，这里防止溢出
+    //【递归的定义】
+    double myPowRecursive(double x, uint32_t n) {
+        //递归何时结束
+        if(n == 1)
+            return x;
+        
+        //n分情况讨论，偶数or奇数
+        if(n%2 != 0){
+            double half = myPowRecursive(x, n>>1);//【分解问题】
+            return half*half*x;
+        }else{
+            double half = myPowRecursive(x, n>>1);
+            return half*half;
+        }
+        
+        //尾递归+位运算符 提高代码效率
+        //通过位运算符实现乘除法
+        //位运算符直接对二进制操作，位运算速度非常快
+        //如果除法、乘法可以使用位运算符操作，一般推荐位运算
+    }
+};
