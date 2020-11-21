@@ -16,6 +16,7 @@ https://www.lintcode.com/problem/powx-n/description
 - n为负
 - 是否溢出
 
+【Recursive】
 class Solution {
 public:
     /**
@@ -66,4 +67,42 @@ public:
         //位运算符直接对二进制操作，位运算速度非常快
         //如果除法、乘法可以使用位运算符操作，一般推荐位运算
     }
+};
+
+
+【Non-Recursive】
+class Solution {
+public:
+    /**
+     * @param x: the base number
+     * @param n: the power number
+     * @return: the result
+     */
+    double myPow(double x, int n) {
+        // write your code here
+        if(x == 1 || n == 0)
+            return 1;
+        
+        if(n < 0)
+            return 1/myPowRecursive(x, -n);
+        else
+            return myPowRecursive(x, n);
+    }
+    
+    //递归是从大问题进入，划分成小问题，从大往小想，最后再逐层返回求解大问题
+    //非递归是从小问题开始，直接求解大问题
+    double myPowRecursive(double x,unsigned int n){
+        double result = 1, base = x;
+        
+        while(n != 0){
+            if(n % 2 == 1)//奇数
+                result *= base;
+            
+            base *= base;
+            n >>= 1; //等号不能丢
+            
+        }
+        return result;
+    }
+    
 };
