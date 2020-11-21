@@ -27,6 +27,12 @@ https://www.bilibili.com/video/BV1VE411D7k1?from=search&seid=7050076399532265643
 2.每次找中间点 --- 先将找中点问题转换为找第 k 小的问题
 每次找k/2，比较两个数组k/2处的数的大小，扔掉一部分元素 【最优】 --- O（log(m+n））
 思路：当我要把复杂度从O（n）变成O（log n），我要考虑如何用O（1）的复杂度把问题规模缩小成之前一半
+类似题目：median of unsorted array & find kth from unsorted aray
+
+4. 基于每个数组的中位数比较
+算出每个数组的中位数，两个数组的中位数一定在小的中位数和大的中位数之间
+若a为小中位数，删除a中比中位数小的
+b为大中位数，删除b中比中位数大的
 
 //find k-th
 class Solution {
