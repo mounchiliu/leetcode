@@ -1,8 +1,16 @@
 https://www.lintcode.com/problem/median-of-two-sorted-arrays/description
+https://www.jiuzhang.com/problem/median-of-two-sorted-arrays/#tag-lang-ALL --- 多种算法
 
+【思路】
+直观思路：先合并数组，然后找中位数---线性O（n+m），n、m为两数组的size。 e.g. 归并排序
+优化：对于线性的复杂度优化，我们常联想到O（log x）也就是二分
+
+1.二分答案---类似wood cut ---  O(log(range)∗(log(n)+log(m)))
 算法描述
-我们需要先确定二分的上下界限，由于两个数组 A, B 均有序，所以下界为 min(A[0], B[0])，上界为 max(A[A.length - 1], B[B.length - 1]).
-判断当前上下界限下的 mid(mid = (start + end) / 2) 是否为我们需要的答案；这里我们可以分别对两个数组进行二分来找到两个数组中小于等于当前 mid 的数的个数 cnt1 与 cnt2，sum = cnt1 + cnt2 即为 A 跟 B 合并后小于等于当前mid的数的个数.
+我们需要先确定二分的上下界限，由于两个数组 A, B 均有序，所以下界为 start=min(A[0], B[0])，上界为 end = max(A[A.length - 1], B[B.length - 1]).
+判断当前上下界限下的 mid(mid = (start + end) / 2) 是否为我们需要的答案；
+这里我们可以分别对两个数组进行二分来找到两个数组中小于等于当前 mid 的数的个数 cnt1 与 cnt2，sum = cnt1 + cnt2 即为 A 跟 B 合并后小于等于当前mid的数的个数. 
+---- 【计算cont的时候也用二分法，即找到第一个比targrt小的数，查看index得到个数】
 如果 sum < k，即中位数肯定不是 mid，应该大于 mid，更新 start 为 mid，否则更新 end 为 mid，之后再重复第二步
 当不满足 start + 1 < end 这个条件退出二分循环时，再分别判断一下 start 跟 end ，最终返回符合要求的那个数即可
 算法详解
@@ -15,7 +23,11 @@ https://www.lintcode.com/problem/median-of-two-sorted-arrays/description
 上面算法描述中的 sum 需要等于 k，这里的 k = (A.length + B.length) / 2. 如果 sum < k，很明显当前的 mid 偏小，需要增大，否则就说明当前的 mid 偏大，需要缩小.
 最终在 start 与 end 相邻的时候退出循环，判断 start 跟 end 哪个符合条件即可得到最终结果
 
+2.基于find k-th --- 每次找k/2，比较两个数组k/2处的数的大小，扔掉一部分元素 【最优】 --- O（log(m+n））
 
+3. 基于中间点
+
+//find k-th
 class Solution {
 public:
     /*
@@ -27,38 +39,39 @@ public:
         int m = A.size(), n = B.size();
         // 如果是奇数---只有一个中位数
         if ((m + n) % 2 == 1) {
-            return getKth(A, 0, A.size() - 1, B, 0, B.size() - 1, (m + n) / 2  + 1);
+            return getKth(A, 0, B, 0, (m + n) / 2  + 1);//数组中第(m + n) / 2  + 1 是中位数
         }
-        // 如果是偶数    
-        int left = getKth(A, 0, A.size() - 1, B, 0, B.size() - 1, (m + n) / 2);
-        int right = getKth(A, 0, A.size() - 1, B, 0, B.size() - 1, (m + n) / 2 + 1);
+        // 如果是偶数 ---- 两个取平均值
+        int left = getKth(A, 0, B, 0, (m + n) / 2);
+        int right = getKth(A, 0, B, 0, (m + n) / 2 + 1);
         return (left + right) / 2.0;  
     }
+    
 private:
-    int getKth(vector<int>& A, int start1, int end1, vector<int>& B, int start2, int end2, int k) {
-        int len1 = end1 - start1 + 1;
-        int len2 = end2 - start2 + 1;
-        // 让 len1 的长度小于 len2，这样就能保证如果有数组空了，一定是 len1 
-        if (len1 > len2) {
-            return getKth(B, start2, end2, A, start1, end1, k);
-        }
-        // A数组排除完毕
-        if (len1 == 0) {
-            return B[start2 + k - 1];
-        } 
-        // 已经找到第k小的数
+    int getKth(vector<int>& A, int startA, vector<int>& B, int startB, int k) {
+        if(startA >= A.size()) //A遍历完, 则在B中找第k个元素
+            return B[startB + k - 1];
+        if(startB >= B.size())
+            return A[startA + k - 1];
+        
+        // 已经找到第k小的数---循环结束
         if (k == 1) {
-            return min(A[start1], B[start2]);
+            return min(A[startA], B[startB]);
         }
-        // 开始二分
-        int i = start1 + min(len1, k / 2) - 1;
-        int j = start2 + min(len2, k / 2) - 1;
-
-        if (A[i] > B[j]) {
-            return getKth(A, start1, end1, B, j + 1, end2, k - (j - start2 + 1));
+        
+        
+        //比较两个数组中第k/2的元素，用来舍弃一部分元素
+        int halfKthA = startA + k / 2 - 1 < A.size() 
+                        ? A[startA + k / 2 - 1] : INT_MAX;
+        //如果这个index算出来不在A的index范围内，赋值无穷大
+        int halfKthB = startB + k /2 - 1 < B.size()
+                       ? B[startB + k / 2 - 1] :INT_MAX;
+        
+        
+        if(halfKthA < halfKthB){//A的第K/2个元素小，删除A的
+            return getKth(A, startA + k / 2, B, startB, k - k / 2);
         }
-        else {
-            return getKth(A, i + 1, end1, B, start2, end2, k - (i - start1 + 1));
-        }
+        return getKth(A, startA, B, startB + k / 2, k - k / 2);  
+        
     }
 };
