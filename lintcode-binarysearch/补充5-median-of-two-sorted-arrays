@@ -24,6 +24,7 @@ https://www.jiuzhang.com/problem/median-of-two-sorted-arrays/#tag-lang-ALL --- �
 最终在 start 与 end 相邻的时候退出循环，判断 start 跟 end 哪个符合条件即可得到最终结果
 
 2.基于find k-th --- 每次找k/2，比较两个数组k/2处的数的大小，扔掉一部分元素 【最优】 --- O（log(m+n））
+思路：当我要把复杂度从O（n）变成O（log n），我要考虑如何用O（1）的复杂度把问题规模缩小成之前一半
 
 3. 基于中间点
 
