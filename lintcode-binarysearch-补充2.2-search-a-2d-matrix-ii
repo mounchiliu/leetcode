@@ -3,10 +3,10 @@ https://www.lintcode.com/problem/search-a-2d-matrix-ii/description
 
 这个矩阵的第二行并没有规定严格大于第一行，有可能第二行中会出现比第一行的某个数还要小的情况
 求：给的target在矩阵中出现的次数
-【思路】从左下角开始往右上角逼近、或者右上角出发往左下角逼近
 因为这个矩阵规定每一行单独递增、每一列单独递增---我们发现在矩阵中的任何一个子矩阵的左上角是最小的，右下角是最大的 --- 通过这样的特性可删除整行、整列
-时间复杂度O（m+n）m、n为行、列数
+时间复杂度O（m+n）m、n为行、列数 最坏情况 每一次都不能通过target与数值的比较删列或行，或这个元素在每一行或列都出现
 
+【思路】从左下角开始往右上角逼近、或者右上角出发往左下角逼近
 class Solution {
 public:
     /**
@@ -19,19 +19,21 @@ public:
         if(matrix.empty())
             return 0;
         
-        int m = matrix.size();//row
-        int n = matrix[0].size();//col
-        int i = m - 1;//for row
-        int j = 0;//for col
+        int row = 0;
+        int col = matrix[0].size() - 1;
         int count = 0;
-        //左下角比最大，删一列开始
-        while(i >= 0 && j < n){
-            if(matrix[i][j] == target)
+        while(row<matrix.size() && col>=0){
+            if(matrix[row][col] == target){
                 count++;
-            if(matrix[i][j] < target) //这一列不搜索，跳过
-                j++;
-            else
-                i--;//往上面的行搜索
+                col--;//已经搜到，因为每一列排序也没有重复的数，跳过
+            }
+                
+            
+            if(matrix[row][col] > target){ //这一列的第一个元素是最小的，如果targe比这个还小，这一列不要
+                col--; //这一列不搜索，跳过
+            }else{
+                row++; //往下搜
+            }
             
         }
         return count;
