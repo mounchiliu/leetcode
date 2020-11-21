@@ -49,6 +49,8 @@ public:
     
 private:
     int getKth(vector<int>& A, int startA, vector<int>& B, int startB, int k) {
+        
+        //循环停止的三个情况
         if(startA >= A.size()) //A遍历完, 则在B中找第k个元素 //【注意等号】
             return B[startB + k - 1];
         if(startB >= B.size())
