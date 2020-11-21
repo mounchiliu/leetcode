@@ -10,7 +10,7 @@ LintCode 上的 Clone Graph 就是一个典型的练习题。
 
 更细一点的划分的话，这一类的问题还可以分为：
 
--  **层级遍历  Level Order Traversal** e.g. 二叉树、图中层级遍历(clone graph)
+-  **层级遍历  Level Order Traversal** e.g. 二叉树层序遍历、图中层级遍历(e.g. clone graph)
 -  **由点及面  Connected Component** e.g. number of island 
 -  **拓扑排序  Topological Sorting**
 
