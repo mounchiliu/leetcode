@@ -95,7 +95,7 @@ public:
         double result = 1, base = x;
         
         while(n != 0){
-            if(n % 2 == 1)//奇数
+            if(n % 2 == 1)//奇数 --- 先把一个base分离出来，n变成偶数，再按照偶数的继续算
                 result *= base;
             
             base *= base;
