@@ -1,0 +1,54 @@
+https://www.lintcode.com/problem/binary-tree-postorder-traversal/description
+后序遍历 首先遍历左子树然后右子树，然后访问根节点， 【左右根】
+
+【Non-recursive】
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> result;
+        stack<TreeNode *> myStack;
+        
+        TreeNode *current = root, *lastVisited = NULL;
+        while (current != NULL || !myStack.empty()) {
+            while (current != NULL) {
+                myStack.push(current);
+                current = current->left;
+            }
+            current = myStack.top(); 
+            if (current->right == NULL || current->right == lastVisited) {
+                myStack.pop();
+                result.push_back(current->val);
+                lastVisited = current;
+                current = NULL;
+            } else {
+                current = current->right;
+            }
+        }
+        return result;
+    }
+};
+
+【Reversive】
+class Solution {
+public:
+    /**
+     * @param root: A Tree
+     * @return: Postorder in ArrayList which contains node values.
+     */
+    vector<int> postorderTraversal(TreeNode *root) {
+        // write your code here
+        vector<int> Postorder;
+        Traverse(root, Postorder);
+        return Postorder;
+    }
+    
+    void Traverse(TreeNode *root, vector<int> &Postorder){
+        if(root == NULL)
+            return;
+            
+        Traverse(root->left, Postorder);
+        Traverse(root->right, Postorder);
+        Postorder.push_back(root->val);
+    }
+    
+};
