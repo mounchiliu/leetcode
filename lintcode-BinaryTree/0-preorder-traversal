@@ -1,6 +1,8 @@
 https://www.lintcode.com/problem/binary-tree-preorder-traversal/description
 先序遍历（前序遍历） --- 首先访问根节点，按照根左右的顺序沿一定路径经过路径上所有的结点。在二叉树中，先根后左再右。
 【三个答案】 --- 不适用递归的DFS（推荐）， 使用递归-一个个遍历， 使用递归-分治
+https://www.jiuzhang.com/solution/binary-tree-preorder-traversal/#tag-lang-ALL
+
 
 【Non-Recursive recommended】 --- DFS, use stack, first in last out
 /**
