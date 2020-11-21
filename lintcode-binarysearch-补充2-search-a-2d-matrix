@@ -21,7 +21,7 @@ public:
         int rows = matrix.size();
         
         //index = col_index + row_index*col_num
-        int start = 0, end = rows*cols - 1;//把row col的index转换成数组index的形式
+        int start = 0, end = rows * cols - 1;//把row col的index转换成数组index的形式
         while(start + 1 < end){
             int mid = start + (end - start) / 2;
             int r_index = mid / cols;//向下取整
