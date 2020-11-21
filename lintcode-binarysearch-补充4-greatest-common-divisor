@@ -2,7 +2,7 @@ https://www.lintcode.com/problem/greatest-common-divisor/
 求最大公约数---辗转相除法
 首先大数除以小数，得到余数，【然后每次除数和余数继续相除，直到余数为0，此时除数为最大公约数】
 
-
+【Recursive】
 class Solution {
 public:
     /**
@@ -28,5 +28,36 @@ public:
                 else
                     return a; //递归停止
         }    
+    }
+};
+
+【Non-recursive】
+class Solution {
+public:
+    /**
+     * @param a: the given number
+     * @param b: another number
+     * @return: the greatest common divisor of two numbers
+     */
+    int gcd(int a, int b) {
+        // write your code here
+        if(a == b)
+            return a;
+        
+        int divisor = b, dividend = a;
+        if(a < b){
+            dividend = b; 
+            divisor = a;
+        }
+          
+        while( divisor != 0){
+            int rest = dividend % divisor;
+            dividend = divisor;
+            divisor = rest;
+            
+        }
+        return dividend;
+
+        
     }
 };
