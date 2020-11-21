@@ -56,7 +56,7 @@ public:
             divisor = rest;
             
         }
-        return dividend;
+        return dividend; //应该return上一个不等于0的divisor也就是这时的dividend
 
         
     }
