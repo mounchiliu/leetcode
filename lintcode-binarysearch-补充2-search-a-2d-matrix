@@ -68,7 +68,7 @@ public:
         
         //index = col_index + row_index*col_num
         int start = 0, end = rows*cols - 1;//把row col的index转换成数组index的形式
-        while(start <= end){//【定位到一个，下面就不用最后验证了】
+        while(start <= end){//【定位到一个，下面就不用最后验证了】---因为等号的时候是已经定位到一个，通过比较与target比较找是否人return true 还是退出循环return false
             int mid = start + (end - start) / 2;
             int r_index = mid / cols;//向下取整
             int c_index = mid % cols;//取余数
