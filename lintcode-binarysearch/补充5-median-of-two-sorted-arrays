@@ -24,7 +24,7 @@ https://www.bilibili.com/video/BV1VE411D7k1?from=search&seid=7050076399532265643
 上面算法描述中的 sum 需要等于 k，这里的 k = (A.length + B.length) / 2. 如果 sum < k，很明显当前的 mid 偏小，需要增大，否则就说明当前的 mid 偏大，需要缩小.
 最终在 start 与 end 相邻的时候退出循环，判断 start 跟 end 哪个符合条件即可得到最终结果
 
-2.基于find k-th --- 每次找k/2，比较两个数组k/2处的数的大小，扔掉一部分元素 【最优】 --- O（log(m+n））
+2.每次找中间点 --- 每次找k/2，比较两个数组k/2处的数的大小，扔掉一部分元素 【最优】 --- O（log(m+n））
 思路：当我要把复杂度从O（n）变成O（log n），我要考虑如何用O（1）的复杂度把问题规模缩小成之前一半
 
 //find k-th
