@@ -45,3 +45,42 @@ public:
         return false;
     }
 };
+
+
+
+
+class Solution {
+public:
+    /**
+     * @param matrix: matrix, a list of lists of integers
+     * @param target: An integer
+     * @return: a boolean, indicate whether matrix contains target
+     */
+    bool searchMatrix(vector<vector<int>> &matrix, int target) {
+        // write your code here
+        if(matrix.empty())
+            return false;
+        int cols = matrix[0].size();
+        if(cols == 0)
+            return false; //[{}] 排除
+            
+        int rows = matrix.size();
+        
+        //index = col_index + row_index*col_num
+        int start = 0, end = rows*cols - 1;//把row col的index转换成数组index的形式
+        while(start <= end){//【定位到一个，下面就不用最后验证了】
+            int mid = start + (end - start) / 2;
+            int r_index = mid / cols;//向下取整
+            int c_index = mid % cols;//取余数
+            
+            if(matrix[r_index][c_index] < target)
+                start = mid + 1;
+            if(matrix[r_index][c_index] > target)
+                end = mid - 1;
+            if(matrix[r_index][c_index] == target)
+                return true;
+        }
+    
+        return false;
+    }
+};
