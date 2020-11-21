@@ -1,0 +1,28 @@
+https://www.lintcode.com/problem/binary-tree-inorder-traversal/description
+
+中序遍历，首先遍历左子树，然后访问根节点，最后遍历右子树 【顺序】左、根、右
+
+class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: Inorder in vector which contains node values.
+     */
+public:
+    vector<int> inorder;
+
+    void traverse(TreeNode *root) {
+        if (root == NULL) {
+            return;
+        }
+        traverse(root->left);
+        inorder.push_back(root->val);
+        traverse(root->right);
+    }
+
+    vector<int> inorderTraversal(TreeNode *root) {
+        inorder.clear();
+        traverse(root);
+        return inorder;
+        // write your code here
+    }
+};
