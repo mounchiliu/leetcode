@@ -6,42 +6,42 @@ https://www.lintcode.com/problem/search-a-2d-matrix
 class Solution {
 public:
     /**
-     * @param matrix, a list of lists of integers
-     * @param target, an integer
-     * @return a boolean, indicate whether matrix contains target
+     * @param matrix: matrix, a list of lists of integers
+     * @param target: An integer
+     * @return: a boolean, indicate whether matrix contains target
      */
-    bool searchMatrix(vector<vector<int> > &matrix, int target) {
-        int n = matrix.size();
-        if (n == 0) {
+    bool searchMatrix(vector<vector<int>> &matrix, int target) {
+        // write your code here
+        if(matrix.empty())
             return false;
-        }
-        
-        int m = matrix[0].size();
-        if (m == 0) {
-            return false;
-        }
-        
-        int start = 0, end = n * m - 1;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            int row = mid / m;
-            int col = mid % m;
+        int cols = matrix[0].size();
+        if(cols == 0)
+            return false; //[{}] 排除
             
-            if (matrix[row][col] < target) {
-                start = mid;
-            } else {
-                end = mid;
-            }
+        int rows = matrix.size();
+        
+        //index = col_index + row_index*col_num
+        int start = 0, end = rows*cols - 1;//把row col的index转换成数组index的形式
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            int r_index = mid / cols;//向下取整
+            int c_index = mid % cols;//取余数
+            
+            if(matrix[r_index][c_index] < target)
+                start = mid + 1;
+            if(matrix[r_index][c_index] > target)
+                end = mid - 1;
+            if(matrix[r_index][c_index] == target)
+                return true;
         }
         
-        if (matrix[start / m][start % m] == target) {
+        
+        //最后检验
+        if(matrix[start / cols][start % cols] == target)
             return true;
-        }
-        
-        if (matrix[end / m][end % m] == target) {
+        if(matrix[start / cols][start % cols] == target)
             return true;
-        }
-        
+            
         return false;
     }
 };
