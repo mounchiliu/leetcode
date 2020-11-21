@@ -60,10 +60,12 @@ private:
         }
         
         
+        //不用但是k是奇数k/2去尾，因为如果这里少看了，之后k-k/2还会把没看的元素补回来
         //比较两个数组中第k/2的元素，用来舍弃一部分元素
         int halfKthA = startA + k / 2 - 1 < A.size() 
                         ? A[startA + k / 2 - 1] : INT_MAX;
-        //如果这个index算出来不在A的index范围内，赋值无穷大
+        //如果这个index算出来不在A的index范围内，赋值无穷大 
+        //因为比如一个特殊情况，A数组size很小，B很大，A没有第k/2个元素，则应该从B中删除k/2元素，因为A中数组个数+k/2 < k，也就是B中前k/2个一定不是两个数组合起来的k个元素
         int halfKthB = startB + k /2 - 1 < B.size()
                        ? B[startB + k / 2 - 1] :INT_MAX;
         
