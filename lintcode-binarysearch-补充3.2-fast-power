@@ -62,14 +62,12 @@ public:
         return myfastPow(a, b, n);
     }
     
-    int myfastPow(int a, int b, int n){
-        
-        
+    int myfastPow(int a, int b, int n){  
         long result = 1;
         long base = a;
         while(n!=0){
             if(n%2 == 1){
-                result = (result) * (base % b) % b;
+                result = (result) * (base % b) % b; //这里的base是以及计算余数的 e.g.(k*a)%b = (a%b+...+a%b)%b = (k*a%b)%b;
             }
             
             base = (base % b) * (base % b) % b;
