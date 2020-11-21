@@ -26,7 +26,7 @@ public:
                 if(a != 0)
                     return gcd(a, b%a);
                 else
-                    return a; //递归停止
+                    return b; //递归停止
         }    
     }
 };
