@@ -10,18 +10,20 @@ public:
         
         TreeNode *current = root, *lastVisited = NULL;
         while (current != NULL || !myStack.empty()) {
-            while (current != NULL) {
+            while (current != NULL) {//先记录所有左节点的路径
                 myStack.push(current);
                 current = current->left;
             }
-            current = myStack.top(); 
-            if (current->right == NULL || current->right == lastVisited) {
+            current = myStack.top(); //遍历左到底后 返回上一个非空节点，即最新push进stack的
+                                     //注意此时不能pop 因为当右节点访问过了或者为空返回此节点才可删
+            if (current->right == NULL || current->right == lastVisited) {//如果右节点为空（此时左右处理完）或
+                                                                          //【current->right == lastVisited】表示该节点的右节点是上一个访问的节点，则该节点左右处理完
                 myStack.pop();
                 result.push_back(current->val);
-                lastVisited = current;
-                current = NULL;
+                lastVisited = current; //记录当前访问的节点。
+                current = NULL; //该节点下方的左右都处理完 所以pop， 且设置该节点为NULL才能让他不往下寻找并【返回上一个】
             } else {
-                current = current->right;
+                current = current->right;  //如果右节点存在且不是上一个访问的节点，记录、访问右节点 并继续按照左右根的顺序访问他的子节点
             }
         }
         return result;
