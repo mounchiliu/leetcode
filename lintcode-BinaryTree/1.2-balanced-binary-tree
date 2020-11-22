@@ -24,7 +24,8 @@ public:
      */
     bool isBalanced(TreeNode * root) {
         // write your code here
-        return maxDepth(root) != NOT_BALANCED;
+        int depth = maxDepth(root);
+        return depth != NOT_BALANCED;
         
         
     }
