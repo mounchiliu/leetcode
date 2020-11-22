@@ -108,7 +108,7 @@ public:
             return ResultType(false);
         }
         
-        if (right.minNode != NULL && right.minNode->val <= root->val) {//leright节点的最小节点存在，且值小于root value，false
+        if (right.minNode != NULL && right.minNode->val <= root->val) {//right节点的最小节点存在，且值小于root value，false
             return ResultType(false);
         }
         
