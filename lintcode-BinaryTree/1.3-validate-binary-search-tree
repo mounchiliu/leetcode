@@ -34,6 +34,7 @@ public:
      */
     bool isValidBST(TreeNode * root) {
         // write your code here
+        //attribute 初始化
         lastNode = NULL;
         isValid = true;
         inorderTraverse(root);
@@ -46,7 +47,7 @@ private:
     TreeNode *lastNode;
     bool isValid;
     
-    void inorderTraverse(TreeNode *root){
+    void inorderTraverse(TreeNode *root){ //即inorder Traverse的写法 + 节点数值的比较
         //递归的两种退出情况
         if(root == NULL)
             return;
@@ -54,9 +55,9 @@ private:
         //遍历左节点
         inorderTraverse(root->left);
         //不是升序
-        if(lastNode != NULL && lastNode->val >= root->val){  //lastnode是当前节点的左节点，判断是否升序
-            isValid = false;
-            return;
+        if(lastNode != NULL && lastNode->val >= root->val){  //【先要保证lasNode存在这个值，即不是空】//lastnode是当前节点的左节点，判断是否升序
+            isValid = false;//更新
+            return;//无需遍历
         }
         //更新信息
         lastNode = root;
