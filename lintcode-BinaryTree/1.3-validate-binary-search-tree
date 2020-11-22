@@ -1,0 +1,120 @@
+https://www.lintcode.com/problem/validate-binary-search-tree/description
+判断是否为二叉查找树(BST)
+
+一棵BST定义为：
+节点的左子树中的值要严格小于该节点的值。
+节点的右子树中的值要严格大于该节点的值。
+左右子树也必须是二叉查找树。
+一个节点的树也是二叉查找树。
+（补充：等于的情况可以放在左子树---BST可以存在重复的子树）
+
+【思路】分治法 OR 遍历
+使用BFT的特性：树的中序遍历是一个升序序列 --- 简化思想：每次比较，与上一节点是不是升序
+
+【Traverse】
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: The root of binary tree.
+     * @return: True if the binary tree is BST, or false
+     */
+    bool isValidBST(TreeNode * root) {
+        // write your code here
+        lastNode = NULL;
+        isValid = true;
+        inorderTraverse(root);
+        
+        return isValid;
+    }
+    
+    
+private: 
+    TreeNode *lastNode;
+    bool isValid;
+    
+    void inorderTraverse(TreeNode *root){
+        //递归的两种退出情况
+        if(root == NULL)
+            return;
+        
+        //遍历左节点
+        inorderTraverse(root->left);
+        //不是升序
+        if(lastNode != NULL && lastNode->val >= root->val){  
+            isValid = false;
+            return;
+        }
+        //更新信息
+        lastNode = root;
+        inorderTraverse(root->right);
+        
+    }
+};
+
+
+【分治法】
+每个节点不需要与左右每个节点都比较，只要比左子树的最大值大，比右子树的最小值小即可
+
+class ResultType { //return 结果的包装 --- 当需要return多个值的时候 可以这么包装结果
+public:
+    bool isBST;
+    TreeNode *maxNode, *minNode;  //不直接return node value 是因为一个空节点可能不存在value
+    ResultType(bool isBST) { //构造函数
+        this->isBST = isBST;
+        this->maxNode = NULL;
+        this->minNode = NULL;
+    }
+};
+
+class Solution {
+public:
+    /**
+     * @param root: The root of binary tree.
+     * @return: True if the binary tree is BST, or false
+     */
+    bool isValidBST(TreeNode *root) {
+        ResultType result = divideConquer(root);
+        return result.isBST;
+    }
+    
+    ResultType divideConquer(TreeNode *root) {
+        if (root == NULL) {
+            return ResultType(true);
+        }
+        
+        ResultType left = divideConquer(root->left);
+        ResultType right = divideConquer(root->right);
+        
+        if (!left.isBST || !right.isBST) { //左右有一个不是，该树就不是BST，且我们不需要知道minNode和maxNode
+            return ResultType(false);
+        }
+        
+        if (left.maxNode != NULL && left.maxNode->val >= root->val) { //left节点的最大节点存在，且值大于root value，false
+            return ResultType(false);
+        }
+        
+        if (right.minNode != NULL && right.minNode->val <= root->val) {//leright节点的最小节点存在，且值小于root value，false
+            return ResultType(false);
+        }
+        
+        //满足条件
+        ResultType result(true);
+        result.minNode = left.minNode == NULL ? root : left.minNode; //如果左节点空，则这个树的最小就是他自己
+        result.maxNode = right.maxNode == NULL ? root : right.maxNode; //如果右节点空，则这个树的最大就是他自己
+        return result;
+    }
+};
