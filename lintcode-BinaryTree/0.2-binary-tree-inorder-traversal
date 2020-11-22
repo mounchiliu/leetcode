@@ -17,13 +17,13 @@ public:
         stack<TreeNode *> s;
         TreeNode *node = root;
         
-        while(node != NULL || !s.empty()){
-            while(node != NULL){
+        while(node != NULL || !s.empty()){ //【node != NULL】保证第一个root节点被处理，以及最后一个节点被处理，因为最后的right没有先放入s。
+            while(node != NULL){//先把左树遍历, 记录进stack
                 s.push(node);
                 node = node->left;
             }
             
-            node = s.top(); s.pop();
+            node = s.top(); s.pop();//一级一级返回 每次返回记录、且寻找当前右树
             inorder.push_back(node->val);
             node = node->right;
             
