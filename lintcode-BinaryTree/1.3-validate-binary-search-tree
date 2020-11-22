@@ -54,13 +54,13 @@ private:
         //遍历左节点
         inorderTraverse(root->left);
         //不是升序
-        if(lastNode != NULL && lastNode->val >= root->val){  
+        if(lastNode != NULL && lastNode->val >= root->val){  //lastnode是当前节点的左节点，判断是否升序
             isValid = false;
             return;
         }
         //更新信息
         lastNode = root;
-        inorderTraverse(root->right);
+        inorderTraverse(root->right); //继续Traverse右节点，且按照中序顺序即（左根右）的顺序遍历右节点的子节点们
         
     }
 };
