@@ -31,7 +31,7 @@ public:
     
 private:
     //如果平衡，返回高度，不平衡返回一个常数 NOT_BALANCED
-    int NOT_BALANCED = -1;
+    int NOT_BALANCED = -1; //定义一个全局变量，这样可读性更强
     int maxDepth(TreeNode *root){
         if(root == NULL) //空节点是平衡二叉树， return 高度0
             return 0;
