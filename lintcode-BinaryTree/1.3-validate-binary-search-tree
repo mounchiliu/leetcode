@@ -113,7 +113,7 @@ public:
         }
         
         //满足条件
-        ResultType result(true);
+        ResultType result(true); //更新当前子树的最小节点和最大节点，便于他作为他的爸爸的左（右）子树判断的时候用
         result.minNode = left.minNode == NULL ? root : left.minNode; //如果左节点空，则这个树的最小就是他自己，因为当他作为别人的左子树时，只有一个Node，最小的是他自己
         result.maxNode = right.maxNode == NULL ? root : right.maxNode; //如果右节点空，则这个树的最大就是他自己
         return result;
