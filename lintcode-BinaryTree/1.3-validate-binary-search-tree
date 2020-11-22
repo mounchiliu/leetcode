@@ -113,7 +113,7 @@ public:
         
         //满足条件
         ResultType result(true);
-        result.minNode = left.minNode == NULL ? root : left.minNode; //如果左节点空，则这个树的最小就是他自己
+        result.minNode = left.minNode == NULL ? root : left.minNode; //如果左节点空，则这个树的最小就是他自己，因为当他作为别人的左子树时，只有一个Node，最小的是他自己
         result.maxNode = right.maxNode == NULL ? root : right.maxNode; //如果右节点空，则这个树的最大就是他自己
         return result;
     }
