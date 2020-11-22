@@ -1,0 +1,50 @@
+https://www.lintcode.com/problem/balanced-binary-tree/description
+判断是否是平衡二叉树--- 一棵高度平衡的二叉树的定义是：一棵二叉树中每个节点的左右两个子树的深度相差不会超过1。
+【分治思想--- 判断树是否平衡：即判断左右子树是否平衡，且左右的深度差是否为1】
+
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: The root of binary tree.
+     * @return: True if this Binary tree is Balanced, or false.
+     */
+    bool isBalanced(TreeNode * root) {
+        // write your code here
+        return maxDepth(root) != NOT_BALANCED;
+        
+        
+    }
+    
+private:
+    //如果平衡，返回高度，不平衡返回一个常数 NOT_BALANCED
+    int NOT_BALANCED = -1;
+    int maxDepth(TreeNode *root){
+        if(root == NULL) //空节点是平衡二叉树， return 高度0
+            return 0;
+            
+        //计算左右节点的深度、同时判断是否是平衡的，这样做就不用返回两个树   
+        int left = maxDepth(root->left);
+        int right = maxDepth(root->right);
+        
+        //不平衡的情况
+        if(left == NOT_BALANCED || right == NOT_BALANCED || abs(left - right) > 1)
+            return NOT_BALANCED;
+        
+        //平衡的情况
+        return max(left, right) + 1;
+    }
+};
