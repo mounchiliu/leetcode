@@ -2,8 +2,36 @@ https://www.lintcode.com/problem/binary-tree-inorder-traversal/description
 中序遍历，首先遍历左子树，然后访问根节点，最后遍历右子树 【顺序】左、根、右
 
 【Non-Recursive】
-https://www.jiuzhang.com/problem/binary-tree-inorder-traversal/
-
+class Solution {
+public:
+    /**
+     * @param root: A Tree
+     * @return: Inorder in ArrayList which contains node values.
+     */
+    vector<int> inorderTraversal(TreeNode * root) {
+        // write your code here
+        vector<int> inorder;
+        if(root == NULL)
+            return inorder;
+        
+        stack<TreeNode *> s;
+        TreeNode *node = root;
+        
+        while(node != NULL || !s.empty()){
+            while(node != NULL){
+                s.push(node);
+                node = node->left;
+            }
+            
+            node = s.top(); s.pop();
+            inorder.push_back(node->val);
+            node = node->right;
+            
+        }
+        
+        return inorder;
+    }
+};
 
 【Recursive】
 class Solution {
@@ -14,19 +42,18 @@ class Solution {
 public:
     vector<int> inorder;
 
-    void traverse(TreeNode *root) {
+    void traverse(TreeNode *root, vector<int> &inorder) {
         if (root == NULL) {
             return;
         }
-        traverse(root->left);
+        traverse(root->left, inorder);
         inorder.push_back(root->val);
-        traverse(root->right);
+        traverse(root->right, inorder);
     }
 
     vector<int> inorderTraversal(TreeNode *root) {
-        inorder.clear();
-        traverse(root);
+        vector<int> inorder;
+        traverse(root, inorder);
         return inorder;
-        // write your code here
     }
 };
