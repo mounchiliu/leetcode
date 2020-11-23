@@ -34,7 +34,8 @@ private:
     //如果平衡，返回高度，不平衡返回一个常数 NOT_BALANCED
     int NOT_BALANCED = -1; //定义一个全局变量，这样可读性更强
     int maxDepth(TreeNode *root){
-        if(root == NULL) //空节点是平衡二叉树， return 高度0
+        if(root == NULL) //空节点是平衡二叉树， return 高度0 --- 这是递归停止的时候
+                         //算法的时候可以从最底层也就是停止的时候网上想，空节点depth为0，返回上一层，depth就为0+1，一直返回到root
             return 0;
             
         //计算左右节点的深度、同时判断是否是平衡的，这样做就不用返回两个树   
