@@ -1,0 +1,35 @@
+https://www.lintcode.com/problem/construct-binary-tree-from-preorder-and-inorder-traversal/description
+类似于construct-binary-tree-from-inorder-and-postorder-traversal
+【思路】
+首先复习：
+先序遍历: 根左右
+中序遍历：左根右
+后序遍历：左右根
+
+这题是给前序和中序
+前序的第一个为根，在中序中找到根的位置。 中序中根的左右两边即为左右子树的中序遍历。同时可知左子树的大小size-left。 
+前序中根接下来的size-left个是左子树的前序遍历。 由此可以递归处理左右子树。
+
+lass Solution {
+    /**
+     *@param preorder : A list of integers that preorder traversal of a tree
+     *@param inorder : A list of integers that inorder traversal of a tree
+     *@return : Root of a tree
+     */
+public:
+    typedef vector<int>::iterator Iter;
+    TreeNode *buildTreeRecur(Iter istart, Iter iend, Iter pstart, Iter pend)
+    {
+        if(istart == iend)return NULL;
+        int rootval = *pstart;
+        Iter iterroot = find(istart, iend, rootval);
+        TreeNode *res = new TreeNode(rootval);
+        res->left = buildTreeRecur(istart, iterroot, pstart+1, pstart+1+(iterroot-istart));
+        res->right = buildTreeRecur(iterroot+1, iend, pstart+1+(iterroot-istart), pend);
+        return res;
+    }
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        // write your code here
+        return buildTreeRecur(inorder.begin(), inorder.end(), preorder.begin(), preorder.end());
+    }
+};
