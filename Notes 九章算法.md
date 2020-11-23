@@ -15,7 +15,9 @@ class ResultType {
 }
 ```
 
-当我们定义的**函数需要返回多个值**供调用者计算时，就可以使用ResultType.（并不是所有函数都需要定义ResultType，像python支持返回多个return value则不需要）
+当我们定义的**函数需要返回多个值**供调用者计算时，就可以使用ResultType.
+
+（并不是所有函数都需要定义ResultType，像python支持返回多个return value则不需要）
 
 ## 递归的三要素 
 
