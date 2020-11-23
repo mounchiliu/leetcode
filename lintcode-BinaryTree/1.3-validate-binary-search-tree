@@ -12,7 +12,6 @@ https://www.lintcode.com/problem/validate-binary-search-tree/description
 使用BFT的特性：树的中序遍历是一个升序序列 --- 简化思想：每次比较，与上一节点是不是升序
 
 【Traverse】
-
 /**
  * Definition of TreeNode:
  * class TreeNode {
@@ -69,13 +68,15 @@ private:
 };
 
 
-【分治法】
+【分治法】 
 每个节点不需要与左右每个节点都比较，只要比左子树的最大值大，比右子树的最小值小即可
+所以我的结果必须包含bool、最小节点数、最大节点数
+而不直接选择节点的value是因为空节点没有定义value，处理起来麻烦 --- 所以使用resultType
 
 class ResultType { //return 结果的包装 --- 当需要return多个值的时候 可以这么包装结果
 public:
     bool isBST;
-    TreeNode *maxNode, *minNode;  //不直接return node value 是因为一个空节点可能不存在value
+    TreeNode *maxNode, *minNode;  //不直接使用node value 是因为一个空节点可能不存在value
     ResultType(bool isBST) { //构造函数
         this->isBST = isBST;
         this->maxNode = NULL;
@@ -99,17 +100,22 @@ public:
             return ResultType(true);
         }
         
+        //分治求解
         ResultType left = divideConquer(root->left);
         ResultType right = divideConquer(root->right);
         
+        //先考虑不是的三种情况
+        //1先看他的左右子树是不是BST
         if (!left.isBST || !right.isBST) { //左右有一个不是，该树就不是BST，且我们不需要知道minNode和maxNode
             return ResultType(false);
         }
         
+        //2左最大存在的情况不是升序
         if (left.maxNode != NULL && left.maxNode->val >= root->val) { //left节点的最大节点存在，且值大于root value，false
             return ResultType(false);
         }
         
+        //3右最小存在的情况不是升序
         if (right.minNode != NULL && right.minNode->val <= root->val) {//right节点的最小节点存在，且值小于root value，false
             return ResultType(false);
         }
@@ -117,6 +123,7 @@ public:
         //满足条件
         ResultType result(true); //更新当前子树的最小节点和最大节点，便于他作为他的爸爸的左（右）子树 判断的时候用
         result.minNode = left.minNode == NULL ? root : left.minNode; //如果左节点空，则这个树的最小就是他自己，因为当他作为别人的左子树时，只有一个Node，最小的是他自己
+                                                                     //因为小的只能在左边，所以再左边找最小的，右边找最大的
         result.maxNode = right.maxNode == NULL ? root : right.maxNode; //如果右节点空，则这个树的最大就是他自己
         return result;
     }
