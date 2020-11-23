@@ -39,7 +39,7 @@ public:
     }
     TreeNode *buildTreeRecur(Iter istart, Iter iend, Iter pstart, Iter pend)
     {
-        if(istart == iend)return NULL; //异常情况即循环退出
+        if(istart == iend)return NULL; //异常情况即循环退出 【因为是根据post在inorder中查找，所以判断inorder的指针】
         int rootval = *(pend-1); //postorder里最后一个元素为root, 【直接通过指针访问数值】
         Iter iterroot = find(istart, iend, rootval); //在inorder中寻找root
         TreeNode *root = new TreeNode(rootval);
