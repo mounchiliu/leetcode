@@ -24,7 +24,8 @@ public:
         int rootval = *pstart;
         Iter iterroot = find(istart, iend, rootval);
         TreeNode *res = new TreeNode(rootval);
-        res->left = buildTreeRecur(istart, iterroot, pstart+1, pstart+1+(iterroot-istart));
+        res->left = buildTreeRecur(istart, iterroot, pstart+1, pstart+1+(iterroot-istart)); //iterroot是root在inorder的index 可以再inorder的访问直接用
+                                                                                            //在preorder的访问中要转化成差值
         res->right = buildTreeRecur(iterroot+1, iend, pstart+1+(iterroot-istart), pend);
         return res;
     }
