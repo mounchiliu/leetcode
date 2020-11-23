@@ -47,7 +47,7 @@ public:
         
         sort(nums.begin(), nums.end());
         queue<vector<int>> que;
-        que.push({});
+        que.push({}); //【第一个元素是空集】
         while (!que.empty()) {
             vector<int> subset = que.front();
             que.pop();
@@ -55,7 +55,7 @@ public:
             res.push_back(subset);
             
             for (int i = 0; i < nums.size(); i++) {
-                if (subset.empty() || subset.back() < nums[i]) { //子集的最后一个元素比当前所指元素小，当前所指元素可以放在他后面
+                if (subset.empty() || subset.back() < nums[i]) { //子集为空 或 子集的最后一个元素比当前所指元素小，当前所指元素可以放在他后面
                     vector<int> newSubset = subset;
                     newSubset.push_back(nums[i]);
                     que.push(newSubset);
