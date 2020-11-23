@@ -95,7 +95,7 @@ private:
         
         //先假设自己的值是最小的后面再更新
         ResultType result(sum, sum, root);
-        
+        //分别在左右子树中最小的比较
         if(left.minSum <= result.minSum){ //这里可以加上等于，保留最小子树；不加也可以
             //Update
             result.minSum = left.minSum;
