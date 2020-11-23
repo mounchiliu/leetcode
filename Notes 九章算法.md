@@ -115,4 +115,16 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 平衡二叉树改进二叉查找树的性能：保证查找的最坏时间复杂度为O（logN） 即**树的高度**，而且较浅的树对插入和删除等操作也很快
 
+### 3. Binary Tree 考点
+
+- 二叉树上求值、求路径（比如：Maximum/Minimum/Average/Sum/Path） e.g. 例题 subtree with maximum average (考点本质：DFS)
+- 二叉树结构变化 e.g. invert binary tree (DFS)
+- 二叉查找树 e.g. valid binary search tree (DFS)
+- 二叉树层级遍历 BFS
+
+对于前三点考点都是基于树的深度优先搜索（DFS）
+
+需要我们思考整棵树在该问题上的**结果**和**左右儿子**在该问题上的结果的联系是什么 (因为我们常把问题分为左右儿子的问题即子问题来解决)
+
+
 
