@@ -83,7 +83,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 - **二分答案**并验证答案偏大偏小 --- 给定一个假定的答案，验证是否可以，再移动区间
 
 
-## Binary Tree
+## 【Binary Tree】
 
 ### 1. Binary Search Tree
 
