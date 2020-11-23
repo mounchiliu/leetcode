@@ -4,7 +4,6 @@
 
 ResultType通常是我们定义在某个文件内部使用的一个类。
 
-e.g.
 ```
 class ResultType {
     int maxValue, minValue;
@@ -117,7 +116,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 ### 3. Binary Tree 考点
 
-- 二叉树上求值、求路径（比如：Maximum/Minimum/Average/Sum/Path） e.g. 例题 subtree with maximum average (考点本质：DFS)
+- 二叉树上求值、求路径（比如：Maximum/Minimum/Average/Sum/Path） e.g. 例题 subtree with maximum average、Minimum subtree、Lowest Common Ancestor (考点本质：DFS)
 - 二叉树结构变化 e.g. invert binary tree (DFS)
 - 二叉查找树 e.g. valid binary search tree (DFS)
 - 二叉树层级遍历 BFS
