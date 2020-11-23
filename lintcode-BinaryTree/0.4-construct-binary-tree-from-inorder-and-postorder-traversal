@@ -45,6 +45,7 @@ public:
         TreeNode *root = new TreeNode(rootval);
         root->left = buildTreeRecur(istart, iterroot, pstart, pstart+(iterroot-istart)); //左子树的位置在inorder中是start到root前一个,
                                                              //在postorder的位置是start到inorder中左子树的长度, 不包最后一个元素所以不用再-1 len = (iterroot-1)-istart+1
+                                                             //【算差值的括号一定要写】，不然程序会认为是itr+itr，没有这样的运算， 只有itr+int
         root->right = buildTreeRecur(iterroot+1, iend, pstart+(iterroot-istart), pend-1); //右子树的位置在inorder中是root的后一个到末尾
                                                                                          //在postorder中是左的end处的(即左的尾巴+1，左的end穿进去不包含最后一个)到末尾前一个。
         return root;
