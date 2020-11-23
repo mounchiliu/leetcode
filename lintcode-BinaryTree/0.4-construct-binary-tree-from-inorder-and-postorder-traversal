@@ -1,0 +1,51 @@
+https://www.lintcode.com/problem/construct-binary-tree-from-inorder-and-postorder-traversal/description
+【思路】
+首先复习：
+先序遍历: 根左右
+中序遍历：左根右
+后序遍历：左右根
+
+这题是给的中序和后序
+我们发现后序遍历中最后一个是root, 然后在中序遍历中寻找他，他左边的就是左子树，右边的就是右子树，同时我们就知道了左右子树的size
+然后相同的方法，递归左右子树即可
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+ 
+class Solution {
+public:
+    /**
+     * @param inorder: A list of integers that inorder traversal of a tree
+     * @param postorder: A list of integers that postorder traversal of a tree
+     * @return: Root of a tree
+     */
+    typedef vector<int>::iterator Iter;//给vector的iteration定义一个简化的别名
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
+        if (inorder.empty() || postorder.empty())
+            return NULL;
+        return buildTreeRecur(inorder.begin(), inorder.end(), postorder.begin(), 
+        postorder.end());
+    }
+    TreeNode *buildTreeRecur(Iter istart, Iter iend, Iter pstart, Iter pend)
+    {
+        if(istart == iend)return NULL;
+        int rootval = *(pend-1); //postorder里最后一个元素为root
+        Iter iterroot = find(istart, iend, rootval); //在inorder中寻找root
+        TreeNode *res = new TreeNode(rootval);
+        res->left = buildTreeRecur(istart, iterroot, pstart, pstart+(iterroot-istart)); //左子树的位置在inorder中是start到root前一个,
+                                                                                        //在postorder的位置是start到inorder中左子树的长度, 不包最后一个元素所以不用再-1 len = (iterroot-1)-istart+1
+        res->right = buildTreeRecur(iterroot+1, iend, pstart+(iterroot-istart), pend-1); //右子树的位置在inorder中是root的后一个到末尾
+                                                                                         //在postorder中是左的end处的(即左的尾巴+1，左的end穿进去不包含最后一个)到末尾前一个。
+        return res;
+    }
+};
