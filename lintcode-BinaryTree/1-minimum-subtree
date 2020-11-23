@@ -1,0 +1,86 @@
+https://www.lintcode.com/problem/minimum-subtree/description
+此题分为两解: 遍历+分治法 以及 纯分治法
+
+Version 1【遍历 + 分治】 --- 遍历没个点，更新他们的sum，再和当前最小的比较值来更新信息
+                            每次分左右节点计算sum---实现了之前计算的结果可以在他的爸爸处复用, 
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: the root of binary tree
+     * @return: the root of the minimum subtree
+     */
+    TreeNode * findSubtree(TreeNode * root) {
+        // write your code here
+        getSum(root);
+        return minRoot;
+    }
+    
+private:
+    //定义全局变量 --- 因为每次递归需要对这两个值进行更新， 遍历法一般使用的是【全局变量】来获取结果
+    int minSum =INT_MAX;
+    TreeNode *minRoot = NULL;
+    
+    //返回以当前节点为根的子树中，所有节点之和
+    int getSum(TreeNode *root){
+        //递归的退出
+        if(root == NULL) 
+            return 0;
+        int sum = getSum(root->left) + getSum(root->right) + root->val;
+        if(sum < minSum){
+            //Update
+            minSum = sum;
+            minRoot = root;
+        }
+        return sum; //返回以当前节点为根的子树中，所有节点之和
+    }
+};
+
+
+Version 2【纯分治】
+
+class Solution {
+public:
+    /**
+     * @param root: the root of binary tree
+     * @return: the root of the minimum subtree
+     */
+    TreeNode * findSubtree(TreeNode * root) {
+        // 最小权值和
+        int minSum = INT_MAX;
+        // 目标结果
+        TreeNode * minSubtree = nullptr;
+        getSum(root, minSum, minSubtree);
+        return minSubtree;
+    }
+    // 返回root为根的子树权值和
+    int getSum(TreeNode * root, int& minSum, TreeNode*& minSubtree) {
+        // 递归出口
+        if (root == nullptr) {
+            return 0;
+        }
+        // 获得左右子树的和
+        int leftSum = getSum(root -> left, minSum, minSubtree);
+        int rightSum = getSum(root -> right, minSum, minSubtree);
+        
+        // 计算当前子树和，并更新答案
+        int sum = root -> val + leftSum + rightSum;
+        if (sum < minSum) {
+            minSum = sum;
+            minSubtree = root;
+        }
+        return sum;
+    }
+};
