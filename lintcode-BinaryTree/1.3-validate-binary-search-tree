@@ -55,7 +55,9 @@ private:
         //遍历左节点
         inorderTraverse(root->left);
         //不是升序
-        if(lastNode != NULL && lastNode->val >= root->val){  //【先要保证lasNode存在这个值，即不是空】//lastnode是当前节点的左节点，判断是否升序
+        if(lastNode != NULL && lastNode->val >= root->val){  //【先要保证lasNode存在这个值，即不是空】
+                                                             // 每次都是把当前节点（即当前根节点与他左边的节点比较，左边的节点就是lastNode, 因为是按照左中右的顺序遍历的）
+                                                             // lastnode是当前节点的左节点，判断是否升序
             isValid = false;//更新
             return;//无需遍历
         }
