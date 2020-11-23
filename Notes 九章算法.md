@@ -31,6 +31,10 @@ LintCode 上的 Clone Graph 就是一个典型的练习题。
 - **双向BFS（最常用）：** 使用时需要同时满足下面3条件：无向图、简单图、同时给出了起点终点 e.g.KnightShortedPath
 
 
+### 4. 选择DFS还是BFS：
+面试中，如果一个问题既可以使用DFS又可以使用BFS，优先选择BFS，因为他是非递归的更容易实现
+
+
 ## Binary Tree
 ### 1. 时间复杂度： O(log_2 N)
 面试中问比O（N）更优的时间复杂度只能是**O(logn)的二分法**
