@@ -1,4 +1,4 @@
-https://www.lintcode.com/problem/subsets/description
+https://www.lintcode.com/problem/subsets/description  --- 掌握递归和非递归两个版本
 【DFS】--- Recursive
 /*e.g. [1,2,3] --- {}
                    {1} {1,2} {1,2,3}
@@ -35,7 +35,8 @@ class Solution {
     }
 };
 
-【BFS】 --- Non recursive
+【BFS】 --- Non recursive  Q：为什么可以用BFS，列举一个数组的所有子集我们发现可以把结果画成二叉树的形式
+                             每往下一层相当于在前一层的元素基础上添加新元素，相当于是二叉树的层级遍历找到所有元素组合
 class Solution {
 public:
     /**
@@ -59,6 +60,10 @@ public:
                     vector<int> newSubset = subset;
                     newSubset.push_back(nums[i]);
                     que.push(newSubset);
+                    // OR
+                    //subset.push_back(nums[i]);
+                    //q.push(subset);
+                    //subset.pop_back();
                 }
             }
         }
