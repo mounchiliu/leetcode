@@ -38,7 +38,7 @@ public:
     }
     TreeNode *buildTreeRecur(Iter istart, Iter iend, Iter pstart, Iter pend)
     {
-        if(istart == iend)return NULL;
+        if(istart == iend)return NULL; //异常情况即循环退出
         int rootval = *(pend-1); //postorder里最后一个元素为root
         Iter iterroot = find(istart, iend, rootval); //在inorder中寻找root
         TreeNode *res = new TreeNode(rootval);
