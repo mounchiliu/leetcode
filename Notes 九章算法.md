@@ -1,5 +1,22 @@
 # 九章算法笔记
 
+## ResultType (Java、C++)
+
+ResultType通常是我们定义在某个文件内部使用的一个类。
+
+e.g.
+```
+class ResultType {
+    int maxValue, minValue;
+    public ResultType(int maxValue, int minValue) {
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+    }
+}
+```
+
+当我们定义的**函数需要返回多个值**供调用者计算时，就可以使用ResultType.（并不是所有函数都需要定义ResultType，像python支持返回多个return value则不需要）
+
 ## 递归的三要素 
 
 写递归函数的时需要注意的三点：**递归定义、递归拆解、递归出口**
