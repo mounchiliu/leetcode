@@ -32,7 +32,7 @@ LintCode 上的 Clone Graph 就是一个典型的练习题。
 
 
 ### 4. 选择DFS还是BFS：
-面试中，如果一个问题既可以使用DFS又可以使用BFS，优先选择BFS，因为他是非递归的更容易实现
+面试中，如果一个问题既可以使用DFS又可以使用BFS，优先选择BFS，因为他是非递归的，更容易实现
 
 
 ## Binary Tree
