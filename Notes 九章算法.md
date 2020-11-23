@@ -1,6 +1,6 @@
 # 九章算法笔记
 
-## ResultType (Java、C++)
+## 【ResultType (Java、C++)】
 
 ResultType通常是我们定义在某个文件内部使用的一个类。
 
@@ -20,7 +20,7 @@ class ResultType {
 
 使用ResultType返回多个值，而不用c++的引用作为函数参数来返回是因为：工业上如果以后需要更改代码，这样代码**可读性更强**且**方便修改**。
 
-## 递归的三要素 
+## 【递归的三要素】 
 
 写递归函数的时需要注意的三点：**递归定义、递归拆解、递归出口**
 
@@ -36,7 +36,7 @@ class ResultType {
 
 递归的出口，即递归何时结束，也就是什么时候可以直接知道答案return，不用再拆解
 
-## BFS适用情况 
+## 【BFS适用情况】 
 
 ### 1. 图的遍历 Traversal in Graph 
 
@@ -71,7 +71,7 @@ LintCode 上的 Clone Graph 就是一个典型的练习题。
 面试中，如果一个问题既可以使用DFS又可以使用BFS，优先选择BFS，因为他是非递归的，更容易实现
 
 
-## Binary Search
+## 【Binary Search】
 ### 1. 时间复杂度： O(log_2 N)
 面试中问比O（N）更优的时间复杂度只能是**O(logn)的二分法**
 
