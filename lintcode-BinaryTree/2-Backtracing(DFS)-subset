@@ -9,7 +9,7 @@ https://www.lintcode.com/problem/subsets/description
 */
 class Solution {
  private:
-    void helper(vector<vector<int> > &results,
+    void findSubsets(vector<vector<int> > &results,
                 vector<int> &subset,
                 vector<int> &nums,
                 int start) {
@@ -17,7 +17,7 @@ class Solution {
         
         for (int i = start; i < nums.size(); i++) { 
             subset.push_back(nums[i]); //为subset新增元素
-            helper(results, subset, nums, i + 1);//以当前subset为根，【进入下一层】，为其添加元素
+            findSubsets(results, subset, nums, i + 1);//以当前subset为根，【进入下一层】，为其添加元素
             subset.pop_back(); //【回溯】---删除最后一个元素, 即删除subset.push_back(nums[i])添加的新元素 e.g.对于[1,2,3,4,5] 搜索完[1,2,5]回溯[1,2]
         }
     }
@@ -28,7 +28,7 @@ class Solution {
         vector<int> subset;
 
         sort(nums.begin(), nums.end()); //子集中的排列必须是非降序的
-        helper(results, subset, nums, 0);
+        findSubsets(results, subset, nums, 0);
 
         return results;
     }
