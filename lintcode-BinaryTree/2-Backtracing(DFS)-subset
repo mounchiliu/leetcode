@@ -1,0 +1,59 @@
+https://www.lintcode.com/problem/subsets/description
+【DFS】--- Recursive
+class Solution {
+ private:
+    void helper(vector<vector<int> > &results,
+                vector<int> &subset,
+                vector<int> &nums,
+                int start) {
+        results.push_back(subset);//第一个是空集
+        
+        for (int i = start; i < nums.size(); i++) { 
+            subset.push_back(nums[i]); //为subset新增元素
+            helper(results, subset, nums, i + 1);
+            subset.pop_back(); //删除最后一个元素 e.g.对于[1,2,3,4,5] 搜索完[1,2,5]回溯[1,2]
+        }
+    }
+    
+ public:
+    vector<vector<int> > subsets(vector<int> &nums) {
+        vector<vector<int> > results;
+        vector<int> subset;
+
+        sort(nums.begin(), nums.end()); //子集中的排列必须是非降序的
+        helper(results, subset, nums, 0);
+
+        return results;
+    }
+};
+
+【BFS】 --- Non recursive
+class Solution {
+public:
+    /**
+     * @param nums: A set of numbers
+     * @return: A list of lists
+     */
+    vector<vector<int>> subsets(vector<int> &nums) {
+        vector<vector<int>> res;
+        
+        sort(nums.begin(), nums.end());
+        queue<vector<int>> que;
+        que.push({});
+        while (!que.empty()) {
+            vector<int> subset = que.front();
+            que.pop();
+            // 先把當前 subset 推入解集合
+            res.push_back(subset);
+            
+            for (int i = 0; i < nums.size(); i++) {
+                if (subset.empty() || subset.back() < nums[i]) { //子集的最后一个元素比当前所指元素小，当前所指元素可以放在他后面
+                    vector<int> newSubset = subset;
+                    newSubset.push_back(nums[i]);
+                    que.push(newSubset);
+                }
+            }
+        }
+        return res;
+    }
+};
