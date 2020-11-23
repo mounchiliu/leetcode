@@ -1,0 +1,77 @@
+https://www.lintcode.com/problem/binary-tree-paths/description
+求根到每个叶的所有路径---DFS
+且把问题分给左右儿子，让他们每次返回从叶到各自的所有路径
+
+分治 VS 遍历 的思路
+分治：路径统一加个头
+遍历：路径自己算，到叶子存下来
+
+【分治法】---返回值只有一个 所以不需要ResultType
+class Solution {
+public:
+    /**
+     * @param root the root of the binary tree
+     * @return all root-to-leaf paths
+     */
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths;
+        if (root == NULL) {
+            return paths;
+        }
+        
+        vector<string> left = binaryTreePaths(root->left);
+        vector<string> right = binaryTreePaths(root->right);
+        
+        
+        for (auto& s : left) {
+            paths.push_back(to_string(root->val) + "->" + s);
+        }
+        for (auto& s : right) {
+            paths.push_back(to_string(root->val) + "->" + s);
+        }
+        
+        if (paths.size() == 0) { //root is a leaf，因为左右都是空，上面返回的还是空，所以要特殊处理
+                                 // OR if(root->left == NULL && root->right == NULL){
+            string x = to_string(root->val);
+            return vector<string>{x};
+        }
+        return paths;
+    }
+};
+
+【遍历法】 --- 结果就在那，靠你一个一个访问去收集：每当到一个叶子节点，输出当前路径
+JAVA
+public class Solution {
+    /**
+     * @param root the root of the binary tree
+     * @return all root-to-leaf paths
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<String>();
+        if (root == null) {
+            return result;
+        }
+        helper(root, String.valueOf(root.val), result);
+        return result;
+    }
+    
+    //path中存的是，从root到当前节点的路径
+    private void helper(TreeNode root, String path, List<String> result) {
+        if (root == null) {
+            return;
+        }
+        
+        if (root.left == null && root.right == null) {
+            result.add(path);
+            return;
+        }
+        
+        if (root.left != null) {
+            helper(root.left, path + "->" + String.valueOf(root.left.val), result);
+        }
+        
+        if (root.right != null) {
+            helper(root.right, path + "->" + String.valueOf(root.right.val), result);
+        }
+    }
+}
