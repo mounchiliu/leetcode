@@ -20,7 +20,7 @@ https://www.lintcode.com/problem/lowest-common-ancestor-iii/description
 class ResultType {
 public:
     bool a_exist, b_exist;
-    TreeNode* node;
+    TreeNode* node; //LCA or A or B
     ResultType(bool a, bool b, TreeNode* n) {
         a_exist = a;
         b_exist = b;
