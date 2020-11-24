@@ -1,0 +1,89 @@
+https://www.lintcode.com/problem/lowest-common-ancestor-of-a-binary-tree/description
+https://www.lintcode.com/problem/lowest-common-ancestor-ii/description
+https://www.lintcode.com/problem/lowest-common-ancestor-iii/description
+找最近公共父节点
+
+简单版：题目不仅提供左右儿子指针，而且提供parent的指针
+https://www.lintcode.com/problem/lowest-common-ancestor-ii/description
+
+对于每个节点，找出祖先们，相当于path，他们的path最后一个点一定是root。
+所以将两个点的path 按照结尾处对其，【往前寻找第一个共同元素】，则是最近的公共父节点（lowest common ancestor） --- 也可以使用哈希表优化求解过程
+【简单版】
+/**
+ * Definition of ParentTreeNode:
+ * class ParentTreeNode {
+ * public:
+ *     int val;
+ *     ParentTreeNode *parent, *left, *right;
+ * }
+ */
+
+class Solution {
+public:
+    /*
+     * @param root: The root of the tree
+     * @param A: node in the tree
+     * @param B: node in the tree
+     * @return: The lowest common ancestor of A and B
+     */
+    ParentTreeNode * lowestCommonAncestorII(ParentTreeNode * root, ParentTreeNode * A, ParentTreeNode * B) {
+        // write your code here
+        //【每个点找到跟的路径】
+        vector<ParentTreeNode *> pathA = getPath2Root(A);
+        vector<ParentTreeNode *> pathB = getPath2Root(B);
+        
+        //获取末尾元素
+        int indexA = pathA.size() - 1;
+        int indexB = pathB.size() - 1;
+        
+        //从后向前找两个数组中第一个不相同的元素
+        ParentTreeNode *lowestAncestor = NULL;
+        while(indexA >= 0 && indexB >= 0){
+            if(pathA[indexA] != pathB[indexB])
+                break;
+            lowestAncestor = pathA[indexA];
+            indexA--;
+            indexB--;
+        }
+        return lowestAncestor;
+    }
+    
+private:
+    vector<ParentTreeNode *> getPath2Root(ParentTreeNode* node){
+        vector<ParentTreeNode *> path;
+        while(node != NULL){
+            path.push_back(node); //从该节点往上找祖宗
+            node = node->parent;
+        }
+        return path;
+    }
+};
+
+【哈希表】
+class Solution {
+public:
+    /**
+     * @param root: The root of the tree
+     * @param A, B: Two node in the tree
+     * @return: The lowest common ancestor of A and B
+     */
+    ParentTreeNode *lowestCommonAncestorII(ParentTreeNode *root,
+                                           ParentTreeNode *A,
+                                           ParentTreeNode *B) {
+        // Write your code here
+        // 找出A的路径，然后再找B的路径的时候一个一个比较
+        unordered_set<ParentTreeNode*> pathA;
+        while (A != NULL){
+            pathA.insert(A);
+            A = A->parent;
+        }
+        
+        while (B!=NULL){
+            if (pathA.find(B) != pathA.end()){
+                return B;
+            }
+            B = B->parent;//没找到 网上走
+        }
+        return root;//最坏的情况，在根的时候才相交，且在根的时候必相交
+    }
+};

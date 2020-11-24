@@ -1,9 +1,0 @@
-https://www.lintcode.com/problem/lowest-common-ancestor-of-a-binary-tree/description
-https://www.lintcode.com/problem/lowest-common-ancestor-ii/description
-https://www.lintcode.com/problem/lowest-common-ancestor-iii/description
-找最近公共父节点
-
-https://www.lintcode.com/problem/lowest-common-ancestor-ii/description
-简单版：题目提供父节点的指针
-对于每个节点，找出祖先们，相当于path，他们的path最后一个点一定是root。
-所以将两个点的path 按照结尾处对其，往前寻找第一个共同元素，则是最近的公共父节点（lowest common ancestor）
