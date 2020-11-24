@@ -59,7 +59,7 @@ private:
     }
 };
 
-【哈希表】 Version 2
+【哈希表】 Version 2 使用哈希表便于访问查找
 class Solution {
 public:
     /**
@@ -82,7 +82,7 @@ public:
             if (pathA.find(B) != pathA.end()){
                 return B;
             }
-            B = B->parent;//没找到 网上走
+            B = B->parent;//没找到 往上走
         }
         return root;//最坏的情况，在根的时候才相交，且在根的时候必相交
     }
