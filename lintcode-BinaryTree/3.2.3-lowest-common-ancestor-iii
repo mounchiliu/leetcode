@@ -51,7 +51,7 @@ public:
         ResultType left_rt = helper(root->left, A, B);
         ResultType right_rt = helper(root->right, A, B);
         
-        //先判断是否找到了A、B
+        //更新到当前节点root为之，是否找到A、B
         bool a_exist = left_rt.a_exist || right_rt.a_exist || root == A;
         bool b_exist = left_rt.b_exist || right_rt.b_exist || root == B;
         
