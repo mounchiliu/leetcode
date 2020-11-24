@@ -51,20 +51,22 @@ public:
      */
     vector<string> binaryTreePaths(TreeNode * root) {
         // write your code here
-        vector<string> paths;
+        vector<string> result;
+        //root为空没有value，异常处理
         if(root == NULL)
-            return paths;
+            return result;
             
-        Traverse(root, to_string(root->val),paths);
-        return paths;
+        Traverse(root, to_string(root->val),result);
+        return result;
     }
     
 private:
     //path中存的是，从root到当前节点的路径
     void Traverse(TreeNode *root, string path, vector<string> &result){
-        if(root == NULL) //递归停止
+        //递归停止 1
+        if(root == NULL) 
             return;
-            
+        ////递归停止 2  
         if(root->left == NULL && root->right == NULL){ //到达叶节点，存入当前路径
             result.push_back(path);
             return;//不需要继续遍历
