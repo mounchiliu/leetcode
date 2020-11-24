@@ -51,6 +51,7 @@ public:
         ResultType left_rt = helper(root->left, A, B);
         ResultType right_rt = helper(root->right, A, B);
         
+        //先判断是否找到了A、B
         bool a_exist = left_rt.a_exist || right_rt.a_exist || root == A;
         bool b_exist = left_rt.b_exist || right_rt.b_exist || root == B;
         
