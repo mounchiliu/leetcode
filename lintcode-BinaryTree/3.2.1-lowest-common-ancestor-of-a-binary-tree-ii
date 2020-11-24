@@ -78,8 +78,9 @@ public:
             A = A->parent;
         }
         
+        //从B向上找祖宗
         while (B!=NULL){
-            if (pathA.find(B) != pathA.end()){
+            if (pathA.find(B) != pathA.end()){ //第一个找到的就是最近祖宗
                 return B;
             }
             B = B->parent;//没找到 往上走
