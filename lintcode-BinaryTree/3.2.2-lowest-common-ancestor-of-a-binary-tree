@@ -1,5 +1,6 @@
 https://www.lintcode.com/problem/lowest-common-ancestor-of-a-binary-tree/description
-只提供了左右节点，没有父节点
+只提供了左右节点，没有父节点 
+题中假设给出的两个节点都在树中存在(与lowest-common-ancestor-iii的区别)
 
 分治思想：分情况讨论
 A、B都在当前节点的左子树下(答案是当前节点左儿子或左儿子下的某个点)
