@@ -40,8 +40,8 @@ public:
         ResultType rt = helper(root, A, B);
         if (rt.a_exist && rt.b_exist)
             return rt.node;
-        else
-            return NULL; //否则它表示是只是一个A或者一个B，不符合要求。
+        
+        return NULL; //否则它表示是只是一个A或者一个B，不符合要求。
     }
     
     ResultType helper(TreeNode* root, TreeNode* A, TreeNode* B) {
