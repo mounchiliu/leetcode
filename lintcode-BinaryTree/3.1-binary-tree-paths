@@ -69,7 +69,7 @@ private:
         ////递归停止 2  
         if(root->left == NULL && root->right == NULL){ //到达叶节点，存入当前路径
             result.push_back(path);
-            return;//不需要继续遍历
+            return;//不需要继续遍历 
         }
         
         if(root->left != NULL){ 
