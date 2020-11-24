@@ -1,0 +1,70 @@
+https://www.lintcode.com/problem/lowest-common-ancestor-iii/description
+只给了节点的左右儿子，且寻找的这两个节点未必都在这棵树上出现。
+
+因此对于这一题，我们不仅需要返回一个node，还有返回到当前位置A、B有没有找到
+对于(lowest-common-ancestor)
+这样做是防止有一个不在树内，到根节点的时候会出现NULL和非NULL的情况，这样会返回非NULL处的解，这个解释错误的，返回的是找到的那个A或B的位置
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+class ResultType {
+public:
+    bool a_exist, b_exist;
+    TreeNode* node;
+    ResultType(bool a, bool b, TreeNode* n) {
+        a_exist = a;
+        b_exist = b;
+        node = n;
+    }
+};
+
+class Solution {
+public:
+    /**
+     * @param root: The root of the binary tree.
+     * @param A and B: two nodes
+     * @return: Return the LCA of the two nodes.
+     */
+    TreeNode *lowestCommonAncestor3(TreeNode* root, TreeNode* A, TreeNode* B) {
+        // write your code here
+        ResultType rt = helper(root, A, B);
+        if (rt.a_exist && rt.b_exist)
+            return rt.node;
+        else
+            return NULL; //否则它表示是只是一个A或者一个B，不符合要求。
+    }
+    
+    ResultType helper(TreeNode* root, TreeNode* A, TreeNode* B) {
+        if (root == NULL)
+            return ResultType(false, false, NULL);
+            
+        ResultType left_rt = helper(root->left, A, B);
+        ResultType right_rt = helper(root->right, A, B);
+        
+        bool a_exist = left_rt.a_exist || right_rt.a_exist || root == A;
+        bool b_exist = left_rt.b_exist || right_rt.b_exist || root == B;
+        
+        //以下4个if同理与 lowest-common-ancestor
+        if (root == A || root == B)
+            return ResultType(a_exist, b_exist, root);
+
+        if (left_rt.node != NULL && right_rt.node != NULL)
+            return ResultType(a_exist, b_exist, root);
+        if (left_rt.node != NULL)
+            return ResultType(a_exist, b_exist, left_rt.node);
+        if (right_rt.node != NULL)
+            return ResultType(a_exist, b_exist, right_rt.node);
+
+        return ResultType(a_exist, b_exist, NULL);
+    }
+};
