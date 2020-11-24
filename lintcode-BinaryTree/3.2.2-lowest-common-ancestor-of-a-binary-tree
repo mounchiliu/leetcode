@@ -1,1 +1,56 @@
 https://www.lintcode.com/problem/lowest-common-ancestor-of-a-binary-tree/description
+只提供了左右节点，没有父节点
+
+分治思想：分情况讨论
+A、B都在当前节点的左子树下(答案是当前节点左儿子或左儿子下的某个点)
+A、B都在当前节点的右子树下(答案是当前节点右儿子或右儿子下的某个点)
+A、B在当前节点的子树分布为一左一右(答案是当前节点)
+
+所以对于前两个情况，每个节点只要把寻找LCA的任务分给左右儿子
+对于第三种情况，左右儿子的任务是有没有找到A、B
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /*
+     * @param root: The root of the binary search tree.
+     * @param A: A TreeNode in a Binary.
+     * @param B: A TreeNode in a Binary.
+     * @return: Return the least common ancestor(LCA) of the two nodes.
+     */
+     //只给了左右，所以从root往下递归找
+    TreeNode * lowestCommonAncestor(TreeNode * root, TreeNode * A, TreeNode * B) {
+        if (root == NULL){
+            return NULL;
+        }
+        if (root == A || root == B){ //当前节点找到A或B
+            return root;
+        }
+        
+        //分治
+        TreeNode* left = lowestCommonAncestor(root -> left, A, B);
+        TreeNode* right = lowestCommonAncestor(root -> right, A, B);
+        if (left != NULL && right != NULL){ //如果左右两边都不是NULL， 则一边A，一边B，答案是当前节点root
+            return root;
+        }
+        if (left != NULL){ //左边不是NULL，右边是 (因为两边都是的因为return了)   看不是NULL的结果得到答案
+            return left;
+        }
+        if (right != NULL){//右边不是，左边是
+            return right;
+        }
+        return NULL;//两边都是NULL，没找到
+    }
+};
