@@ -3,8 +3,8 @@ https://www.lintcode.com/problem/binary-tree-paths/description
 且把问题分给左右儿子，让他们每次返回从叶到各自的所有路径
 
 分治 VS 遍历 的思路
-分治：路径统一加个头
-遍历：路径自己算，到叶子存下来
+分治：路径统一加个头, 即从叶节点往上爬，每次加个头
+遍历：路径自己算，直到叶子存下来，即从root往下滚，通过遍历计算路径，到叶子节点存入
 
 【分治法】---返回值只有一个 所以不需要ResultType
 class Solution {
@@ -19,59 +19,65 @@ public:
             return paths;
         }
         
-        vector<string> left = binaryTreePaths(root->left);
-        vector<string> right = binaryTreePaths(root->right);
+        //分治法返回的结果就是我最后需要的结果类型
+        vector<string> left = binaryTreePaths(root->left); //从所有叶节点到left节点的路径
+        vector<string> right = binaryTreePaths(root->right);//从所有叶节点到right节点的路径
         
-        
+        //处理加工得到当前层的结果，用来返回给他的爸爸 --- 真的做到化为子问题来解决
+        //取出到左节点的左右路径，加头处理(root值)，放入paths, 得到以【当前节点为根】的从根到叶的左边所有路径
         for (auto& s : left) {
             paths.push_back(to_string(root->val) + "->" + s);
         }
+        //同理右边
         for (auto& s : right) {
             paths.push_back(to_string(root->val) + "->" + s);
         }
         
-        if (paths.size() == 0) { //root is a leaf，因为左右都是空，上面返回的还是空，所以要特殊处理
+        if (paths.size() == 0) { //root is a leaf，因为叶子的左右都是空，上面返回的还是空，所以要特殊处理
                                  // OR if(root->left == NULL && root->right == NULL){
-            string x = to_string(root->val);
-            return vector<string>{x};
+            string leaf = to_string(root->val);
+            paths.push_back(leaf);
         }
         return paths;
     }
 };
 
 【遍历法】 --- 结果就在那，靠你一个一个访问去收集：每当到一个叶子节点，输出当前路径
-JAVA
-public class Solution {
+class Solution {
+public:
     /**
-     * @param root the root of the binary tree
-     * @return all root-to-leaf paths
+     * @param root: the root of the binary tree
+     * @return: all root-to-leaf paths
      */
-    public List<String> binaryTreePaths(TreeNode root) {
-        List<String> result = new ArrayList<String>();
-        if (root == null) {
-            return result;
-        }
-        helper(root, String.valueOf(root.val), result);
-        return result;
+    vector<string> binaryTreePaths(TreeNode * root) {
+        // write your code here
+        vector<string> paths;
+        if(root == NULL)
+            return paths;
+            
+        Traverse(root, to_string(root->val),paths);
+        return paths;
     }
     
+private:
     //path中存的是，从root到当前节点的路径
-    private void helper(TreeNode root, String path, List<String> result) {
-        if (root == null) {
+    void Traverse(TreeNode *root, string path, vector<string> &result){
+        if(root == NULL) //递归停止
             return;
+            
+        if(root->left == NULL && root->right == NULL){ //到达叶节点，存入当前路径
+            result.push_back(path);
+            return;//不需要继续遍历
         }
         
-        if (root.left == null && root.right == null) {
-            result.add(path);
-            return;
+        if(root->left != NULL){ 
+            string s = path + "->" + to_string(root->left->val); //update path, 得到从根到当前节点的路径 这里不能用path更新，因为后面的就乱序了，除非你更新完再复原
+            Traverse(root->left, s, result); //继续向左节点的下方遍
         }
         
-        if (root.left != null) {
-            helper(root.left, path + "->" + String.valueOf(root.left.val), result);
-        }
-        
-        if (root.right != null) {
-            helper(root.right, path + "->" + String.valueOf(root.right.val), result);
+        if(root->right != NULL){
+            string s = path + "->" + to_string(root->right->val); //update path
+            Traverse(root->right, s, result);//继续向右节点的下方遍
         }
     }
-}
+};
