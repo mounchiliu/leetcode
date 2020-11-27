@@ -78,7 +78,7 @@ public:
             return;
             
         if(lastNode != NULL){
-            lastNode->left = NULL;
+            lastNode->left = NULL; //每一个节点只有有指针指向下一个数
             lastNode->right = root;
         }
         
