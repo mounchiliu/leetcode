@@ -2,7 +2,7 @@ https://www.lintcode.com/problem/flatten-binary-tree-to-linked-list/description
 
 【遍历】 or 【分治】
 
-【分治】 每次求得当前root的求得左边的链、右边的链然后连接一起来
+Version 1【分治】 每次求得当前root的求得左边的链、右边的链然后连接一起来
 而因为连起来的操作需要知道链表的最后一个元素和另外一个链表的第一个元素(第一个元素可以通过root的左右指针来实现）
 所以返回的是LastNode
 
@@ -62,3 +62,33 @@ private:
         
     }
 };
+
+
+Version 2 遍历
+class Solution {
+public:
+    /**
+     * @param root: a TreeNode, the root of the binary tree
+     * @return: nothing
+     */
+    void flatten(TreeNode * root) {
+        // write your code here
+        //使用遍历法需要注意每次缓存右儿子，因为每次root的右指针要指向左子树
+        if(root == NULL)
+            return;
+            
+        if(lastNode != NULL){
+            lastNode->left = NULL;
+            lastNode->right = root;
+        }
+        
+        lastNode = root;
+        TreeNode *right = root->right;
+        flatten(root->left);
+        flatten(right);
+    }
+    
+private:
+    TreeNode *lastNode = NULL;
+};
+
