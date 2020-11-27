@@ -3,6 +3,8 @@ https://www.lintcode.com/problem/flatten-binary-tree-to-linked-list/description
 【遍历】 or 【分治】
 
 【分治】 每次求得当前root的求得左边的链、右边的链然后连接一起来
+而因为连起来的操作需要知道链表的最后一个元素和另外一个链表的第一个元素(第一个元素可以通过root的左右指针来实现）
+所以返回的是LastNode
 
 /**
  * Definition of TreeNode:
