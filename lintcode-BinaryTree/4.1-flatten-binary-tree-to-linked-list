@@ -1,3 +1,62 @@
 https://www.lintcode.com/problem/flatten-binary-tree-to-linked-list/description
 
 【遍历】 or 【分治】
+
+【分治】 每次求得当前root的求得左边的链、右边的链然后连接一起来
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: a TreeNode, the root of the binary tree
+     * @return: nothing
+     */
+    void flatten(TreeNode * root) {
+        // write your code here
+        divideConquer(root);
+    }
+    
+private:
+    TreeNode *divideConquer(TreeNode *root){
+        if(root == NULL)
+            return NULL;
+        
+        //return the last of the left tree/right tree
+        TreeNode *leftLast = divideConquer(root->left);
+        TreeNode *rightLast = divideConquer(root->right);
+        
+        //left非空，所以先串起来
+        //connect left Last to root.rightNode
+        if(leftLast != NULL){
+            leftLast->right = root->right;//缓存右儿子
+            root->right = root->left;//构造成一个只有右指针的列
+            root->left = NULL;//先序的顺序中root的左边没有东西
+        }
+        
+        // right is not NULL --- rootLast一定是rightlast
+        if(rightLast != NULL){
+            return rightLast;
+        }
+        
+        // right is NULL, left is not NULL --- rootLast是leftLast
+        if(leftLast != NULL){
+            return leftLast;
+        }
+        
+        //left right both are NULL
+        return root; 
+        
+    }
+};
