@@ -62,7 +62,7 @@ public:
         //move to the next node
         if(cur->right != NULL){//右儿不是是空，往他的左边看
             TreeNode *next = cur->right;
-            while(next != NULL){ //把next当做root来处理，找他的左节点
+            while(next != NULL){ //把next当做当前的root来处理，找他的左节点
                 myStack.push(next);
                 next = next->left;
             }
@@ -71,9 +71,9 @@ public:
             while(!myStack.empty() && myStack.top()->right == cur){
                 next = myStack.top(); myStack.pop();
             }
-        }*/ --- 由于右节点统一一开始没有处理，所以左边访问完了一定是先看中间的root，然后再从右节点往下中序遍历
+        }*/ // --- 由于右节点统一一开始没有处理，所以左边访问完了一定是先看中间的root，然后再从右节点往下中序遍历；所以这里可以不写
         
-        return next;
+        return cur;
     }
 private:
     stack<TreeNode *> myStack;
