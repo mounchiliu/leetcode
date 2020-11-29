@@ -1,5 +1,29 @@
 https://www.lintcode.com/problem/inorder-predecessor-in-bst/description
 
+【分治】
+class Solution {
+private:
+    TreeNode * predecessor = NULL;
+public:
+    /**
+     * @param root: the given BST
+     * @param p: the given node
+     * @return: the in-order predecessor of the given node in the BST
+     */
+    TreeNode * inorderPredecessor(TreeNode * root, TreeNode * p) {
+        helper(root, p);
+        return predecessor;
+    }
+    void helper(TreeNode* root, TreeNode* p) {
+        if (root == NULL) return;
+        helper(root->left, p);
+        if (root->val < p->val) predecessor = root;
+        helper(root->right, p);
+    }
+};
+
+【遍历】
+如果p有左子树，直接往左找最右。如果没有，则从root一直找到p，其中向左拐不记录、向右拐记录predecessor
 class Solution {
 public:
     /**
@@ -16,7 +40,8 @@ public:
         //根据p与root的数值定位p的位置，suc一定在p之前
         while (root != NULL) { 
             if (root->val < p->val) { //p在root右侧 注意：小于等于可以放在左子树，大于放在右子树,所以p大于一定在右边
-                if(suc == NULL || root->val > suc->val){ //suc为空或root在其右侧
+                if(suc == NULL || root->val > suc->val){ //suc为空或root在其右侧。 
+                    //suc存放的是上一个root节点，当前root在其右侧说明，suc是在当前root为根或在其子树下，因为p已经判断了在当前root的右边
                     suc = root; //定位suc的大概范围。
                 }
                 root = root->right;
