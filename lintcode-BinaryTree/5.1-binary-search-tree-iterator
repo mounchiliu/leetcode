@@ -1,0 +1,78 @@
+https://www.lintcode.com/problem/binary-search-tree-iterator/description
+
+【思路】 每次走都挑左边的先走[中序遍历]
+遍历到最下面的叶节点后需要返回---使用STACK来记录路径
+
+分一下几种情况来讨论：
+1. 当前节点已经看完了，且有左右儿子：左儿子直接不用看，因为是中序遍历，左儿子应该看完了，下面该看右儿子，且从右儿子的左子树的最根结点开始看
+
+2. 当前节点看完，且没有右儿子：需要向上返回
+2.1 若当前节点是他爸爸的左二子，下一个查看的是他的爸爸
+2.2 若当前节点是他爸爸的右儿子，下一个查看的应该看它的爸爸的爸爸，且需要查看他的爸爸和他的爷爷是何种关系(左右儿子?)，直到他的某个祖宗是他祖宗的爸爸的左儿子，否则一直向上返回。
+访问所有节点用时O(n)，所以均摊下来访问每个节点的时间复杂度时O(1)
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ * Example of iterate a tree:
+ * BSTIterator iterator = BSTIterator(root);
+ * while (iterator.hasNext()) {
+ *    TreeNode * node = iterator.next();
+ *    do something for node
+ */
+
+
+class BSTIterator {
+public:
+    /*
+    * @param root: The root of binary tree.
+    */BSTIterator(TreeNode * root) {
+        // do intialization if necessary
+        //中序遍历，左儿子叶节点的第一名放在最上面
+        while(root != NULL){
+            myStack.push(root);
+            root = root->left;
+        }
+    }
+
+    /*
+     * @return: True if there has next node, or false
+     */
+    bool hasNext() { 
+        // write your code here
+        return !myStack.empty();
+    }
+
+    /*
+     * @return: return next node
+     */
+    TreeNode * next() {
+        // write your code here
+        TreeNode *next = myStack.top(); myStack.pop();
+        
+        //move to the next node
+        if(next->right != NULL){//右儿不是是空，往他的左边看
+            TreeNode *curr = next->right;
+            while(curr != NULL){
+                myStack.push(curr);
+                curr = curr->left;
+            }
+        }/*else{//右儿子是空，往上看
+            while(!myStack.empty() && myStack.top()->right == next){
+                next = myStack.top(); myStack.pop();
+            }
+        }*/ --- 由于右节点统一一开始没有处理，所以左边访问完了一定是先看中间的root，然后再从右节点往下中序遍历
+        
+        return next;
+    }
+private:
+    stack<TreeNode *> myStack;
+};
