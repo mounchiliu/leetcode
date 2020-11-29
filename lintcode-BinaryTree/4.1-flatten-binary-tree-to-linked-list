@@ -43,7 +43,7 @@ private:
         //connect left Last to root.rightNode
         if(leftLast != NULL){
             leftLast->right = root->right;//左子树的最后叶子节点，缓存右儿子
-            //【此时当前root节点的左右子树已经串好，所以处理root节点】
+            //【此时当前root节点的左右子树已经串好，所以处理root节点】 //root的左右儿子下面的节点 都通过递归已经处理好
             root->right = root->left;//构造成一个只有右指针的列
             root->left = NULL;//先序的顺序中root的左边没有东西
         }
