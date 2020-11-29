@@ -57,17 +57,18 @@ public:
      //核心是中序遍历、且记录下中序遍历的顺序(使用stack)
     TreeNode * next() {
         // write your code here
-        TreeNode *next = myStack.top(); myStack.pop();
+        TreeNode *cur = myStack.top(); myStack.pop();
         
         //move to the next node
-        if(next->right != NULL){//右儿不是是空，往他的左边看
-            TreeNode *curr = next->right;
-            while(curr != NULL){
-                myStack.push(curr);
-                curr = curr->left;
+        if(cur->right != NULL){//右儿不是是空，往他的左边看
+            TreeNode *next = cur->right;
+            while(next != NULL){ //把next当做root来处理，找他的左节点
+                myStack.push(next);
+                next = next->left;
             }
-        }/*else{//右儿子是空，往上看
-            while(!myStack.empty() && myStack.top()->right == next){
+        }
+        /*else{//右儿子是空，往上看
+            while(!myStack.empty() && myStack.top()->right == cur){
                 next = myStack.top(); myStack.pop();
             }
         }*/ --- 由于右节点统一一开始没有处理，所以左边访问完了一定是先看中间的root，然后再从右节点往下中序遍历
