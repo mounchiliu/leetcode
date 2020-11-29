@@ -1,0 +1,43 @@
+https://www.lintcode.com/problem/inorder-predecessor-in-bst/description
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param p: the given node
+     * @return: the in-order predecessor of the given node in the BST
+     */
+    //找p的前驱节点
+    TreeNode * inorderPredecessor(TreeNode * root, TreeNode * p) {
+        // write your code here
+        if (root == NULL || p == NULL) return NULL;
+        
+        TreeNode *suc = NULL; //p的先驱节点
+        while (root != NULL) { 
+            if (root->val < p->val) { //p在root右侧 注意：小于等于可以放在左子树，大于放在右子树,所以p大于一定在右边
+                if(suc == NULL || root->val > suc->val){ //suc为空或root在其右侧
+                    suc = root; //定位suc的大概范围。
+                }
+                root = root->right;
+                
+            } else { //p在root左侧，前驱节点一定是往左边找
+                root = root->left;
+            }
+        }
+        
+        return suc;  
+    }
+};
