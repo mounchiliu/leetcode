@@ -54,6 +54,7 @@ public:
     /*
      * @return: return next node
      */
+     //核心是中序遍历、且记录下中序遍历的顺序(使用stack)
     TreeNode * next() {
         // write your code here
         TreeNode *next = myStack.top(); myStack.pop();
