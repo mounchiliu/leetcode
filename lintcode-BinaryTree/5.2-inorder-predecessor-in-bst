@@ -1,18 +1,5 @@
 https://www.lintcode.com/problem/inorder-predecessor-in-bst/description
 
-/**
- * Definition of TreeNode:
- * class TreeNode {
- * public:
- *     int val;
- *     TreeNode *left, *right;
- *     TreeNode(int val) {
- *         this->val = val;
- *         this->left = this->right = NULL;
- *     }
- * }
- */
-
 class Solution {
 public:
     /**
@@ -26,6 +13,7 @@ public:
         if (root == NULL || p == NULL) return NULL;
         
         TreeNode *suc = NULL; //p的先驱节点
+        //根据p与root的数值定位p的位置，suc一定在p之前
         while (root != NULL) { 
             if (root->val < p->val) { //p在root右侧 注意：小于等于可以放在左子树，大于放在右子树,所以p大于一定在右边
                 if(suc == NULL || root->val > suc->val){ //suc为空或root在其右侧
