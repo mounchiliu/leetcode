@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/binary-search-tree-iterator/description
-
+该题适用于任何的二叉树，不仅是BST
 【思路】 每次走都挑左边的先走[中序遍历]
 遍历到最下面的叶节点后需要返回---使用STACK来记录路径
 
