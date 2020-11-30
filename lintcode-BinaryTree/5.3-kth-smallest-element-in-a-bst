@@ -56,7 +56,7 @@ private:
 };
 
 
-Version 2 遍历-这种方式可以避免 StackOverflow
+Version 2 【遍历】-使用iterator，这种方式可以避免 StackOverflow
 使用 Binary Search Tree Iterator 的方式（参考 binary search tree iterator） 
 用 stack，从第一个点开始，走 k-1 步，就是第 k 个点了。
 时间复杂度是 O(h+k)h 是树的高度。
