@@ -3,7 +3,7 @@ https://www.lintcode.com/problem/closest-binary-search-tree-value/description
 如果分别寻找lowerBound和upperBound，时间复杂度为O(h) h为BST的高度 更优
 如果使用中序遍历查找，需要一个个查看，所以时间复杂度为O(n)
 
-Version 1
+Version 1 时间复杂度 O(h)
 class Solution {
 public:
     /**
@@ -67,7 +67,7 @@ private:
 
 
 
-Version 2【遍历】
+Version 2【遍历】时间复杂度O(n)
 class Solution {
 public:
     /**
