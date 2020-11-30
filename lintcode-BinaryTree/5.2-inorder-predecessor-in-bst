@@ -7,7 +7,49 @@ https://www.lintcode.com/problem/inorder-predecessor-in-bst/description 类似�
 2. 该节点是其父节点的左孩子，那么就得往其祖辈寻找直到找到它祖辈是右孩子为止，如果没找到，那么说明该节点没有前驱节点。
 每次记录右拐的root
 
-【遍历】
+Version 1
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param p: the given node
+     * @return: the in-order predecessor of the given node in the BST
+     */
+    TreeNode * inorderPredecessor(TreeNode * root, TreeNode * p) {
+        // write your code here
+        if(root == NULL || p == NULL)
+            return NULL;
+            
+        stack<TreeNode *> myStack;
+        TreeNode *pre = NULL;
+        //use stack to remember the path
+        while(root){
+            myStack.push(root);
+            root = root->left;
+        }
+        
+        //find the pre
+        while(!myStack.empty()){//while we have ancestors
+            TreeNode *cur = myStack.top(); myStack.pop();
+            if(cur == p)
+                return pre;
+            //Update
+            pre = cur;
+            
+            //current node has right son
+            if(cur->right != NULL){
+                cur = cur->right;
+                while(cur != NULL){
+                    myStack.push(cur);
+                    cur = cur->left;
+                }
+            }
+        }
+        return pre;
+    }
+};
+
+Version 2【简洁版】
 如果p有左子树，直接往左找最右。如果没有，则从root一直找到p，其中向左拐不记录、向右拐记录predecessor
 class Solution {
 public:
