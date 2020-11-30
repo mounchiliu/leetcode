@@ -1,28 +1,13 @@
-https://www.lintcode.com/problem/inorder-predecessor-in-bst/description
+https://www.lintcode.com/problem/inorder-predecessor-in-bst/description 类似于5.1-binary-search-tree-iterator
 
-【分治】
-class Solution {
-private:
-    TreeNode * predecessor = NULL;
-public:
-    /**
-     * @param root: the given BST
-     * @param p: the given node
-     * @return: the in-order predecessor of the given node in the BST
-     */
-    TreeNode * inorderPredecessor(TreeNode * root, TreeNode * p) {
-        helper(root, p);
-        return predecessor;
-    }
-    void helper(TreeNode* root, TreeNode* p) {
-        if (root == NULL) return;
-        helper(root->left, p);
-        if (root->val < p->val) predecessor = root;
-        helper(root->right, p);
-    }
-};
+（1） 该节点有左子树，那么该节点的前驱节点就是其左子树中最大的那个。
 
-【遍历】 用while循环模拟递归
+（2） 该节点没有左子树，那么就又有两种情况： 
+1. 该节点是其父节点的右孩子，那么它的前驱就是他的父节点；
+2. 该节点是其父节点的左孩子，那么就得往其祖辈寻找直到找到它祖辈是右孩子为止，如果没找到，那么说明该节点没有前驱节点。
+
+
+【遍历】
 如果p有左子树，直接往左找最右。如果没有，则从root一直找到p，其中向左拐不记录、向右拐记录predecessor
 class Solution {
 public:
@@ -31,26 +16,22 @@ public:
      * @param p: the given node
      * @return: the in-order predecessor of the given node in the BST
      */
-    //找p的前驱节点
+    // 往左走的时候不记,往右走的时候记 
     TreeNode * inorderPredecessor(TreeNode * root, TreeNode * p) {
         // write your code here
-        if (root == NULL || p == NULL) return NULL;
+        if(root == NULL || p == NULL)
+            return NULL;
         
-        TreeNode *suc = NULL; //p的先驱节点
-        //根据p与root的数值定位p的位置，suc一定在p之前
-        while (root != NULL) { 
-            if (root->val < p->val) { //p在root右侧 注意：小于等于可以放在左子树，大于放在右子树,所以p大于一定在右边
-                if(suc == NULL || root->val > suc->val){ //suc为空或root在其右侧。 
-                    //suc存放的是上一个root节点，当前root在其右侧说明，suc是在当前root为根或在其子树下，因为p已经判断了在当前root的右边
-                    suc = root; //定位suc的大概范围。
-                }
-                root = root->right;
-                
-            } else { //p在root左侧，前驱节点一定是往左边找
+        TreeNode *predecessor = NULL;
+        
+        while(root){
+            if(root->val >= p->val) //p在左子树
                 root = root->left;
+            else{                   //p在右子树
+                predecessor = root;
+                root = root->right;
             }
         }
-        
-        return suc;  
+        return predecessor;
     }
 };
