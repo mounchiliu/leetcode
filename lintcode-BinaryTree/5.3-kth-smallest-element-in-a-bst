@@ -1,1 +1,92 @@
 https://www.lintcode.com/problem/kth-smallest-element-in-a-bst/
+在每一个节点存入，他的子树有多大。要求k-th的时候就可以直接判断往左往右：因为左边子树的数一定比右边的小 --- quick select
+
+所以优化方法：
+在TreeNode 中增加一个counter，代表整个树的节点个数 或者 使用HashMap来存储某个节点为代表的子树的节点个数
+在增删查改的过程中不断更新受影响节点的counter (e.g.在某节点处增加了一个子节点，这个节点以及他的ancestors的counter都要+1)
+用类似Quick Select的算法去查找 kth-smallest 时间复杂度为O（h） h为树的高度
+
+
+Version 1【Quick Select】
+这个算法的好处是，如果多次查询的话，给每个节点统计儿子个数这个过程只需要做一次。查询可以很快。
+
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param k: the given k
+     * @return: the kth smallest element in BST
+     */
+    int kthSmallest(TreeNode * root, int k) {
+        // write your code here
+        //hasmap to record the number of children for each node
+        unordered_map<TreeNode *, int> numOfChildren;
+        countNodes(root, numOfChildren);
+        return quickSelectOnTree(root, k, numOfChildren);
+    }
+    
+private:
+    int countNodes(TreeNode *root, unordered_map<TreeNode *,int> &numOfChildren){
+        if(root == NULL)
+            return 0;
+        
+        int left = countNodes(root->left, numOfChildren);
+        int right = countNodes(root->right, numOfChildren);
+        
+        numOfChildren[root] = left + right + 1;
+        return left + right + 1;
+    }
+    
+    int quickSelectOnTree(TreeNode *root, int k, unordered_map<TreeNode *, int> numOfChildren){
+        if(root == NULL)
+            return -1;
+        
+        int left = root->left == NULL ? 0: numOfChildren[root->left];
+        if(left >= k){ //kth is in the left tree
+            return quickSelectOnTree(root->left, k, numOfChildren);
+        }
+        if(left + 1 == k){//kth is the root
+            return root->val;
+        }
+        
+        //kth is in the right tree
+        return quickSelectOnTree(root->right, k - left - 1, numOfChildren);
+    }
+};
+
+
+Version 2 遍历-这种方式可以避免 StackOverflow
+使用 Binary Search Tree Iterator 的方式（参考 binary search tree iterator） 
+用 stack，从第一个点开始，走 k-1 步，就是第 k 个点了。
+时间复杂度是 O(h+k)h 是树的高度。
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param k: the given k
+     * @return: the kth smallest element in BST
+     */
+    int kthSmallest(TreeNode * root, int k) {
+        // write your code here
+        stack<TreeNode *> myStack;
+        
+        while(root != NULL){
+            myStack.push(root);
+            root = root->left;
+        }
+        
+        //find the (k-1) smallest values
+        for(int i = 0; i < k - 1; i++){
+            TreeNode *node = myStack.top(); myStack.pop();
+            
+            if(node->right != NULL){
+                node = node->right;
+                while(node != NULL){
+                    myStack.push(node);
+                    node = node->left;
+                }
+            }
+        }
+        return myStack.top()->val;
+    }
+};
