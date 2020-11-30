@@ -22,7 +22,7 @@ public:
     }
 };
 
-【遍历】
+【遍历】 用while循环模拟递归
 如果p有左子树，直接往左找最右。如果没有，则从root一直找到p，其中向左拐不记录、向右拐记录predecessor
 class Solution {
 public:
