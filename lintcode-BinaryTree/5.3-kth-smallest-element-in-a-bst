@@ -19,6 +19,7 @@ public:
      */
     int kthSmallest(TreeNode * root, int k) {
         // write your code here
+        if(root == NULL) return -1;
         //hasmap to record the number of children for each node
         unordered_map<TreeNode *, int> numOfChildren;
         countNodes(root, numOfChildren);
@@ -26,7 +27,7 @@ public:
     }
     
 private:
-    int countNodes(TreeNode *root, unordered_map<TreeNode *,int> &numOfChildren){
+    int countNodes(TreeNode *root, unordered_map<TreeNode *,int> &numOfChildren){ //引用是因为需要不断传递nums的值
         if(root == NULL)
             return 0;
         
@@ -37,8 +38,8 @@ private:
         return left + right + 1;
     }
     
-    int quickSelectOnTree(TreeNode *root, int k, unordered_map<TreeNode *, int> numOfChildren){
-        if(root == NULL)
+    int quickSelectOnTree(TreeNode *root, int k, unordered_map<TreeNode *, int> &numOfChildren){ //引用是因为不希望更改num的值
+        if(root == NULL)//没找到
             return -1;
         
         int left = root->left == NULL ? 0: numOfChildren[root->left];
@@ -68,6 +69,8 @@ public:
      */
     int kthSmallest(TreeNode * root, int k) {
         // write your code here
+        if(root == NULL)
+            return -1;
         stack<TreeNode *> myStack;
         
         while(root != NULL){
@@ -79,7 +82,7 @@ public:
         for(int i = 0; i < k - 1; i++){
             TreeNode *node = myStack.top(); myStack.pop();
             
-            if(node->right != NULL){
+            if(node->right != NULL){//inorder Traverse, if turn right, we still need to trun left at the next time;
                 node = node->right;
                 while(node != NULL){
                     myStack.push(node);
