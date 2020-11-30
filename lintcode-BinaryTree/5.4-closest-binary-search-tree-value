@@ -83,12 +83,14 @@ public:
         // write your code here
         if(root == NULL)
             return -1;
+            
+        //Traverse    
         int closest = root->val;//closest node val
         while (root) {
-            if (abs(closest - target) >= abs(root->val - target)) {
-                closest = root->val;
+            if (abs(closest - target) >= abs(root->val - target)) { //判断root处 //等号可以不写
+                closest = root->val; //Update closest node
             }
-            root = target < root->val ? root->left : root->right;
+            root = target < root->val ? root->left : root->right; //往左OR往右走 //OR  root = root->val >= target ? root->left : root->right;
         }
         return closest;        
     }
