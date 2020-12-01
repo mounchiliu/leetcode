@@ -39,71 +39,6 @@ public:
 
 
 //这个解法是根据创造拓扑序列看与org是否满足
-My solution 
-- First temp:(Got error) failed on case input: org,seqs
-                                        [1],[] -> should return false.
-                                        [], [[]] -> should return true
-class Solution {
-public:
-    /**
-     * @param org: a permutation of the integers from 1 to n
-     * @param seqs: a list of sequences
-     * @return: true if it can be reconstructed only one or false
-     */
-    bool sequenceReconstruction(vector<int> &org, vector<vector<int>> &seqs) {
-        // write your code here
-        
-        //org是父序列，应包含所有的元素
-        //这题和course schedule有异曲同工之妙
-        unordered_map<int,unordered_set<int>> element_seq;//record sequence element 
-        //这边不能像course schedule里用vector因为这里的数字可能是无序的 例如 example 4
-        unordered_map<int,int> cnt_indegree;
-        
-        for(int &n: org){
-            //for each element, initialize it;
-            element_seq[n] = unordered_set<int>();
-        }
-        
-        
-        //统计入度
-        for(auto &seq: seqs){
-            for(int i = 0; i < seq.size()-1; i++){
-                element_seq[seq[i]].insert(seq[i+1]);
-                cnt_indegree[seq[i+1]]++;
-            }
-        }
-        
-        
-        queue<int> Q;
-        for(int i = 0; i < cnt_indegree.size(); i++){
-            if(cnt_indegree.count(i)==0){ //【Note】map.count(element)
-                Q.push(cnt_indegree[i]);
-            }
-        }
-
-        
-        //Determine whether there is only one sequence that can be reconstructed from seqs and it is the org sequence. --> BFS
-        int num = 0;
-        while(!Q.empty()){
-            int head = Q.front();
-            Q.pop();
-            if(head!=org[num])
-                return false;
-            num++;
-            
-            
-            for(auto &set_ele: element_seq[head]){
-                cnt_indegree[set_ele]--;
-                
-                if(cnt_indegree.count(set_ele)==0){
-                    Q.push(set_ele);
-                }            
-            }
-        }      
-        return true;
-    }
-};
-
 【思路：拓扑序，且仅存在一个 --- queue中最多同时只有一个节点】
 - second temp accpeted
 class Solution {
@@ -201,3 +136,72 @@ public:
 
     }
 };
+
+
+
+My solution 
+- First temp:(Got error) failed on case input: org,seqs
+                                        [1],[] -> should return false.
+                                        [], [[]] -> should return true
+class Solution {
+public:
+    /**
+     * @param org: a permutation of the integers from 1 to n
+     * @param seqs: a list of sequences
+     * @return: true if it can be reconstructed only one or false
+     */
+    bool sequenceReconstruction(vector<int> &org, vector<vector<int>> &seqs) {
+        // write your code here
+        
+        //org是父序列，应包含所有的元素
+        //这题和course schedule有异曲同工之妙
+        unordered_map<int,unordered_set<int>> element_seq;//record sequence element 
+        //这边不能像course schedule里用vector因为这里的数字可能是无序的 例如 example 4
+        unordered_map<int,int> cnt_indegree;
+        
+        for(int &n: org){
+            //for each element, initialize it;
+            element_seq[n] = unordered_set<int>();
+        }
+        
+        
+        //统计入度
+        for(auto &seq: seqs){
+            for(int i = 0; i < seq.size()-1; i++){
+                element_seq[seq[i]].insert(seq[i+1]);
+                cnt_indegree[seq[i+1]]++;
+            }
+        }
+        
+        
+        queue<int> Q;
+        for(int i = 0; i < cnt_indegree.size(); i++){
+            if(cnt_indegree.count(i)==0){ //【Note】map.count(element)
+                Q.push(cnt_indegree[i]);
+            }
+        }
+
+        
+        //Determine whether there is only one sequence that can be reconstructed from seqs and it is the org sequence. --> BFS
+        int num = 0;
+        while(!Q.empty()){
+            int head = Q.front();
+            Q.pop();
+            if(head!=org[num])
+                return false;
+            num++;
+            
+            
+            for(auto &set_ele: element_seq[head]){
+                cnt_indegree[set_ele]--;
+                
+                if(cnt_indegree.count(set_ele)==0){
+                    Q.push(set_ele);
+                }            
+            }
+        }      
+        return true;
+    }
+};
+
+
