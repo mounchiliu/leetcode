@@ -115,7 +115,7 @@ public:
 
 
 
-SOL3: 【重要】
+SOL3: 【重要】 O(n^2)
 class Solution {
 public:
     /**
