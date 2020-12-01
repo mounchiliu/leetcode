@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/sequence-reconstruction/description
-BFS：my solution 2
+HASH MAP OR BFS
 
-九章ANS:HASH MAP
+【HASH MAP】
 class Solution {
 public:
     /**
@@ -37,7 +37,7 @@ public:
     }
 };
 
-
+【BFS】
 //这个解法是根据创造拓扑序列看与org是否满足
 【思路：拓扑序，且仅存在一个 --- queue中最多同时只有一个节点】
 - second temp accpeted
