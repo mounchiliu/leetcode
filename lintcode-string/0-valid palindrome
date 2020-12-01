@@ -1,6 +1,29 @@
 https://www.lintcode.com/problem/valid-palindrome/description
 
 双指针 一一匹配
+简洁版
+class Solution {
+public:
+    /**
+     * @param s: A string
+     * @return: Whether the string is a valid palindrome
+     */
+    bool isPalindrome(string &s) {
+        // write your code here
+        for(int i = 0, j = s.size() - 1; i<j; i++, j--){
+             while (!isalnum(s[i]) && i < j) //!isalnum(s[i]要加括号不然会与后面的判断冲突
+                i++;
+            while (!isalnum(s[j]) && i < j)
+                j--;
+
+            if(i < j && tolower(s[i])!=tolower(s[j])) return false; //先要保证不交叉，交叉说明已经遍历找完了。
+        }
+
+        return true;
+
+    }
+};
+
 
 class Solution {
 public:
