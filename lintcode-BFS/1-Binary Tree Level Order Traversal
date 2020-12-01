@@ -34,6 +34,7 @@ public:
             int size = Q.size();//【每一次while循环中的一次，获取上一层的size】
                                 //先获取size, 不能把q.size()放到for循环里去
                                 //因为你不断在往queue里面加数值,size一直在改变, 这样的话就相当于循环追着size跑
+                                //【一定要分层】因为需要一层层地把每层的元素放入一个vector
             vector<int> level;//vector for one level
             
             //【Note】 size表示上一层的元素的个数
