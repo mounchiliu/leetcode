@@ -1,4 +1,4 @@
-https://www.lintcode.com/problem/number-of-islands/description?_from=ladder&&fromId=1
+https://www.lintcode.com/problem/number-of-islands/description
 
 //bfs //this is my sol
 class Solution {
