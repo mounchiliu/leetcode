@@ -25,7 +25,7 @@ public:
             return nullptr;
         }
         
-        
+        //这两个也可以放在while里面声明
         UndirectedGraphNode *p1 = node;
         UndirectedGraphNode *p2 = new UndirectedGraphNode(node->label); //p2用于克隆
         //用这个数值初始化一个Node, 但这个Node不需要记录neighbour
@@ -40,6 +40,7 @@ public:
             q.pop();
             for (int i = 0; i < p1->neighbors.size(); i++) { //遍历neighbour,并判断是不是在哈希表里  //这里可以用for(UndirectedGraphNode* neighbor: n1->neighbors)，下面需要些改动
                 UndirectedGraphNode *nb = p1->neighbors[i];//获得neighbour后查询是否访问，访问过直接克隆，未访问需记录。
+                //OR://for(auto &nb: p1->neighbors){
                 if (map.count(nb)) {//【Note】: 在map中如何查找数值: map.count(key)
                     p2->neighbors.push_back(map[nb]);//若该neighbour已经存在map里,说明queue中已经出现，这里克隆，即传给用于克隆的p2
                                                      //但由于已经访问了（在map里）所以不需要push in Q
