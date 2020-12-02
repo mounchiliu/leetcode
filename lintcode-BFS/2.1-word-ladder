@@ -1,4 +1,4 @@
-https://www.lintcode.com/problem/word-ladder/description?_from=ladder&&fromId=1
+https://www.lintcode.com/problem/word-ladder/description
 //注意要求输出的不是跳转的次数，而是一共已经了几个word e.g.a->a：1 a->b：2
 class Solution {
 public:
