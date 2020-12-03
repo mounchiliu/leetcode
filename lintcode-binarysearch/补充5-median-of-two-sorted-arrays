@@ -82,10 +82,10 @@ private:
         if(halfKthA < halfKthB){//A的第K/2个元素小，删除A的
             return getKth(A, startA + k / 2, B, startB, k - k / 2);
         }
-        if(halfA > halfB) 
+        if(halfKthA > halfKthB) 
             return findkth(A, startA, B, startB + k/2, k - k/2);
-        if(halfA == halfB) //相等，k/2+k/2 = k 不用找了
-            return halfA;
+        if(halfKthA == halfKthB) //相等，k/2+k/2 = k 不用找了
+            return halfKthA;
         
     }
 };
