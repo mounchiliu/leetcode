@@ -39,7 +39,7 @@ public:
         //最后检验
         if(matrix[start / cols][start % cols] == target)
             return true;
-        if(matrix[start / cols][start % cols] == target)
+        if(matrix[end / cols][end % cols] == target)
             return true;
             
         return false;
