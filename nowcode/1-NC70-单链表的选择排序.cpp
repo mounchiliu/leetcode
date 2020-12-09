@@ -1,3 +1,4 @@
+//【思路】 二分 归并
 /**
  * struct ListNode {
  *	int val;
@@ -46,7 +47,7 @@ public:
             }
             ptr = ptr->next;
         }
-        ptr->next = left != NULL ? left:right;
+        ptr->next = left != NULL ? left:right; //解决一个链表比另一个长一个的问题，因为二分了所以最多只能相差一个
         return head_->next;
         
     }
