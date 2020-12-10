@@ -1,4 +1,4 @@
-链表
+链表：
 NC96
 NC66
 NC3 NC4
@@ -13,14 +13,24 @@ NC45【dfs-Recursive or 栈-Non-recursive】
 NC13、NC62  NC102  NC12  【分治】
 NC5 NC6 NC8 【dfs遍历or分治】
 
+Hashmap
+NC
+
+数组与矩阵：
+NC38
+
 二分：
 NC105
 NC48 & NC71
 NC32
-NC86 
+NC86 & NC29
 NC36 分治
 
 动态规划：
 NC127 NC91(vs NC55)
 NC17
 NC19 NC7
+
+位运算
+NC75 NC112
+
