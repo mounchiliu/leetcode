@@ -10,86 +10,92 @@ https://www.lintcode.com/problem/closest-binary-search-tree-value-ii/description
 有了这些函数之后，就可以把整个树当作一个数组一样来处理，只不过每次 i++ 的时候要用 moveUpper，i--的时候要用 moveLower
 
 
-JAVA
-class Solution {
-    public List<Integer> closestKValues(TreeNode root, double target, int k) {
-        List<Integer> values = new ArrayList<>();
-        
-        if (k == 0 || root == null) {
-            return values;
-        }
-        
-        Stack<TreeNode> lowerStack = getStack(root, target);
-        Stack<TreeNode> upperStack = new Stack<>();
-        upperStack.addAll(lowerStack);
-        if (target < lowerStack.peek().val) {
-            moveLower(lowerStack);
-        } else {
-            moveUpper(upperStack);
-        }
-        
-        for (int i = 0; i < k; i++) {
-            if (lowerStack.isEmpty() ||
-                   !upperStack.isEmpty() && target - lowerStack.peek().val > upperStack.peek().val - target) {
-                values.add(upperStack.peek().val);
-                moveUpper(upperStack);
-            } else {
-                values.add(lowerStack.peek().val);
-                moveLower(lowerStack);
-            }
-        }
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
 
-        return values;
-    }
-    
-    private Stack<TreeNode> getStack(TreeNode root, double target) {
-        Stack<TreeNode> stack = new Stack<>();
+class Solution {
+public:
+    /**
+     * @param root: the given BST
+     * @param target: the given target
+     * @param k: the given k
+     * @return: k values in the BST that are closest to the target
+     */
+    vector<int> closestKValues(TreeNode * root, double target, int k) {
+        // write your code here
+        if(k == 0 || root == NULL)
+            return {};
         
-        while (root != null) {
-            stack.push(root);
-            
-            if (target < root.val) {
-                root = root.left;
-            } else {
-                root = root.right;
+        //get boundaries
+        stack<TreeNode*> lowerStack;
+        stack<TreeNode*> upperStack;
+        while(root != NULL){
+            if(target < root->val){
+                 upperStack.push(root);
+                 root = root->left;
+            }
+            else{
+                lowerStack.push(root);
+                root = root->right;
             }
         }
         
-        return stack;
+        //get k elements
+        vector<int> result;
+        for(int i = 0; i < k; i++){
+            if(lowerStack.empty()){ //k<=node总数，所以一个为空，另一个一定不为空
+                result.push_back(upperStack.top()->val);
+                moveup(upperStack);
+                continue;
+            }
+            if(upperStack.empty()){
+                result.push_back(lowerStack.top()->val);
+                moveless(lowerStack);
+                continue;
+            }
+            if(target - lowerStack.top()->val < upperStack.top()->val - target){
+                result.push_back(lowerStack.top()->val);
+                moveless(lowerStack);
+            }else{
+                result.push_back(upperStack.top()->val);
+                moveup(upperStack);
+            }
+        }
+        return result;
+    }
+private:
+    void moveless(stack<TreeNode*>& lStack){
+        TreeNode* node = lStack.top();
+        lStack.pop();
+        if (node->left){
+            node = node->left;
+            while (node){
+                lStack.push(node);
+                node = node->right;
+            }
+        }
     }
     
-    public void moveUpper(Stack<TreeNode> stack) {
-        TreeNode node = stack.peek();
-        if (node.right == null) {
-            node = stack.pop();
-            while (!stack.isEmpty() && stack.peek().right == node) {
-                node = stack.pop();
+    void moveup(stack<TreeNode*>& rStack){
+        TreeNode* node = rStack.top();
+        rStack.pop();
+        if (node->right){
+            node = node->right;
+            while (node){
+                rStack.push(node);
+                node = node->left;
             }
-            return;
-        }
-        
-        node = node.right;
-        while (node != null) {
-            stack.push(node);
-            node = node.left;
         }
     }
-    
-    public void moveLower(Stack<TreeNode> stack) {
-        TreeNode node = stack.peek();
-        if (node.left == null) {
-            node = stack.pop();
-            while (!stack.isEmpty() && stack.peek().left == node) {
-                node = stack.pop();
-            }
-            return;
-        }
-        
-        node = node.left;
-        while (node != null) {
-            stack.push(node);
-            node = node.right;
-        }
-    }
-}
+};
 
