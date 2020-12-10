@@ -36,7 +36,7 @@ public:
         if(k == 0 || root == NULL)
             return {};
         
-        //get boundaries
+        //get boundaries --- 相当于定位target在树上的那几个节点之间，分别把关联节点放入stack，最靠近stack头上的离target越近
         stack<TreeNode*> lowerStack;
         stack<TreeNode*> upperStack;
         while(root != NULL){
