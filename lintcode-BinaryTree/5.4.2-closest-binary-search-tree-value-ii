@@ -76,8 +76,8 @@ public:
 private:
     void moveless(stack<TreeNode*>& lStack){
         TreeNode* node = lStack.top();
-        lStack.pop();
-        if (node->left){
+        lStack.pop();//当前结点被取出来之后，相当于左半边数组的指针要往左移动
+        if (node->left){//move less 是找 比当前结点小的所有数，所以以当前结点往左后找到比他小的最小值，然后一直往右
             node = node->left;
             while (node){
                 lStack.push(node);
