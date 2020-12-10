@@ -42,17 +42,20 @@ public:
         while(root != NULL){
             if(target < root->val){
                  upperStack.push(root);
-                 root = root->left;
+                 root = root->left; //try smaller values to find bound
             }
             else{
                 lowerStack.push(root);
-                root = root->right;
+                root = root->right; //try larger values to find bound
             }
         }
         
         //get k elements
+        //move less 针对于lowerBounder --- 相当于左半边数组的指针往左移动
+        //move up 针对于upperBounder --- 相当于右半边的数组指针向右移动
         vector<int> result;
         for(int i = 0; i < k; i++){
+            //其中一个为空，直接塞另一个的数，注意要continue返回
             if(lowerStack.empty()){ //k<=node总数，所以一个为空，另一个一定不为空
                 result.push_back(upperStack.top()->val);
                 moveup(upperStack);
@@ -63,6 +66,7 @@ public:
                 moveless(lowerStack);
                 continue;
             }
+            //两个都有数的时候
             if(target - lowerStack.top()->val < upperStack.top()->val - target){
                 result.push_back(lowerStack.top()->val);
                 moveless(lowerStack);
