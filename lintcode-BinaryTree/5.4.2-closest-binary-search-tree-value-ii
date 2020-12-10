@@ -68,8 +68,8 @@ public:
             }
             //两个都有数的时候
             if(target - lowerStack.top()->val < upperStack.top()->val - target){
-                result.push_back(lowerStack.top()->val);
-                moveless(lowerStack);
+                result.push_back(lowerStack.top()->val); 
+                moveless(lowerStack);//最匹配的已经找到了，现在在最匹配的下面的节点寻找有没有更匹配的，如果下面没有符合的节点会直接使用之前已经push进stack里的剩余节点
             }else{
                 result.push_back(upperStack.top()->val);
                 moveup(upperStack);
