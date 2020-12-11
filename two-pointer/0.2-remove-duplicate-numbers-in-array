@@ -2,7 +2,7 @@ https://www.lintcode.com/problem/remove-duplicate-numbers-in-array/description
 
 Version 1： HashMap，空间复杂度O（n），时间复杂度O（n）
 Version 2： TwoPointers，空间复杂度O（1），时间复杂度O（nlogn）---时间复杂度主要是因为要排序
-这题不考虑num的正确性，只考虑长度的正确性
+这题不考虑nums中重复元素，nums只要保证无重复的放在开头就行了，且要考虑长度的正确性
 
 //Sol2 
 //首先将数组排序，这样那些重复的整数就会被挤在一起。
@@ -57,7 +57,7 @@ public:
         {
             if(map.find(nums[i]) == map.end())//没出现过
             {
-                map[nums[i]] == nums[i];
+                map[nums[i]] = nums[i];
                 temp.push_back(nums[i]);
             }
         }
