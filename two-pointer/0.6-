@@ -1,0 +1,74 @@
+https://www.lintcode.com/problem/intersection-of-two-linked-lists/description
+
+O(n)时间复杂度，O（1）空间复杂度
+
+//version 1: 首先 找到链表节点处相等的时候才是公共节点
+//第二，假设链表1长度为a，链表b长度为b，使用(a+b)长度的链表这样可以解决链表长度不一，不能同时搜索的问题。
+class Solution {
+public:
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode
+     */
+    ListNode * getIntersectionNode(ListNode * headA, ListNode * headB) {
+        // write your code here
+        if(headA == NULL || headB == NULL)
+            return NULL;
+            
+        ListNode *a = headA, *b = headB;
+        while(a != b){
+            a = a == NULL ? headB : a->next;//使用a = a == NULL 是为了解决 两个链表长度相同，但是没有公共元素，如果是检查a->next == NULL,会进入死循环
+            b = b == NULL ? headA : b->next;
+        }    
+        return a;
+    }
+};
+
+//version 2, 思路大体同上， 使用的是带环链表2这一题的基本思路 把一个链表的结尾给连接到另一个链表上，然后找环
+class Solution {
+public:
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode
+     */
+    ListNode * getIntersectionNode(ListNode * headA, ListNode * headB) {
+        // write your code here
+        if(headA == NULL || headB == NULL)
+            return NULL;
+        
+        ListNode *node = headA;  
+        while(node->next){
+            node = node->next;
+        }
+        node->next = headB;
+        ListNode* result = findCycle(headA);
+        node->next = NULL;//在返回结果后，两个链表仍须保持原有的结构。
+        return result;
+    }
+    
+private:
+    ListNode *findCycle(ListNode *head){
+        ListNode *fast = head->next, *slow = head;
+        
+        while(slow != fast){
+            if(fast == NULL || fast->next == NULL)
+                return NULL;
+            
+            slow = slow->next;
+            fast = fast->next->next;
+            
+        }
+        
+        slow = head;
+        fast = fast->next;
+        while(slow != fast){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
+        
+    }
+    
+};
