@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/window-sum/description
-双指针 VS 暴力求解
+双指针【Recommended】 VS 暴力求解
 
 //双指针 时间复杂度O(n) 空间复杂度O(n)
 class Solution {
