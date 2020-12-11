@@ -15,11 +15,11 @@ public:
 
         int n = nums.size();
         vector<int> sums(n - k + 1, 0);
-		    // 计算nums的前k数之和
+        //第一个滑动窗口内的数值
         for (int i = 0; i < k; i++)
             sums[0] += nums[i];
         //滑动窗口
-        for (int i = 1; i < n - k + 1; i++) {
+        for (int i = 1; i < ; i++) {
             // 减去头部元素，加上尾部元素
             sums[i] = sums[i-1] - nums[i-1] + nums[i + k-1];
         }
