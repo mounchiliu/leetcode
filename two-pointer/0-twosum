@@ -58,13 +58,14 @@ public:
         //find the index;
         int result1 = -1, result2 = -1;//index from 0~n-1
         for(int i = 0; i < backUp.size(); i++){
+            //查询index
             if(result1 == -1 && numbers[left] == backUp[i]){ //check whether the index is found
                 result1 = i;
             }
             else if(result2 == -1 && numbers[right] == backUp[i]){
                 result2 = i;
             }
-            
+            //查询完毕，检查有没有都找到，没有则继续找，有则返回
             if(result1 != -1 && result2 != -1){
                 return {min(result1,result2), max(result1,result2)}; //返回这两个数的下标, 并且第一个下标小于第二个下标
             }
