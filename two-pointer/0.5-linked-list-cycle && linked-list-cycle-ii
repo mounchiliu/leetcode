@@ -1,0 +1,91 @@
+https://www.lintcode.com/problem/linked-list-cycle/
+https://www.lintcode.com/problem/linked-list-cycle-ii/description
+//最简单：使用哈希表O(n)的空间复杂度，记录每个点是否走过
+//优化：快慢指针，O（1）的额外空间
+//快指针会先进入一个环内，慢指针后进入这个环，从而演变成在圆圈上的追及问题，也就是慢指针一定会再次遇上快指针。
+
+//第一题 判断是否有环
+/**
+ * Definition of singly-linked-list:
+ * class ListNode {
+ * public:
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int val) {
+ *        this->val = val;
+ *        this->next = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param head: The first node of linked list.
+     * @return: True if it has a cycle, or false
+     */
+    bool hasCycle(ListNode * head) {
+        // write your code here
+        if(head == NULL)
+            return false;
+            
+        ListNode *fast = head, *slow = head;
+        while(fast && fast->next){
+            fast = fast->next->next;
+            slow = slow->next;
+            
+            if(fast == slow){
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+//第二题 判断是否有环、且返回环的入口
+/**
+ * Definition of singly-linked-list:
+ * class ListNode {
+ * public:
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int val) {
+ *        this->val = val;
+ *        this->next = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param head: The first node of linked list.
+     * @return: The node where the cycle begins. if there is no cycle, return null
+     */
+    ListNode * detectCycle(ListNode * head) {
+        // write your code here
+        if(head == NULL)
+            return NULL;
+            
+        ListNode *fast = head;
+        ListNode *slow = head;
+        
+        while(fast && fast->next){
+            fast = fast->next->next;
+            slow = slow->next;
+            
+            
+            if(slow == fast){
+                slow = head;//慢指针返回起点重新开始跑
+                while(slow != fast){
+                    slow = slow->next;
+                    fast = fast->next;//逐个搜索环的入口
+                }
+                return slow;
+            }
+            
+        }
+        return NULL;
+    }
+};   
