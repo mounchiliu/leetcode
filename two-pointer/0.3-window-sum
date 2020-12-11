@@ -1,0 +1,90 @@
+https://www.lintcode.com/problem/window-sum/description
+双指针 VS 暴力求解
+
+双指针 时间复杂度O(n) 空间复杂度O(n)
+class Solution {
+public:
+    /**
+     * @param nums a list of integers.
+     * @return the sum of the element inside the window at each moving
+     */
+    vector<int> winSum(vector<int> &nums, int k) {
+        // write your code here
+        if (nums.size() < k || k <= 0)
+            return vector<int>();
+
+        int n = nums.size();
+        vector<int> sums(n - k + 1, 0);
+		    // 计算nums的前k数之和
+        for (int i = 0; i < k; i++)
+            sums[0] += nums[i];
+        //滑动窗口
+        for (int i = 1; i < n - k + 1; i++) {
+            // 减去头部元素，加上尾部元素
+            sums[i] = sums[i-1] - nums[i-1] + nums[i + k-1];
+        }
+        return sums;
+    }
+};
+
+//前缀和 --- 时间复杂度，空间复杂度与双指针相同， 只是这里利用已经算好的前i、(i-k)个数之和来推滑动窗口内之和
+class Solution {
+public:
+    /**
+     * @param nums: a list of integers.
+     * @param k: length of window.
+     * @return: the sum of the element inside the window at each moving.
+     */
+    vector<int> winSum(vector<int> &nums, int k) {
+        if (k == 0) {
+            return vector<int>();
+        }
+        int n = nums.size();
+        int sum[n];
+        sum[0] = nums[0];
+        //求前缀和
+        for (int i = 1;i < n; i++) {
+            sum[i] = sum[i - 1] + nums[i];
+        }
+        vector <int> res;
+        k--;
+        //sum[i] - sum[i - k] + nums[i-k] 代表长度为k的数字的和
+        for (int i = k;i < n; i++) {
+            res.push_back(sum[i] - sum[i - k] + nums[i-k]);
+        }
+        return res;
+    }
+};
+
+暴力求解 时间复杂度O(n*k)
+class Solution {
+public:
+    /**
+     * @param nums: a list of integers.
+     * @param k: length of window.
+     * @return: the sum of the element inside the window at each moving.
+     */
+    vector<int> winSum(vector<int> &nums, int k) {
+        // write your code here
+        if(nums.size() < k || k == 0){
+            return {};
+        }
+        if(k == 1){
+            return nums;
+        }
+        
+        vector<int> result;
+        int left = 0, right = left + k - 1;
+        int sum;
+        while(right < nums.size()){
+            sum = 0;
+            for(int i = left; i <= right; i++){
+                sum += nums[i];
+            }
+            result.push_back(sum);
+            left++;
+            right++;
+        }
+        return result;
+    }
+};
