@@ -12,7 +12,7 @@ public:
      */
     vector<int> twoSum(vector<int> &numbers, int target) {
         // write your code here
-        if(numbers.empty())
+        if(numbers.size() <= 1)
             return {};
             
         unordered_map<int, int> map;
@@ -40,7 +40,7 @@ public:
      */
     vector<int> twoSum(vector<int> &numbers, int target) {
         // write your code here
-        if(numbers.empty())
+        if(numbers.size() <= 1)
             return {};
         vector<int> backUp = numbers;    
         sort(numbers.begin(), numbers.end());
