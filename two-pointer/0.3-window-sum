@@ -27,34 +27,6 @@ public:
     }
 };
 
-//前缀和 --- 时间复杂度，空间复杂度与双指针相同， 只是这里利用已经算好的前i、(i-k)个数之和来推滑动窗口内之和
-class Solution {
-public:
-    /**
-     * @param nums: a list of integers.
-     * @param k: length of window.
-     * @return: the sum of the element inside the window at each moving.
-     */
-    vector<int> winSum(vector<int> &nums, int k) {
-        if (k == 0) {
-            return vector<int>();
-        }
-        int n = nums.size();
-        int sum[n];
-        sum[0] = nums[0];
-        //求前缀和
-        for (int i = 1;i < n; i++) {
-            sum[i] = sum[i - 1] + nums[i];
-        }
-        vector <int> res;
-        k--;
-        //sum[i] - sum[i - k] + nums[i-k] 代表长度为k的数字的和
-        for (int i = k;i < n; i++) {
-            res.push_back(sum[i] - sum[i - k] + nums[i-k]);
-        }
-        return res;
-    }
-};
 
 //暴力求解 时间复杂度O(n*k)
 class Solution {
