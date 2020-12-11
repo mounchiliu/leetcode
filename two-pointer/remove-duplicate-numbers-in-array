@@ -1,0 +1,72 @@
+https://www.lintcode.com/problem/remove-duplicate-numbers-in-array/description
+
+Version 1： HashMap，空间复杂度O（n），时间复杂度O（n）
+Version 2： TwoPointers，空间复杂度O（1），时间复杂度O（nlogn）---时间复杂度主要是因为要排序
+这题不考虑num的正确性，只考虑长度的正确性
+
+//Sol2 
+//首先将数组排序，这样那些重复的整数就会被挤在一起。
+//然后用两根指针，一根指针走得快一些遍历整个数组，另外一根指针，一直指向当前不重复部分的最后一个数。
+//快指针发现一个和慢指针指向的数不同的数之后，就可以把这个数丢到慢指针的后面一个位置，并把慢指针++。
+
+
+//快指针用于快速遍历数组元素，慢指针用于定位不重复的部分的最后一个元素
+//慢指针之前都是不重复的，而又因为数组数排序的，重复元素都放在一起处理。
+class Solution {
+public:
+    /**
+     * @param nums: an array of integers
+     * @return: the number of unique integers
+     */
+    int deduplication(vector<int> &nums) {
+        // write your code here
+        if(nums.size() <= 1){
+            return nums.size();
+        }
+        
+        sort(nums.begin(), nums.end());
+        int slow = 0;
+        for(int fast = 0; fast < nums.size(); fast++){
+            if(nums[fast] != nums[slow]){
+                slow++;
+                swap(nums[slow], nums[fast]);
+            }
+        }
+        return slow+1;
+    }
+};
+
+
+
+//Sol1 HashMap
+class Solution {
+public:
+    /**
+     * @param nums: an array of integers
+     * @return: the number of unique integers
+     */
+    int deduplication(vector<int> &nums) {
+        // write your code here
+        if(nums.size() <= 1){
+            return nums.size();
+        }
+        
+        unordered_map<int, int> map;
+        vector<int> temp;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(map.find(nums[i]) == map.end())//没出现过
+            {
+                map[nums[i]] == nums[i];
+                temp.push_back(nums[i]);
+            }
+        }
+        nums = temp;
+        return temp.size();
+    }
+};
+
+
+
+
+
