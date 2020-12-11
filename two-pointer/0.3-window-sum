@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/window-sum/description
 双指针 VS 暴力求解
 
-双指针 时间复杂度O(n) 空间复杂度O(n)
+//双指针 时间复杂度O(n) 空间复杂度O(n)
 class Solution {
 public:
     /**
@@ -56,7 +56,7 @@ public:
     }
 };
 
-暴力求解 时间复杂度O(n*k)
+//暴力求解 时间复杂度O(n*k)
 class Solution {
 public:
     /**
