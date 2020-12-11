@@ -62,7 +62,7 @@ public:
             if(result1 == -1 && numbers[left] == backUp[i]){ //check whether the index is found
                 result1 = i;
             }
-            else if(result2 == -1 && numbers[right] == backUp[i]){
+            else if(result2 == -1 && numbers[right] == backUp[i]){ //防止重复，一次只能查一个
                 result2 = i;
             }
             //查询完毕，检查有没有都找到，没有则继续找，有则返回
