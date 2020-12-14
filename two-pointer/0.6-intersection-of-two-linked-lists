@@ -38,12 +38,12 @@ public:
         if(headA == NULL || headB == NULL)
             return NULL;
         
-        ListNode *node = headA;  
+        ListNode *node = headA;//node类似于链表上的一个指针  
         while(node->next){
             node = node->next;
         }
         node->next = headB;
-        ListNode* result = findCycle(headA);
+        ListNode* result = findCycle(headA);//从头开始找，注意不是从node开始找
         node->next = NULL;//在返回结果后，两个链表仍须保持原有的结构。
         return result;
     }
