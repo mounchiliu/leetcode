@@ -53,8 +53,15 @@ public:
         if(nums.size() <= 1){
             return {};
         }
+        
+        //两数之差，可正可负，为确保找到答案，target转正
         target = abs(target);
-        sort(nums.begin(), nums.end());
+        //排序 O（nlogn）
+        sort(nums.begin(),nums.end());
+        
+        //双指针（同向指针） 若数组已有序，时间复杂度O（n），空间复杂度为O（1）
+        //两数之差中，若依旧使用相向指针，nums[i] - nums[j]与target之间的关系不能确定我们如何淘汰或移动指针
+        //【双指针】：一个指针从头开始，另一个指针指向两树差大于等于target处来搜索
         int right = 1;
         for(int left = 0; left < nums.size(); left++){
             right = left + 1;//right默认起始位置要在left右侧
