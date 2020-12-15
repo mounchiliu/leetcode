@@ -1,7 +1,8 @@
 quickSort and mergeSort
 https://www.lintcode.com/problem/sort-integers-ii/description
 
-//【QuickSort】 --- 先整体有序（选择一个点，它的值为P，保证左边的数都要小于等于P，右边的数要大于等于P，都包括等于是为了避免在数组中有很多重复元素时会出现P点左边或者右边没有数值，而造成时间复杂度退化）
+//【QuickSort】 --- 先整体有序（选择一个点，它的值为P，保证左边的数都要小于等于P，右边的数要大于等于P
+//都包括等于是为了避免在数组中有很多重复元素时会出现P点左边或者右边没有数值，导致把元素都遍历了一遍，而造成时间复杂度退化）
                   //后局部有序（递归，对于左半部分和右半部分 都使用上述快排）
                   //【详细见 平板中国课前Notes】
    void quickSort(vector<int> &input, int start, int end){
@@ -45,7 +46,7 @@ https://www.lintcode.com/problem/sort-integers-ii/description
         
     }
     
-//【mergeSort】
+//【mergeSort】先局部有序，再整体有序，对比快排会花费O（n）的额外空间，因为他需要合并两个数组
 class Solution {
 public:
     /**
@@ -58,7 +59,7 @@ public:
             return;
         
         //we use a shared vector to get results
-        //如果在下面的算法实现中每次都声明一个vector 会耗费更多空间，然后time limit
+        //如果在下面的函数算法实现中每次都声明一个vector 会耗费更多资源(每次都要new 最后又要回收)，然后会time limit，所以这里声明了传进去
         vector<int> temp(A.size());
         //the extra memory is O(n) at least
         mergeSort(A, 0, A.size()-1, temp);
@@ -72,15 +73,17 @@ private:
         int left = start, right = end;
         int mid = start + (end - start)/2;
         
-        mergeSort(A, start, mid, temp);
-        mergeSort(A, mid+1, end, temp);
-        merge(A,start, mid, end, temp);
+        //区间上的分治，分两份，并且两份各自排好
+        mergeSort(A, start, mid, temp);//left
+        mergeSort(A, mid+1, end, temp);//right
+        merge(A,start, end, temp);//合并
     }
     
-    void merge(vector<int> &A, int start, int mid, int end, vector<int> &temp){
+    void merge(vector<int> &A, int start, int end, vector<int> &temp){
+        int mid = start + (end - start) / 2;
         int left = start;
         int right = mid+1;
-        int index = start;
+        int index = start;//注意从start开始排
         
         
         //merge
@@ -102,6 +105,7 @@ private:
         }
         
         //copy back to A
+        //注意：只需要copy上面排序部分的数值。
         for(index = start; index <= end; index++){
             A[index] = temp[index];
         }        
