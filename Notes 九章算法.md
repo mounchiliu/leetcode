@@ -138,7 +138,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 - 判断回文串 http://www.lintcode.com/problem/valid-palindrome/
 
-  Follow up： 允许删掉一个字母（类似的，允许插入一个字母 http://www.lintcode.com/problem/valid-palindrome-ii/
+  Follow up： 允许删掉一个字母（类似的，允许插入一个字母） http://www.lintcode.com/problem/valid-palindrome-ii/
 
 - 两数之和(哈希表 or 双指针)
 
