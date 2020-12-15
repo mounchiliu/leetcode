@@ -135,7 +135,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 **指针一头一尾，向中间靠拢直到相遇，时间复杂度一般为O(n)**
 
-- **Reverse类(较少)：**e.g. 三步翻转法
+- **Reverse类(较少)：** e.g. 三步翻转法
 
 - **判断回文串：** http://www.lintcode.com/problem/valid-palindrome/
 
