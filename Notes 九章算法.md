@@ -129,7 +129,8 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 (因为我们常把问题分为左右儿子的问题即子问题来解决) —— **分治**的思想
 
-## 【Two pointers】
+## 【Two pointers】 --- 需要注意 时时刻刻检查两个指针是否符合要求
+
 ### 1. 相向指针：
 
 **指针一头一尾，向中间靠拢直到相遇，时间复杂度一般为O(n)**
@@ -147,10 +148,14 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
   双指针：时间复杂度O(nlogn)、空间复杂度 O(n)；【如果是已排序数组】时间复杂度O(n)、空间复杂度O(1),不需要额外空间
   
   变形：
+  
   https://www.lintcode.com/problem/two-sum-ii-input-array-is-sorted/description 使用Two pointers 更快(因为已排序)
   
   https://www.lintcode.com/problem/two-sum-iii-data-structure-design/description 只能使用哈希表
-  
+   
+  https://www.lintcode.com/problem/two-sum-unique-pairs/description 相当于找出所有的pair，上面的只是找一对 [重点在于去重]
+      
+  https://www.lintcode.com/problem/3sum/description for枚举一个数的值，其余两个数用双指针解 时间复杂度O(n^2)
   
 - Partition 问题(e.g. quickSort/quickSelect)
 
