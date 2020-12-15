@@ -1,0 +1,41 @@
+https://www.lintcode.com/problem/3sum-closest/description
+
+class Solution {
+public:
+    /**
+     * @param numbers: Give an array numbers of n integer
+     * @param target: An integer
+     * @return: return the sum of the three integers, the sum closest target.
+     */
+    int threeSumClosest(vector<int> &numbers, int target) {
+        // write your code here
+        if(numbers.size() <= 2)
+            return -1;
+        
+        sort(numbers.begin(), numbers.end());
+        int left = 0, right = 0;
+        int sum, diff = INT_MAX;
+        int result;
+        for(int i = 0; i < numbers.size() - 2; i++){
+            left = i + 1;
+            right = numbers.size() - 1;
+            
+            while(left < right){
+                sum = numbers[i] + numbers[left] + numbers[right];
+                if(abs(sum - target) < diff){
+                    diff = abs(sum - target);
+                    result = sum;
+                }
+                
+                if(sum == target){
+                    return target;
+                }else if(sum < target){
+                    left++;
+                }else{
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+};
