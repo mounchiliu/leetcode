@@ -1,0 +1,53 @@
+https://www.lintcode.com/problem/3sum/description
+
+//a + b + c = target --> b + c = target - a
+//确定a，即可转化成两数和的问题
+//所以，for循环a，列举a的所有情况，对于每一种a的情况，使用双指针
+//需要注意的是，1.需要排序，2.移动指针时要注意跳过重复元素
+//时间复杂度O(n^2)  O(n)枚举第一个数，还有一个O(n)解决twosum的问题
+
+class Solution {
+public:
+    /**
+     * @param numbers: Give an array numbers of n integer
+     * @return: Find all unique triplets in the array which gives the sum of zero.
+     */
+    vector<vector<int>> threeSum(vector<int> &numbers) {
+        // write your code here
+        if(numbers.size() < 3){
+            return {};
+        }
+        sort(numbers.begin(), numbers.end());
+        vector<vector<int>> result;
+        for(int i = 0; i < numbers.size()-2; i++){
+            int left = i + 1;
+            int right = numbers.size() - 1;
+            
+            while(left < right){
+                if(numbers[i] + numbers[left] + numbers[right] == 0){
+                    result.push_back({numbers[i], numbers[left], numbers[right]});
+                
+                    //去重
+                    while(left + 1 < right && numbers[left] == numbers[left + 1]){
+                        left++;
+                    }
+                    while(left < right - 1 && numbers[right] == numbers[right - 1]){
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }else if(numbers[i] + numbers[left] + numbers[right] < 0){
+                    left++;
+                }else if(numbers[i] + numbers[left] + numbers[right] > 0){
+                    right--;
+                }
+            
+            }
+            //去重
+            while(i + 1 < numbers.size()-2 && numbers[i] == numbers[i+1]){
+                i++;
+            }
+        } 
+        return result;
+    }
+};
