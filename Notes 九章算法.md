@@ -195,7 +195,7 @@ public:
          if (nums.size() == 0 || k < 1 || k > nums.size()){
             return -1;
         }
-        return partition(nums, 0, nums.size() - 1, nums.size() - k); // 最后一个参数若写k 对应第k小
+        return partition(nums, 0, nums.size() - 1, nums.size() - k); // 最后一个参数若写(k-1) 对应第k小
         //从小到大排，第nums.size() - k个数(e.g.第1大， 对于nums.size()-1)
     }
     
@@ -229,6 +229,7 @@ private:
         //所以数组被分成左边、中间(可能不存在)、右边
         //所以，如果比right小于等于，则选择左侧
         //大于等于left，选择右侧
+        //对比左右的index和k的大小
         if (k <= right) { //注意包含等于，因为如果start + k - 1=right，也是选start~right之间的数
             return partition(nums, start, right, k);//找左边第k个数
         }
