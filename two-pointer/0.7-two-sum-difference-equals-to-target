@@ -25,8 +25,7 @@ public:
         for(int left = 0; left < nums.size(); left++){
             right = left + 1;//right默认起始位置要在left右侧
             while(right < nums.size() && nums[right] - nums[left] < target){ //先确保right不越界
-                                                                  //排序完毕后，left指针从最前往后搜索，另一个指针指向两数差大于等于target处
-                                                                  
+                                                                             //排序完毕后，left指针从最前往后搜索，另一个指针指向两数差大于等于target处                         
                 right++;
             }
             if(nums[right] - nums[left] == target){ //检查是否差等于target，如果不是，移动left指针，(因为当下left指针下，如果right++，所得的数只会比target还要大)
