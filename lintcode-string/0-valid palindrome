@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/valid-palindrome/description
 
 双指针 一一匹配
-简洁版
+简洁版 (for循环写法)
 class Solution {
 public:
     /**
@@ -21,6 +21,36 @@ public:
 
         return true;
 
+    }
+};
+
+(while写法)
+class Solution {
+public:
+    /**
+     * @param s: A string
+     * @return: Whether the string is a valid palindrome
+     */
+    bool isPalindrome(string &s) {
+        // write your code here
+        if(s.size() <= 1)
+            return true;
+            
+        int left = 0, right = s.size() - 1;
+        while(left <= right){
+            while(left <= right && !isalnum(s[left])){
+                left++;
+            }
+            while(left <= right && !isalnum(s[right])){
+                right--;
+            }
+            if(left <= right && tolower(s[left]) != tolower(s[right])){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
     }
 };
 
