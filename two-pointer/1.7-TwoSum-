@@ -1,0 +1,28 @@
+https://www.lintcode.com/problem/two-sum-greater-than-target/
+
+class Solution {
+public:
+    /**
+     * @param nums: an array of integer
+     * @param target: An integer
+     * @return: an integer
+     */
+    int twoSum2(vector<int> &nums, int target) {
+        // write your code here
+        if(nums.size() <= 1){
+            return 0;
+        }
+        sort(nums.begin(), nums.end());//排序 O(nlogn) 时间复杂度
+        int cnt = 0;
+        int left = 0, right = nums.size() - 1;//双指针O(n)时间复杂度
+        while(left < right){
+            if(nums[left] + nums[right] > target){
+                cnt += right - left;
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return cnt;
+    }
+};
