@@ -9,47 +9,6 @@ public:
      */
     vector<int> twoSum7(vector<int> &nums, int target) {
         // write your code here
-        if(nums.size() == 0){
-            return {};
-        }
-        //两数之差，可正可负，为确保找到答案，target转正
-        target = abs(target);
-        //排序 O（nlogn）
-        sort(nums.begin(),nums.end());
-        
-        //双指针（同向指针） 若数组已有序，时间复杂度O（n），空间复杂度为O（1）
-        //两数之差中，若依旧使用相向指针，nums[i] - nums[j]与target之间的关系不能确定我们如何淘汰或移动指针
-        //【双指针】：一个指针从头开始，另一个指针指向两树差大于等于target处来搜索
-        int j = 1;
-        for(int i = 0; i < nums.size(); i++){
-            if(i == j){
-                j++;//首先确保j一定比i大
-            }
-            while(j < nums.size() && nums[j] - nums[i] < target){ //先确保j不越界
-                                                                  //排序完毕后，i指针从最前往后搜索，如果数值偏小；移动有指针，数值偏大，不管，移动指针继续搜
-                                                                  //i.e.  nums[i] + target > nums[j]
-                                                                  //找到第一个不符合该要求的位置，再检查是否差等于target。不是的话，继续移动指针
-                j++;
-            }
-            if(nums[j] - nums[i] == target){
-                return {nums[i], nums[j]};
-            }
-        }
-        return {};
-    }
-};
-
-
-
-class Solution {
-public:
-    /**
-     * @param nums: an array of Integer
-     * @param target: an integer
-     * @return: [num1, num2] (num1 < num2)
-     */
-    vector<int> twoSum7(vector<int> &nums, int target) {
-        // write your code here
         if(nums.size() <= 1){
             return {};
         }
