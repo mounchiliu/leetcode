@@ -12,7 +12,7 @@ public:
          if (nums.size() == 0 || k < 1 || k > nums.size()){
             return -1;
         }
-        return partition(nums, 0, nums.size() - 1, nums.size() - k); // 最后一个参数若写k 对应第k小
+        return partition(nums, 0, nums.size() - 1, nums.size() - k); // 最后一个参数若写(k-1) 对应第k小
         //从小到大排，第nums.size() - k个数(e.g.第1大， 对于nums.size()-1)
     }
     
@@ -54,5 +54,5 @@ private:
             return partition(nums, left, end, k);//找右边第k个数
         }
         return nums[k];//左右都不行，中间那个数
-    }
+    } 
 };
