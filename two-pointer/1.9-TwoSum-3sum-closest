@@ -1,4 +1,8 @@
 https://www.lintcode.com/problem/3sum-closest/description
+Follow up: 4Sum 
+           https://www.jiuzhang.com/problem/4sum/
+           两个for枚举元素(固定元素) + 双指针
+
 
 class Solution {
 public:
