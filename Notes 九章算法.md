@@ -130,7 +130,11 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 (因为我们常把问题分为左右儿子的问题即子问题来解决) —— **分治**的思想
 
 ## 【Two pointers】
-### 1. 相向指针
+### 1. 相向指针：
+
+**指针一头一尾，向中间靠拢直到相遇，时间复杂度一般为O(n)**
+
+- Reverse类(较少)：e.g. 三步翻转法
 
 - 判断回文串 http://www.lintcode.com/problem/valid-palindrome/
 
@@ -141,13 +145,21 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
   哈希表:时间复杂度O(n)、空间复杂度O(n)
 
   双指针：时间复杂度O(nlogn)、空间复杂度 O(n)；【如果是已排序数组】时间复杂度O(n)、空间复杂度O(1),不需要额外空间
+  
+- Partition 问题(e.g. quickSort/quickSelect)
 
-### 2. 同向指针
+### 1.2 背向指针
+
+- Longest Palindromic Substring，中心线枚举算法
+
+- Find k closest elements
+
+### 2. 同向指针 （滑动窗口、快慢指针...）
 
 - 数组去重问题 Remove duplicates in an array http://www.lintcode.com/problem/remove-duplicate-numbers-in-array/
 - 滑动窗口问题 Window Sum http://www.lintcode.com/problem/window-sum/
 - 两数之差问题 Two Difference http://www.lintcode.com/problem/two-sum-difference-equals-to-target/
-- 链表中点问题 Middle of Linked List http://www.lintcode.com/problem/middle-of-linked-list/
+- 链表中点问题 Middle of Linked List http://www.lintcode.com/problem/middle-of-linked-list/ 
 - 带环链表问题 Linked List Cycle  https://www.lintcode.com/problem/linked-list-cycle-ii/?_from=ladder&&fromId=1
 
 ### 3. 经典排序算法 
