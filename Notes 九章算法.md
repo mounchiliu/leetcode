@@ -135,19 +135,19 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 **指针一头一尾，向中间靠拢直到相遇，时间复杂度一般为O(n)**
 
-- Reverse类(较少)：e.g. 三步翻转法
+- **Reverse类(较少)：**e.g. 三步翻转法
 
-- 判断回文串 http://www.lintcode.com/problem/valid-palindrome/
+- **判断回文串：** http://www.lintcode.com/problem/valid-palindrome/
 
   Follow up： 允许删掉一个字母（类似的，允许插入一个字母） http://www.lintcode.com/problem/valid-palindrome-ii/
 
-- 两数之和(哈希表 or 双指针) https://www.lintcode.com/problem/two-sum/description
+- **两数之和(哈希表 or 双指针)：** https://www.lintcode.com/problem/two-sum/description
 
   哈希表:时间复杂度O(n)、空间复杂度O(n)
 
   双指针：时间复杂度O(nlogn)、空间复杂度 O(n)；【如果是已排序数组】时间复杂度O(n)、空间复杂度O(1),不需要额外空间
   
-  变形：
+  【变形：】
   
   https://www.lintcode.com/problem/two-sum-ii-input-array-is-sorted/description 使用Two pointers 更快(因为已排序)
   
@@ -177,7 +177,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 https://www.lintcode.com/problem/sort-integers-ii/description
 
-- 快排 
+- **快排** 
 
   1.先整体有序，后局部有序
 
@@ -187,7 +187,7 @@ https://www.lintcode.com/problem/sort-integers-ii/description
 
   4.稳定性对比归并排序，较差
 
-- 归并
+- **归并**
 
   1.先切一刀，局部有序，后整体有序
 
