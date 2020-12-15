@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/two-sum-ii-input-array-is-sorted/description
-双指针（相向指针）更快，因为这是已经排好的数组，不需要花费额外空间
+双指针（相向指针）更快，因为这是已经排好的数组，不需要花费额外空间 时间复杂度O(n)、空间复杂度O(1)
 class Solution {
 public:
     /**
