@@ -18,8 +18,8 @@ public:
         int result = INT_MAX;
         int left = 0, right = nums.size() - 1;
         while(left < right){
-            int diff = abs(target - (nums[left] + nums[right]);
-            int result = min(diff, result);
+            int diff = abs(target - (nums[left] + nums[right]));
+            result = min(diff, result);
             if(nums[left] + nums[right] < target){
                 left++;
             }else if(nums[left] + nums[right] > target){
