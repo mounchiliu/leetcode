@@ -1,0 +1,109 @@
+quickSort and mergeSort
+https://www.lintcode.com/problem/sort-integers-ii/description
+
+//【QuickSort】 --- 先整体有序（选择一个点，它的值为P，保证左边的数都要小于等于P，右边的数要大于等于P，都包括等于是为了避免在数组中有很多重复元素时会出现P点左边或者右边没有数值，而造成时间复杂度退化）
+                  //后局部有序（递归，对于左半部分和右半部分 都使用上述快排）
+                  //【详细见 平板中国课前Notes】
+   void quickSort(vector<int> &input, int start, int end){
+        if(start >= end){
+            return;
+        }
+        
+        int left = start;
+        int right = end;
+        int mid = input[start + (end - start) / 2]; 
+        //1. 一般选择中心点，这个选择方法VS选择start 或 end 位置的数，不容易变成极端的情况（即，没有数比选择的这个数大或小）---e.g.升降序数组
+        //不使用random选择一个位置，也是因为random函数也会耗费一定资源
+        //2. 注意取的是值而不是index
+        
+        //3. 注意小于等于，因为直接写小于可能会出现stackOverflow e.g.对于[1,2]，指针相遇后停止while，会发现递归后一直需要重复排[1,2]
+        //而如果是left <= right 可以保证他们交错后再递归，避免了这样的情况
+        while(left <= right){
+            //需要移动指针，所以每次都要check boundary
+            while(left <= right && input[left] < mid){ //保证左边的数都要小于等于P,所以这里寻找一个不符合的
+                left++;
+            }
+            while(left <= right && input[right] > mid){//右边的数要大于等于P
+                right--;
+            }
+            
+            if(left <= right){ //找到了交换
+                int temp = input[left];
+                input[left] = input[right];
+                input[right] = temp;
+                //各自再往前走一步
+                left++;
+                right--;
+            }
+            
+        }
+        //此时，左边都比baseline小，右边都比baseline大
+        //递归，对左右分层进行相同操作
+        //【上述while循环出来之后】left和right已经交错了，left在右边，right在左边，所以分为start~right 和 left~end两部分
+        quickSort(input, start, right);
+        quickSort(input, left, end);
+        
+    }
+    
+//【mergeSort】
+class Solution {
+public:
+    /**
+     * @param A: an integer array
+     * @return: nothing
+     */
+    void sortIntegers2(vector<int> &A) {
+        // write your code here
+        if(A.size() <= 1)
+            return;
+        
+        //we use a shared vector to get results
+        //如果在下面的算法实现中每次都声明一个vector 会耗费更多空间，然后time limit
+        vector<int> temp(A.size());
+        //the extra memory is O(n) at least
+        mergeSort(A, 0, A.size()-1, temp);
+    }
+    
+private:
+    void mergeSort(vector<int> &A, int start, int end, vector<int> &temp){
+        if(start >= end)
+            return;
+            
+        int left = start, right = end;
+        int mid = start + (end - start)/2;
+        
+        mergeSort(A, start, mid, temp);
+        mergeSort(A, mid+1, end, temp);
+        merge(A,start, mid, end, temp);
+    }
+    
+    void merge(vector<int> &A, int start, int mid, int end, vector<int> &temp){
+        int left = start;
+        int right = mid+1;
+        int index = start;
+        
+        
+        //merge
+        while(left <= mid && right <= end){
+            if(A[left] < A[right]){
+                temp[index] = A[left];
+                index++; left++;
+            }else{
+                temp[index] = A[right];
+                index++;right++;
+            }
+        }
+        //handle the rest of elements if the two part are not in the same length
+        while(left <= mid){
+            temp[index++] = A[left++];
+        }
+        while(right <= end){
+            temp[index++] = A[right++];
+        }
+        
+        //copy back to A
+        for(index = start; index <= end; index++){
+            A[index] = temp[index];
+        }        
+    }
+};
