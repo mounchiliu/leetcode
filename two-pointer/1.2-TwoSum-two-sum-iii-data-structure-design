@@ -1,0 +1,51 @@
+https://www.lintcode.com/problem/two-sum-iii-data-structure-design/description
+
+哈希表最优，如果使用双指针，无法做到对一个数组or链表插入和二分都很快
+/*
+MultiSet和Set的区别：
+
+　　1) MultiSet
+
+    　　可以插入完全相同的两条记录
+
+    　　会提高数据插入的速度
+
+　　2) Set
+
+    　　不可以插入完全相同的两条记录
+
+    　　保证记录的唯一性
+
+    　　由于需要查重处理，会降低数据插入的速度
+
+    　　可以作为一种去重的方法
+*/
+//version 1 哈希表（最优） add()时间复杂度O(1)、find()时间复杂度O(n)
+class TwoSum {
+public:
+    /**
+     * @param number: An integer
+     * @return: nothing
+     */
+    unordered_multiset<int> nums; 
+    void add(int number) {
+        // write your code here
+        nums.insert(number);
+    }
+
+    /**
+     * @param value: An integer
+     * @return: Find if there exists any pair of numbers which sum is equal to the value.
+     */
+    bool find(int value) {
+        // write your code here
+        for (int &i : nums) {
+            int count = i == value - i ? 2 : 1; //i==value - i,则表明需要有两个值为i的数，否则1个
+            if (nums.count(value - i) >= count) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
