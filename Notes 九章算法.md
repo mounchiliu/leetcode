@@ -129,5 +129,39 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 (因为我们常把问题分为左右儿子的问题即子问题来解决) —— **分治**的思想
 
+## 【Two pointers】
+### 1. 相向指针
+
+- 判断回文串 http://www.lintcode.com/problem/valid-palindrome/
+Follow up： 允许删掉一个字母（类似的，允许插入一个字母 http://www.lintcode.com/problem/valid-palindrome-ii/
+
+- 两数之和(哈希表 or 双指针)
+
+哈希表:时间复杂度O（n）、空间复杂度O（n）
+
+双指针：时间复杂度O（nlogn）、空间复杂度 O（n）；【如果是已排序数组】时间复杂度O（n）、空间复杂度O（1）：不需要额外空间
+
+### 2. 同向指针
+
+- 数组去重问题 Remove duplicates in an array http://www.lintcode.com/problem/remove-duplicate-numbers-in-array/
+- 滑动窗口问题 Window Sum http://www.lintcode.com/problem/window-sum/
+- 两数之差问题 Two Difference http://www.lintcode.com/problem/two-sum-difference-equals-to-target/
+- 链表中点问题 Middle of Linked List http://www.lintcode.com/problem/middle-of-linked-list/
+- 带环链表问题 Linked List Cycle  https://www.lintcode.com/problem/linked-list-cycle-ii/?_from=ladder&&fromId=1
+
+### 3. 经典排序算法 https://www.lintcode.com/problem/sort-integers-ii/description
+- 快排 
+
+1.先整体有序，后局部有序
+2.时间复杂度最差O(n^2)、平均O(nlogn)
+3.空间复杂度O(1)
+4.稳定性对比归并排序，较差
+
+- 归并
+
+1.先切一刀，局部有序，后整体有序
+2.时间复杂度最差O(nlogn)、平均O(nlogn)
+3.空间复杂度O(n)
+4.稳定性对比快速排序，较好
 
 
