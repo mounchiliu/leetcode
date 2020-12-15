@@ -150,7 +150,10 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 - 链表中点问题 Middle of Linked List http://www.lintcode.com/problem/middle-of-linked-list/
 - 带环链表问题 Linked List Cycle  https://www.lintcode.com/problem/linked-list-cycle-ii/?_from=ladder&&fromId=1
 
-### 3. 经典排序算法 https://www.lintcode.com/problem/sort-integers-ii/description
+### 3. 经典排序算法 
+
+https://www.lintcode.com/problem/sort-integers-ii/description
+
 - 快排 
 
   1.先整体有序，后局部有序
@@ -170,5 +173,72 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
   3.空间复杂度O(n)
 
   4.稳定性对比快速排序，较好
+
+### 4. 快速选择算法 (使用快排的思想)
+
+https://www.lintcode.com/problem/kth-largest-element/ 找第k大的数/同理第k小的数
+
+https://www.lintcode.com/problem/median/ (第n/2大的数)
+
+平均时间复杂度O(n)、最差O(n^2)
+
+```
+class Solution {
+public:
+    /**
+     * @param n: An integer
+     * @param nums: An array
+     * @return: the Kth largest element
+     */
+    int kthLargestElement(int k, vector<int> &nums) {
+        // write your code here
+         if (nums.size() == 0 || k < 1 || k > nums.size()){
+            return -1;
+        }
+        return partition(nums, 0, nums.size() - 1, nums.size() - k); // 最后一个参数若写k 对应第k小
+        //从小到大排，第nums.size() - k个数(e.g.第1大， 对于nums.size()-1)
+    }
+    
+private:
+    int partition(vector<int> &nums, int start, int end, int k) {
+        //condition for end
+        if (start >= end) {
+            return nums[k]; //start和end交错，表明已排好，返回第k个数即可
+        }
+        
+        //start partition
+        int left = start, right = end;
+        int pivot = nums[(start + end) / 2];
+        
+        while (left <= right) {
+            while (left <= right && nums[left] < pivot) {
+                left++;
+            }
+            while (left <= right && nums[right] > pivot) {
+                right--;
+            }
+            if (left <= right) {
+                swap(nums[left], nums[right]);
+                left++;
+                right--;
+            }
+        }
+        //end partition, check which part we need to choose
+        //while循环出来后 left和right错位，right在左，left在右
+        //且left与right之间有可能隔了一个数(left=right时 left++，right--，中间隔开一个数)
+        //所以数组被分成左边、中间(可能不存在)、右边
+        //所以，如果比right小于等于，则选择左侧
+        //大于等于left，选择右侧
+        if (k <= right) { //注意包含等于，因为如果start + k - 1=right，也是选start~right之间的数
+            return partition(nums, start, right, k);//找左边第k个数
+        }
+        if (k >= left) {
+            return partition(nums, left, end, k);//找右边第k个数
+        }
+        return nums[k];//左右都不行，中间那个数
+    }
+};
+```
+
 
 
