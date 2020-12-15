@@ -176,7 +176,7 @@ https://www.lintcode.com/problem/sort-integers-ii/description
 
 ### 4. 快速选择算法 (使用快排的思想)
 
-https://www.lintcode.com/problem/kth-largest-element/ 找第k大的数/同理第k小的数
+https://www.lintcode.com/problem/kth-largest-element/ 找第k大的数/同理第k小的数 （使用快排、可避免先排序再找数值）
 
 https://www.lintcode.com/problem/median/ (第n/2大的数)
 
