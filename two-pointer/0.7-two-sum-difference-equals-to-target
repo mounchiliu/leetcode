@@ -28,7 +28,7 @@ public:
                                                                              //排序完毕后，left指针从最前往后搜索，另一个指针指向两数差大于等于target处                         
                 right++;
             }
-            if(nums[right] - nums[left] == target){ //检查是否差等于target，如果不是，移动left指针，(因为当下left指针下，如果right++，所得的数只会比target还要大)
+            if(right < nums.size() && nums[right] - nums[left] == target){ //检查是否差等于target，如果不是，移动left指针，(因为当下left指针下，如果right++，所得的数只会比target还要大)
                 return {nums[left], nums[right]};
             }
         }
