@@ -1,2 +1,47 @@
 https://www.lintcode.com/problem/implement-stack/description
+vector vs queue vs List
 
+//Version 1 vector
+class Stack {
+public:
+    /*
+     * @param x: An integer
+     * @return: nothing
+     */
+    vector<int> v;
+    void push(int x) {
+        // write your code here
+        v.push_back(x);
+    }
+
+    /*
+     * @return: nothing
+     */
+    void pop() {
+        // write your code here
+        if(!this->isEmpty()){//需要检测是否非空 //相当于v.empty()，只是这里调用自己class的函数需要注意使用this
+            v.pop_back();//删除最后一个元素，最后一个模拟栈顶
+        }
+    }
+
+    /*
+     * @return: An integer
+     */
+    int top() {
+        // write your code here
+        if(!this->isEmpty()){//需要检测是否非空
+            return v[v.size()-1]; //返回栈顶元素
+        }
+    }
+
+    /*
+     * @return: True if the stack is empty
+     */
+    bool isEmpty() {
+        // write your code here
+        return v.empty();
+    }
+};
+
+
+//Version 2
