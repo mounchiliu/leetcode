@@ -26,7 +26,7 @@ public:
         for(int len = array.size(); len>=1; len--){
             int maxIndex = 0;
             
-            //在len中寻找最大数
+            //在当前未排序的len中寻找最大数
             for(int j = 1; j < len; j++){
                 if(array[j] > array[maxIndex]){
                     maxIndex = j;
@@ -35,7 +35,7 @@ public:
             
             if(maxIndex !=0 && maxIndex != len-1){ //最大的不是第一个 也不是最后一个（不需要翻）
                  FlipTool::flip(array, maxIndex);//max翻到最前面
-                  FlipTool::flip(array, len-1);//再翻到最后面
+                 FlipTool::flip(array, len-1);//再翻到最后面
             }else if(maxIndex == 0){//最大的是第一个
                  FlipTool::flip(array, len-1);//max只需要翻到最后面
             }
