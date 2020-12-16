@@ -1,0 +1,54 @@
+https://www.lintcode.com/problem/sort-colors-ii/description
+
+class Solution {
+public:
+    /**
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    void sortColors2(vector<int> &colors, int k) {
+        // write your code here
+        //k代表总共多少颜色
+        if(colors.size() == 1)
+            return;
+            
+        rainbowSort(colors, 0, colors.size()-1, 1, k);
+    }
+    
+private:
+    void rainbowSort(vector<int> &colors, 
+                    int start, int end, 
+                    int colorFrom, int colorTo){
+        if(colorFrom == colorTo){
+            return;
+        }
+        
+        if(start >= end){
+            return;
+        }
+        
+        //quickSort+分治的思想, 先二分, 每组有好几个颜色
+        //递归继续二分，直到每组只有一个颜色.
+        int colorMid = colorFrom + (colorTo - colorFrom) / 2;
+        int left = start, right = end;
+        
+        while(left <= right){
+            while(left <= right && colors[left] <= colorMid){ //这里需要严格分开(一个等于，一个不含等于)
+                //且二分界限要与下面递归的界限一致 这里分的是[colorFrom~colormid]为左，[colorMid+1~colorTo]为右
+                left++;
+            }
+            while(left <= right && colors[right] > colorMid){
+                right--;
+            }
+            if(left <= right){
+                swap(colors[left], colors[right]);
+                
+                left++;
+                right--;
+            }
+        }
+        rainbowSort(colors, start, right, colorFrom, colorMid);
+        rainbowSort(colors, left, end, colorMid+1, colorTo);
+    }
+};
