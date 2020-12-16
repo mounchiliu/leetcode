@@ -20,11 +20,13 @@ private:
     void rainbowSort(vector<int> &colors, 
                     int start, int end, 
                     int colorFrom, int colorTo){
+        //停止递归的两种情况
+        //1. 递归过来的以及排好了都属于一个颜色
         if(colorFrom == colorTo){
             return;
         }
-        
-        if(start >= end){
+        //2. 头尾相接，即没有元素了
+        if(start >= end){ 
             return;
         }
         
@@ -34,8 +36,9 @@ private:
         int left = start, right = end;
         
         while(left <= right){
-            while(left <= right && colors[left] <= colorMid){ //这里需要严格分开(一个等于，一个不含等于)
+            while(left <= right && colors[left] <= colorMid){ //【这里需要严格分开(一个等于，一个不含等于)】
                 //且二分界限要与下面递归的界限一致 这里分的是[colorFrom~colormid]为左，[colorMid+1~colorTo]为右
+                //【第一个要包含等于】因为colorMid算的时候偏向colorFrom 有可能等于colorFrom, 如果不含等于，就会找不到比mid小的数导致segmentation fault.
                 left++;
             }
             while(left <= right && colors[right] > colorMid){
