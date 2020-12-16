@@ -23,7 +23,9 @@ public:
             if(nums[mid] == 0){
                 swap(nums[mid], nums[left]);
                 left++;//移动左指针，相当于移动0的右边界
-                mid++;
+                mid++;//移动mid指针，这里是为了保证[L,mid) == 1 //且mid之前的都是已经处理过的 要不然就是0，要不然就是1；
+                      //首先mid要保证在left右边，且要保证mid看到下一个元素，所以mid++
+  
             }
             else if(nums[mid] == 2){
                 swap(nums[mid], nums[right]);
