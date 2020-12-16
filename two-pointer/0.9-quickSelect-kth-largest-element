@@ -20,7 +20,7 @@ private:
     int partition(vector<int> &nums, int start, int end, int k) {
         //condition for end
         if (start >= end) {
-            return nums[k]; //start和end交错，表明已排好，返回第k个数即可
+            return nums[k]; //start和end交错，表明已排好，返回第k个数即可//其实也可以return nums[start], 因为start就是第k个
         }
         
         //start partition
