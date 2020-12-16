@@ -21,10 +21,10 @@ https://www.lintcode.com/problem/sort-integers-ii/description
         //而如果是left <= right 可以保证他们交错后再递归，避免了这样的情况
         while(left <= right){
             //需要移动指针，所以每次都要check boundary
-            while(left <= right && input[left] < mid){ //保证左边的数都要小于等于P,所以这里寻找一个不符合的
+            while(left <= right && input[left] < mid){ //找一个大于等于mid的值，丢右边去
                 left++;
             }
-            while(left <= right && input[right] > mid){//右边的数要大于等于P
+            while(left <= right && input[right] > mid){//找一个小于等于mid的值，丢左边去
                 right--;
             }
             
