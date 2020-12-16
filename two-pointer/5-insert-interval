@@ -1,4 +1,10 @@
 https://www.lintcode.com/problem/insert-interval/description
+如当前元素的右端点小于插入元素的左端点，则说明当前元素与插入元素无交并。
+如当前元素的左端点大于插入元素的右端点，也说明当前元素与插入元素无交并。
+依次遍历，判断当前元素与要插入元素的关系，找到插入点，插入这个新区间
+
+若是相交的，那么就停止比较，把要插入元素和当前元素合并成新区间
+
 
 /**
  * Definition of Interval:
@@ -24,19 +30,19 @@ public:
         if (intervals.size() == 0) {
             ans.push_back(newInterval);
         }
-        //处理开头比新interval开头小的
+        //1. 处理开头比新interval开头小的
         int st;
         for (st = 0; st < intervals.size() && intervals[st].start < newInterval.start; st++) { 
             ans.push_back(intervals[st]);
         } 
-        //处理开头比新的开头小的最后一个元素，查看是否有交集
+        //2. 处理开头比新的开头小的最后一个元素，查看是否有交集
         if (!ans.empty() && ans.back().end >= newInterval.start) { //有交集
             ans.back().end = max(ans.back().end, newInterval.end);
         } else { 
             ans.push_back(newInterval);    
         } 
      
-        //处理剩下的
+        //3.处理剩下的 比较ans里最后一个是否和intervals当前指向的有交集
         for (int i = st; i < intervals.size(); i++) { 
             if (ans.back().end >= intervals[i].start) { //有交集
                 ans.back().end = max(ans.back().end, intervals[i].end);
