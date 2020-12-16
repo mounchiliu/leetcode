@@ -59,7 +59,7 @@ private:
         while (left < right) {
             swap(A[left], A[right]);
             
-            left += 2;
+            left += 2;//每次走两步
             right -= 2;
         }
     }
