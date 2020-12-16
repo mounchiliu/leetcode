@@ -30,5 +30,6 @@ public:
             }
         }
         return left;//返回数组划分的位置，即数组中第一个位置 i，满足 nums[i] 大于等于 k。
+                    //大于等于的在右边，所以返回右边第一个，而这里left和right已经交汇，所以left在右边，right在左边，返回left；
     }
 };
