@@ -16,10 +16,10 @@ public:
         int left = 0, right = nums.size()-1;
         int mid = 0;//mid从左往右依次查元素
         //def:
-        //all in [0,L) == 0
-        //all in [L,mid) == 1
-        //all in (R,len - 1) == 2
-        while(mid <= right){ //mid = R时 还需要检查mid此处的值再分类。所以包含等于
+        //all in [0,L) == 0 :L表示L左边的都是0，处理好的
+        //all in [L,mid) == 1: 若L与mid中间有空格，那必然是1
+        //all in (R,len - 1) == 2 :R表示R的右边都是2，处理好的
+        while(mid <= right){ //mid = R时 还需要检查R此处的值再分类，因为只能保证R右侧的处理好了。所以包含等于
             if(nums[mid] == 0){
                 swap(nums[mid], nums[left]);
                 left++;//移动左指针，相当于移动0的右边界
