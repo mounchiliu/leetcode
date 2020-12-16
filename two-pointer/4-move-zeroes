@@ -45,6 +45,8 @@ public:
             //双指针，slow代表新数组，fast代表老数组，从左往右先遍历
             if(nums[fast] != 0){
                 if(fast != slow){ //两指针错开，指向不同数才swap进行写操作
+                                  //【注意】 (slow，fast)之间一定都是0，且如果slow 与 fast 之间有间隔元素，则slow一定指向的是0
+                                  //而当fast为非0时才需要换值，此时fast与slow所指的数一定不相同；所以这里如果写nums[fast] != nums[slow]就毫无意义，直接判断指针是否重合即可
                     nums[slow] = nums[fast]; //保证写次数最少则不能使用swap，因为一次swap有三次写入
                                              //直接覆盖值，最后处理末尾的写成0即可
                 }
