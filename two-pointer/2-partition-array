@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/partition-array/
 (快排、快选的灵魂所在)
 //与quick sort不同之处：
-//quickSort 等于的情况左右两边都可以放，而这一题规定，等于只放在右边
+//quickSort 等于的情况左右两边都可以放，而这一题规定，所有小于k的元素移到左边，所有大于等于k的元素移到右边
 class Solution {
 public:
     /**
@@ -16,10 +16,10 @@ public:
             
         int left = 0, right = nums.size() - 1;
         while(left <= right){
-            while(left <= right && nums[left] < k){//扫描，在左边找不符合要求的，即大于等于的情况
+            while(left <= right && nums[left] < k){//扫描，大于等于pivot(即k)的丢到右边去
                 left++;
             }
-            while(left <= right && nums[right] >= k){ //扫描，在右边找不符合要求的，即小于的情况
+            while(left <= right && nums[right] >= k){ //扫描，小于pivot的丢到左边去
                 right--;
             }
             
