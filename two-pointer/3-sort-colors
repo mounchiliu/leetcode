@@ -23,7 +23,7 @@ public:
             if(nums[mid] == 0){
                 swap(nums[mid], nums[left]);
                 left++;//移动左指针，相当于移动0的右边界
-                mid++;//移动mid指针 查看下一个元素。 
+                mid++;//【移动mid指针 查看下一个元素且保证mid与left重合或mid在left右边】 
                        //因为mid之前的都是已经处理过的 要不然就是0，要不然就是1；
                       //若从left处交换过来0，只能在left和mid指向同一个位置的时候发生,mid++保证和left一起往前走，没毛病; 
                       //left 和 mid 不指向一个位置, 则一定是因为mid遇到了1进行了mid++，则left处一定为1, mid++也没毛病
