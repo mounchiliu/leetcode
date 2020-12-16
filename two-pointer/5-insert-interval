@@ -4,7 +4,7 @@ https://www.lintcode.com/problem/insert-interval/description
 依次遍历，判断当前元素与要插入元素的关系，找到插入点，插入这个新区间
 
 若是相交的，那么就停止比较，把要插入元素和当前元素合并成新区间
-
+时间复杂度、空间复杂度O(n)
 
 /**
  * Definition of Interval:
