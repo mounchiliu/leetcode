@@ -1,5 +1,6 @@
 https://www.lintcode.com/problem/sort-colors/description
-
+//思路1:两重循环, 先分0与1,2；再分1,2； 即两次partition
+//思路2:三指针, 保证L左边都是0，R右边都是2, 中间放1
 class Solution {
 public:
     /**
