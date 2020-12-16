@@ -1,0 +1,44 @@
+https://www.lintcode.com/problem/pancake-sorting/description
+每次都将还未排序的数字中最大的数字先交换到第一个，然后再交换到应在的位置。
+最多交换 2*N 次。
+
+
+class Solution {
+public:
+    /**
+     * @param array: an integer array
+     * @return: nothing
+     */
+    void pancakeSort(vector<int> &array) {
+        // Write your code here
+        if(array.size() <= 1)
+            return;
+            
+        //FlipTool::flip(arr, i)
+        int maxIndex = 0;
+        for(int &i: array){
+            if(i > array[maxIndex]){
+                maxIndex = i;
+            }
+        }
+        
+        //len表示未排序的长度
+        for(int len = array.size(); len>=1; len--){
+            int maxIndex = 0;
+            
+            //在len中寻找最大数
+            for(int j = 1; j < len; j++){
+                if(array[j] > array[maxIndex]){
+                    maxIndex = j;
+                }
+            }
+            
+            if(maxIndex !=0 && maxIndex != len-1){ //最大的不是第一个 也不是最后一个（不需要翻）
+                 FlipTool::flip(array, maxIndex);//max翻到最前面
+                  FlipTool::flip(array, len-1);//再翻到最后面
+            }else if(maxIndex == 0){//最大的是第一个
+                 FlipTool::flip(array, len-1);//max只需要翻到最后面
+            }
+        }
+    }
+};
