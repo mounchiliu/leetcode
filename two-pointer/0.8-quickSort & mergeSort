@@ -27,6 +27,8 @@ https://www.lintcode.com/problem/sort-integers-ii/description
             while(left <= right && input[right] > mid){//找一个小于等于mid的值，丢左边去
                 right--;
             }
+            //补充：如果是input[left] <= mid 和 input[right] >= mid时跳过
+            //如果mid的值已经是最小的或者最大的，就找不到一个比他大的或者小的来符合要求(segmentation fault)，去掉等号，至少可以找到相等的值
             
             if(left <= right){ //找到了交换
                 int temp = input[left];
