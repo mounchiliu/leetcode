@@ -1,0 +1,49 @@
+https://www.lintcode.com/problem/insert-interval/description
+
+/**
+ * Definition of Interval:
+ * classs Interval {
+ *     int start, end;
+ *     Interval(int start, int end) {
+ *         this->start = start;
+ *         this->end = end;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param intervals: Sorted interval list.
+     * @param newInterval: new interval.
+     * @return: A new interval list.
+     */
+    vector<Interval> insert(vector<Interval> &intervals, Interval newInterval) {
+        // write your code here
+        vector<Interval> ans;
+        if (intervals.size() == 0) {
+            ans.push_back(newInterval);
+        }
+        //处理开头比新interval开头小的
+        int st;
+        for (st = 0; st < intervals.size() && intervals[st].start < newInterval.start; st++) { 
+            ans.push_back(intervals[st]);
+        } 
+        //处理开头比新的开头小的最后一个元素，查看是否有交集
+        if (!ans.empty() && ans.back().end >= newInterval.start) { //有交集
+            ans.back().end = max(ans.back().end, newInterval.end);
+        } else { 
+            ans.push_back(newInterval);    
+        } 
+     
+        //处理剩下的
+        for (int i = st; i < intervals.size(); i++) { 
+            if (ans.back().end >= intervals[i].start) { //有交集
+                ans.back().end = max(ans.back().end, intervals[i].end);
+            } else { 
+                ans.push_back(intervals[i]);
+            } 
+        } 
+        return ans;  
+    }
+};
