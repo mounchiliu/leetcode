@@ -1,0 +1,28 @@
+https://www.lintcode.com/problem/a-b-problem/description
+
+a & b就是a和b里都是1的那些位置，那么这些位置左边都应该有一个进位1，a & b << 1 就是进位的数值(a & b的结果所有左移一位)。
+
+那么我们把不进位的结果和进位的结果加起来，就是实际中a + b的和。
+
+a + b = (a ^ b) + (a & b << 1) = a' + b'
+不断迭代，直到b为0
+
+
+class Solution {
+public:
+    /**
+     * @param a: An integer
+     * @param b: An integer
+     * @return: The sum of a and b 
+     */
+    int aplusb(int a, int b) {
+        // write your code here
+        while (b != 0) {
+            int _a = a ^ b;
+            int _b = (a & b) << 1;
+            a = _a;
+            b = _b;
+        }
+        return a;
+    }
+};
