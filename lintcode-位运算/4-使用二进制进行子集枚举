@@ -1,5 +1,6 @@
 https://www.lintcode.com/problem/subsets
-//递归枚举(binarytree-2-subset已整理) VS 二进制枚举(用n位二进制数来表示子集的枚举情况，而每一位二进制都表示一个数，所用这个数去检测单位是0还是1)
+//递归枚举(binarytree-2-subset已整理) VS 二进制枚举(用n位二进制数来表示子集的枚举情况，二进制数每一位可以是0或1, 1代表这位上对应的num[i]在子集里
+//而每一位二进制都表示一个数，所以用这个数去检查某一位是0还是1即可)
 
 //二进制
 class Solution {
