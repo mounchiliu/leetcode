@@ -1,0 +1,118 @@
+https://www.lintcode.com/problem/subsets/description 
+//这一章重点掌握前两种方法
+
+//组合问题
+//Version1 最简单的递归法
+class Solution {
+public:
+    /**
+     * @param nums: A set of numbers
+     * @return: A list of lists
+     */
+    vector<vector<int>> subsets(vector<int> &nums) {
+        // write your code here
+        if(nums.size() == 0)
+            return {{}};
+            
+        sort(nums.begin(), nums.end());//子集中的元素排列必须是非降序的
+        vector<vector<int>> results;
+        vector<int> subset;
+        dfs(nums, 0, subset, results);
+        
+        return results;
+        
+    }
+    
+private:
+    //1.递归定义
+    void dfs(vector<int> &nums, int index, vector<int> &subset, vector<vector<int>> &results){
+        //3. 递归出口 //注意这个方法不需要一开始把空集先push进result,因为访问完所有元素后，他最后可以选择所有元素都要，就是空集，这个时候push（出口处push）
+        if(index == nums.size()){
+            results.push_back(subset);
+            return;
+        }
+        
+        //2. 递归拆解 --- 相当于构造二叉树，每个节点代表一个数。根节点为空，左右节点分别表示是否选第一个数（第一层），第二层表示是否选第二个数，以此类推。
+        subset.push_back(nums[index]);
+        //选 nums[index]
+        dfs(nums, index+1, subset, results);
+        //不选 nums[index]
+        subset.pop_back();
+        dfs(nums, index+1, subset, results);
+    }
+};
+
+//Version 2
+//【DFS】--- Recursive  排列类搜索的递归方式
+/*e.g. [1,2,3] --- {}
+                   {1} {1,2} {1,2,3}
+                       {1,3}
+                   
+                   {2} {2,3}
+                   k=1  k=2   k=3
+*/
+class Solution {
+ private:
+    void findSubsets(vector<vector<int> > &results, //result值要一直记录，所以引用, 这里是别名
+                vector<int> &subset,////result值要一直记录，所以引用，这里是别名
+                vector<int> &nums,//nums用于访问 所以引用，不用对值进行删改
+                int start) {
+        results.push_back(subset);//第一个是空集
+        
+        for (int i = start; i < nums.size(); i++) { 
+            subset.push_back(nums[i]); //为subset新增元素
+            findSubsets(results, subset, nums, i + 1);//【进入下一层】寻找以当前subset形态为开头，往后续添加元素的所有子集
+            subset.pop_back(); //【回溯】以当前元素为nums[i]开头的所有元素找完了，删掉他，换下一个指针处的元素
+                               // 删除最后一个元素, 即删除subset.push_back(nums[i])添加的新元素 e.g.对于[1,2,3,4,5] 搜索完[1,2,5]回溯[1,2]
+        }
+    }
+    
+ public:
+    vector<vector<int> > subsets(vector<int> &nums) {
+        vector<vector<int> > results;
+        vector<int> subset;
+
+        sort(nums.begin(), nums.end()); //子集中的排列必须是非降序的
+        findSubsets(results, subset, nums, 0);
+
+        return results;
+    }
+};
+
+【BFS】 --- Non recursive  Q：为什么可以用BFS，列举一个数组的所有子集我们发现可以把结果画成二叉树的形式
+                             每往下一层相当于在前一层的元素基础上添加新元素，相当于是二叉树的层级遍历找到所有元素组合
+//Version 3
+class Solution {
+public:
+    /**
+     * @param nums: A set of numbers
+     * @return: A list of lists
+     */
+    vector<vector<int>> subsets(vector<int> &nums) {
+        vector<vector<int>> res;
+        
+        sort(nums.begin(), nums.end());
+        queue<vector<int>> que;
+        que.push({}); //【第一个元素是空集】
+        while (!que.empty()) {
+            vector<int> subset = que.front();
+            que.pop();
+            // 先把當前 subset 推入解集合
+            res.push_back(subset);
+            
+            for (int i = 0; i < nums.size(); i++) {
+                if (subset.empty() || subset.back() < nums[i]) { //子集为空 或 子集的最后一个元素比当前所指元素小，当前所指元素可以放在他后面
+                    vector<int> newSubset = subset;
+                    newSubset.push_back(nums[i]);
+                    que.push(newSubset);
+                    // OR
+                    //subset.push_back(nums[i]);
+                    //q.push(subset);
+                    //subset.pop_back();
+                }
+            }
+        }
+        return res;
+    }
+};
+
