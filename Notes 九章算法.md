@@ -266,10 +266,10 @@ private:
 
 ### 4. 三指针算法
 
-**Sort Colors ：** https://www.lintcode.com/problem/sort-colors/description
+**Sort Colors ：** https://www.lintcode.com/problem/sort-colors/description  https://www.lintcode.com/problem/sort-colors-ii
 
-                   https://www.lintcode.com/problem/sort-colors-ii
 
+                   
 ## 【DFS】
 DFS搜索类的问题中, 大致分为组合类问题、排列类问题
 
