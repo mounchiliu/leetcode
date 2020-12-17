@@ -1,0 +1,27 @@
+https://www.lintcode.com/problem/single-number-ii/description
+统计二进制每个位上1的个数并对3取模。 出现一次的数字对应位上的1会被统计出来。
+
+class Solution {
+public:
+    /**
+     * @param A: An integer array
+     * @return: An integer
+     */
+    int singleNumberII(vector<int> &A) {
+        // write your code here
+        int one=0;
+        int two=0;
+        int i,j,k;
+        for(i=0; i<A.size(); i++)
+        {
+            two = two |(one&A[i]);//如果Two里面ith是1，则ith当前为止出现1的次数模3的结果是2
+            one = one^A[i];//如果One里面ith是1，则ith目前为止出现1的次数模3的结果是1
+            
+            int three = two&one;//如果1次和2次的都为1，表示这是出现了3次，这个位为1
+            two = two^three;//用出现3次的数给出现1次两次的清0
+            one = one^three;
+        }
+        
+        return one;//找出位为1次的
+    }
+};
