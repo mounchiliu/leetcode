@@ -1,0 +1,18 @@
+https://www.lintcode.com/problem/count-1-in-binary/description
+
+class Solution {
+public:
+    /*
+     * @param num: An integer
+     * @return: An integer
+     */
+    int countOnes(int num) {
+        // write your code here
+        int cnt = 0;
+        while(num){
+            num = num & (num - 1);//使用n&(n-1) 每次消去最右一个1.
+            cnt++;
+        }
+        return cnt;
+    }
+};
