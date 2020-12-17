@@ -33,7 +33,7 @@ public:
 };
 
 
-//递归
+//BFS
 class Solution {
 public:
     /**
