@@ -1,0 +1,40 @@
+https://www.lintcode.com/problem/single-number-iii/description
+
+class Solution {
+public:
+    /**
+     * @param A: An integer array
+     * @return: An integer array
+     */
+    vector<int> singleNumberIII(vector<int> &A) {
+        // write your code here
+        if(A.size() < 3)
+            return {};
+            
+        int diff = 0;
+        for(int i = 0; i < A.size(); i++){
+            diff = diff ^ A[i];
+        }
+        
+        //取最后一位1
+        //先介绍一下原码，反码和补码
+        //原码，就是其二进制表示（注意，有一位符号位）
+        //反码，正数的反码就是原码，负数的反码是符号位不变，其余位取反
+        //补码，正数的补码就是原码，负数的补码是反码+1
+        //在机器中都是采用补码形式存
+        //【diff & (-diff)就是找到diff的最后一位1的位置，作为标记来找数，这个数表明 nums中找这一位以为0或为1的数，分成两组】
+        diff &= -diff;
+        
+        vector<int> rest = {0, 0};
+        for(int i = 0; i < A.size(); i ++) {
+            //分属两个“不同”的数组
+            if ((A[i] & diff) == 0) {
+                rest[0] ^= A[i];//分成两种情况，所以可以分别用single number第一问的思路来解 即(i^j^i = j)
+            }
+            else {
+                rest[1] ^= A[i]; //上面的if以及排除一个数，剩下的一个用single number第一问的思路来解 即(i^j^i = j)
+            }
+        }
+        return rest;
+    }
+};
