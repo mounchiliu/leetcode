@@ -59,7 +59,7 @@ class Solution {
                 int start) {
         results.push_back(subset);//第一个是空集//把当前的subset放入result, 下面再考虑还能往里面加什么，每次加完找到以目前开头的所有元素后再回退。
         
-        for (int i = start; i < nums.size(); i++) { 
+        for (int i = start; i < nums.size(); i++) { //for循环相当于定义了递归的出口，for循环结束，该子程序也结束
             subset.push_back(nums[i]); //为subset新增元素
             findSubsets(results, subset, nums, i + 1);//【进入下一层】寻找以当前subset形态为开头，往后续添加元素的所有子集
             subset.pop_back(); //【回溯】以当前元素为nums[i]开头的所有元素找完了，删掉他，换下一个指针处的元素
