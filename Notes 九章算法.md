@@ -266,7 +266,7 @@ private:
 
 ### 4. 三指针算法
 
-**Sort Colors ：** https://www.lintcode.com/problem/sort-colors/description  https://www.lintcode.com/problem/sort-colors-ii
+**Sort Colors ：** https://www.lintcode.com/problem/sort-colors/description + https://www.lintcode.com/problem/sort-colors-ii
 
 
                    
