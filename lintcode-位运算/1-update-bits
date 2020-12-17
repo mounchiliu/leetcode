@@ -1,0 +1,32 @@
+https://www.lintcode.com/problem/update-bits/description
+
+class Solution {
+public:
+    /**
+     * @param n: An integer
+     * @param m: An integer
+     * @param i: A bit position
+     * @param j: A bit position
+     * @return: An integer
+     */
+    int updateBits(int n, int m, int i, int j) {
+        // write your code here
+        //这里是有符号的数，所以最高位为符号位
+        //构造一个mask 这个mask  高(31-j)位之前均为1， 低(i)位之后都为1， i~j都为0
+        //最后结果是 (mask & n) | (m <<i) 
+        int max = ~0; /* All 1’s */ //0取反是-1
+        // 1’s through position j, then 0’s
+        if (j == 31)
+            j = max;
+        else
+            j = (1 << (j + 1)) - 1;
+        int left = max - j;
+        // 1’s after position i
+	    int right = ((1 << i) - 1);
+	    // 1’s, with 0s between i and j
+        int mask = left | right;
+        // Clear i through j, then put m in there
+        return ((n & mask) | (m << i));
+    }
+    
+};
