@@ -1,0 +1,27 @@
+https://www.lintcode.com/problem/flip-bits/description
+
+class Solution {
+public:
+    /**
+     * @param a: An integer
+     * @param b: An integer
+     * @return: An integer
+     */
+    int bitSwapRequired(int a, int b) {
+        // write your code here
+        return countOnes(a^b);
+        //相同位不需要改，不同位才需要改
+        //所以使用异或拉出所有不同位，数1即可。
+    }
+    
+private:
+    int countOnes(int num){
+        int cnt = 0;
+        while(num){
+            num = num &(num - 1);
+            cnt++;
+        }
+        
+        return cnt;
+    }
+};
