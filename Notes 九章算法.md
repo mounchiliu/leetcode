@@ -167,7 +167,7 @@ NP问题或全排列问题（e.g. 求出所有的情况）只能用 **DFS（深�
 
 ### 2. 同向指针 （滑动窗口、快慢指针...）
 
-- 数组去重问题 Remove duplicates in an array http://www.lintcode.com/problem/remove-duplicate-numbers-in-array/
+- 数组去重问题 Remove duplicates in an array http://www.lintcode.com/problem/remove-duplicate-numbers-in-array/ 
 - 滑动窗口问题 Window Sum http://www.lintcode.com/problem/window-sum/
 - 两数之差问题 Two Difference http://www.lintcode.com/problem/two-sum-difference-equals-to-target/
 - 链表中点问题 Middle of Linked List http://www.lintcode.com/problem/middle-of-linked-list/ 
@@ -264,5 +264,13 @@ private:
 };
 ```
 
+### 4. 三指针算法
+
+**Sort Colors ：** https://www.lintcode.com/problem/sort-colors/description
+
+https://www.lintcode.com/problem/sort-colors-ii
+
+## 【DFS】
+DFS搜索类的问题中, 大致分为组合类问题、排列类问题
 
 
