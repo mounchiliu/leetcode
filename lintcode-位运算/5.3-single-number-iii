@@ -28,7 +28,7 @@ public:
         vector<int> rest = {0, 0};
         for(int i = 0; i < A.size(); i ++) {
             //分属两个“不同”的数组
-            if ((A[i] & diff) == 0) {
+            if ((A[i] & diff) == 0) { //位运算中注意括号要写、位置不能错
                 rest[0] ^= A[i];//分成两种情况，所以可以分别用single number第一问的思路来解 即(i^j^i = j)
             }
             else {
