@@ -1,5 +1,5 @@
 https://www.lintcode.com/problem/implement-stack/description
-vector vs queue vs List
+【vector vs queue vs List】
 
 //Version 1 vector
 class Stack {
