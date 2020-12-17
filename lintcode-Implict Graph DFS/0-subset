@@ -43,7 +43,7 @@ private:
 };
 
 //Version 2
-//【DFS】--- Recursive  排列类搜索的递归方式 --- 从空集开始，往里放1，下一层接着往后放2....，然后再一次回退，再换别的元素，再往后排
+//【DFS】--- Recursive  【可推广至排列类搜索的递归方式，通用性更强】 --- 从空集开始，往里放1，下一层接着往后放2....，然后再一次回退，再换别的元素，再往后排
 /*e.g. [1,2,3] --- {}
                    {1} {1,2} {1,2,3}
                        {1,3}
@@ -57,7 +57,7 @@ class Solution {
                 vector<int> &subset,////result值要一直记录，所以引用，这里是别名
                 vector<int> &nums,//nums用于访问 所以引用，不用对值进行删改
                 int start) {
-        results.push_back(subset);//第一个是空集
+        results.push_back(subset);//第一个是空集//把当前的subset放入result, 下面再考虑还能往里面加什么，每次加完找到以目前开头的所有元素后再回退。
         
         for (int i = start; i < nums.size(); i++) { 
             subset.push_back(nums[i]); //为subset新增元素
