@@ -78,7 +78,7 @@ private:
         }
         
         for(int i = 0; i <= endIndex; i++){
-            swap(nums[i], nums[endIndex]);//第i个放到结尾,被排除,排列剩下的数字
+            swap(nums[i], nums[endIndex]);//第i个放到结尾,被排除,排列剩下的数字 //通过swap实现排列
             dfs(nums, results, endIndex-1);//剩下的数排列组合交换位置
             swap(nums[i], nums[endIndex]);//backtracing,回到原位，方便通过index访问原来数组第二个，把它放回末尾，再排除、排列
         }
