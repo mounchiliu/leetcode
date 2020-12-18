@@ -1,3 +1,86 @@
 https://www.lintcode.com/problem/permutations/
 
 Recursive VS Non-Recursive
+
+//【Recursive】 using a vector to record the visitation
+class Solution {
+public:
+    /*
+     * @param nums: A list of integers.
+     * @return: A list of permutations.
+     */
+    vector<vector<int>> permute(vector<int> &nums) {
+        // write your code here
+        if(nums.size() == 0)
+            return {{}};
+            
+        vector<bool> visited(nums.size());
+        vector<vector<int>> results;
+        vector<int> permutation;
+        dfs(nums, visited, permutation, results);
+        return results;
+    }
+    
+private:
+    //递归的定义
+    void dfs(vector<int> &nums, 
+             vector<bool> &visited,
+             vector<int> &permutation,
+             vector<vector<int>> &results){
+        //递归的退出
+        if(nums.size() == permutation.size()){
+            results.push_back(permutation);
+            return;
+        }
+                
+                
+        //递归的拆解
+        for(int i = 0; i < nums.size(); i++){
+            if(visited[i]){
+                continue;
+            }
+                    
+            //e.g. []->[1]
+            permutation.push_back(nums[i]);
+            visited[i] = true;
+            dfs(nums,visited,permutation,results);
+            //backtracking e.g. [1] -> []
+            permutation.pop_back();
+            visited[i] = false;
+        }
+    }        
+};
+
+
+
+//【Recursive】 not using vector to record visitation //节省； 空间,但是多了swap的操作 //通过swap 每次把当前传入的数组中每个元素放到末尾，排除他，剩下的排列，再归位
+class Solution {
+public:
+    /*
+     * @param nums: A list of integers.
+     * @return: A list of permutations.
+     */
+    vector<vector<int>> permute(vector<int> &nums) {
+        // write your code here
+        if(nums.size() == 0)
+            return {{}};
+        
+        vector<vector<int>> results;
+        dfs(nums,results,nums.size()-1); //从末尾开始枚举
+        return results;
+    }
+    
+    
+private:
+    void dfs(vector<int> &nums, vector<vector<int>> &results, int endIndex){
+        if(endIndex == 0){//从末尾开始枚举, 已经枚举到头了，递归退出
+            results.push_back(nums);
+        }
+        
+        for(int i = 0; i <= endIndex; i++){
+            swap(nums[i], nums[endIndex]);//第i个放到结尾,被排除,排列剩下的数字
+            dfs(nums, results, endIndex-1);//剩下的数排列组合交换位置
+            swap(nums[i], nums[endIndex]);//backtracing,回到原位，方便通过index访问原来数组第二个，把它放回末尾，再排除、排列
+        }
+    }
+};
