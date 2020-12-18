@@ -1,0 +1,48 @@
+https://www.lintcode.com/problem/permutations-ii/description
+带重复元素的全排列
+
+class Solution {
+public:
+    /*
+     * @param :  A list of integers
+     * @return: A list of unique permutations
+     */
+    vector<vector<int>> permuteUnique(vector<int> &nums) {
+        // write your code here
+        if(nums.size() == 0)
+            return {{}};
+            
+        sort(nums.begin(), nums.end());//必须排序，把重复的元素放在一起
+        vector<bool> visited(nums.size());
+        vector<vector<int>> results;
+        vector<int> permutation;
+        dfs(nums, visited, permutation, results);
+        return results;
+    }
+    
+private:
+    void dfs(vector<int> &nums, vector<bool> &visited, vector<int> &permutation, vector<vector<int>> &results){
+        if(permutation.size() == nums.size()){
+            results.push_back(permutation);
+            return;
+        }
+            
+            
+        for(int i = 0; i < nums.size(); i++){
+            if(visited[i]){
+                continue;
+            }
+            //去重判断
+            if(i >= 1 && nums[i] == nums[i-1] && !visited[i-1]){
+                continue;//前面有数 前面和我一样 前面没用过(按照规则顺序要先用前面的数，证明使用前面的数的排列已经列举到了)
+            }
+            
+            //e.g. []->[1]
+            permutation.push_back(nums[i]);
+            visited[i] = true;
+            dfs(nums,visited,permutation,results);
+            //backtracking e.g. [1] -> []
+            permutation.pop_back();
+            visited[i] = false;
+        }
+    }
