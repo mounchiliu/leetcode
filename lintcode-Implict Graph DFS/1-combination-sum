@@ -1,0 +1,71 @@
+https://www.lintcode.com/problem/combination-sum/
+
+给定一个候选数字的集合 candidates 和一个目标值 target. 找到 candidates 中所有的和为 target 的组合.
+注意: 和subset不同之处
+1. 添加限制，组合支中数据之和为target
+2. subset无重复元素， 这题中给的数组中可存在重复元素
+3. 在答案的同一个组合中, candidates 中的某个数字不限次数地出现 (所以搜索时从startIndex开始而不是subset中的startIndex+1)
+
+相同点:
+都是找组合数 是无序的， 因为这里比如1+2+3 = 1+3+2
+
+class Solution {
+   public:
+    /**
+     * @param candidates: A list of integers
+     * @param target:An integer
+     * @return: A list of lists of integers
+     */
+    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+        // write your code here
+        vector<vector<int> > results(0);
+        //集合为空
+        if (candidates.size() == 0) {
+            return results;
+        }
+        // 排序和去重
+        //题目给的数据可以有重复数字、需要去重
+        vector<int> candidatesNew = removeDuplicates(candidates);
+        // dfs
+        vector<int> current(0);
+        dfs(candidates, 0, current, target, results);
+        return results;
+    }
+
+    vector<int> removeDuplicates(vector<int> candidates) {
+        //排序
+        sort(candidates.begin(), candidates.end());
+        //去重
+        int index = 0, n = candidates.size();
+        for (int i = 0; i < n; i++) {
+            if (candidates[i] != candidates[index]) {
+                candidates[++index] = candidates[i];
+            }
+        }
+        vector<int> candidatesNew;
+        for (int i = 0; i < index + 1; i++) {
+            candidatesNew.push_back(candidates[i]);
+        }
+        return candidatesNew;
+    }
+
+    void dfs(vector<int> &candidatesNew, int startIndex, vector<int> current, int remainTarget, vector<vector<int> > &results) {
+        //到达边界
+        if (remainTarget == 0) {
+            results.push_back(current);
+            return;
+        }
+        // 递归的拆解：挑一个数放入current
+        for (int i = startIndex; i < candidatesNew.size(); i++) {//从startIndex开始，因为数字不限次数地出现.
+            //剪枝
+            if (remainTarget < candidatesNew[i]) {
+                break;
+            }
+            current.push_back(candidatesNew[i]);
+            //从剩下的数里选
+            dfs(candidatesNew, i, current, remainTarget - candidatesNew[i],
+                results);
+            current.pop_back();
+        }
+    }
+};
