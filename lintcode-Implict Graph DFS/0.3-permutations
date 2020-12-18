@@ -1,7 +1,5 @@
 https://www.lintcode.com/problem/permutations/
 
-Recursive VS Non-Recursive
-
 //【Recursive】 using a vector to record the visitation
 class Solution {
 public:
