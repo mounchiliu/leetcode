@@ -28,7 +28,7 @@ class Solution {
         vector<int> candidatesNew = removeDuplicates(candidates);
         // dfs
         vector<int> current(0);
-        dfs(candidates, 0, current, target, results);
+        dfs(candidatesNew, 0, current, target, results);
         return results;
     }
 
