@@ -72,14 +72,14 @@ class Solution {
             return;
         }
         // 递归的拆解：挑一个数放入current
-        for (int i = startIndex; i < candidatesNew.size(); i++) {//从startIndex开始，因为数字不限次数地出现.
+        for (int i = startIndex; i < candidatesNew.size(); i++) {
             //剪枝
             if (remainTarget < candidatesNew[i]) {
                 break;
             }
             current.push_back(candidatesNew[i]);
             //从剩下的数里选
-            dfs(candidatesNew, i, current, remainTarget - candidatesNew[i],
+            dfs(candidatesNew, i, current, remainTarget - candidatesNew[i], //继续从i开始，因为数字不限次数地出现.
                 results);
             current.pop_back();
         }
