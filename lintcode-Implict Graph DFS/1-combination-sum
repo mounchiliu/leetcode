@@ -48,6 +48,22 @@ class Solution {
         }
         return candidatesNew;
     }
+    
+    /* //去重version2
+    vector<int> removeDuplicate(vector<int> &candidates){
+        sort(candidates.begin(), candidates.end());
+        vector<int> result;
+        result.push_back(candidates[0]);
+        for(int i = 1; i < candidates.size(); i++){
+            if(candidates[i-1] == candidates[i]){
+                continue;
+            }
+            result.push_back(candidates[i]);
+        }
+        return result;
+    }
+    
+    */
 
     void dfs(vector<int> &candidatesNew, int startIndex, vector<int> current, int remainTarget, vector<vector<int> > &results) {
         //到达边界
