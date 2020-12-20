@@ -75,7 +75,7 @@ class Solution {
         for (int i = startIndex; i < candidatesNew.size(); i++) {
             //剪枝
             if (remainTarget < candidatesNew[i]) {
-                break;
+                break; //return;
             }
             current.push_back(candidatesNew[i]);
             //从剩下的数里选
