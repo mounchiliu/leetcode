@@ -13,7 +13,7 @@ public:
             return {{}};
             
         sort(nums.begin(), nums.end());//必须排序，把重复的元素放在一起
-        vector<bool> visited(nums.size());
+        vector<bool> visited(nums.size(), false);
         vector<vector<int>> results;
         vector<int> permutation;
         dfs(nums, visited, permutation, results);
