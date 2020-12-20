@@ -58,8 +58,23 @@ private:
             //若有皇后在同一列或同一对角线上 则不合法
             if(cols[i] == col)
                 return false;
-            if(abs(i - row_num) == abs(cols[i] - col))//查看对角线: 之前所有皇后的的x-y和我的 x-y不能一样[主对角线]， 同理x+y和我的x+y也不能一样[次对角线] ---- 【横坐标之差和纵坐标之差的绝对值是否相等来判断】
+            if(abs(i - row_num) == abs(cols[i] - col))//查看对角线: 之前所有皇后的的x-y和我的 x-y不能一样[主对角线]， 同理x+y和我的x+y也不能一样[次对角线] 
+	    //---- 【横坐标之差和纵坐标之差的绝对值是否相等来判断】
                 return false;
+		
+	   //i - row_num 不写成 i - cols.size() 是因为一个int 一个size_t 会发生精度不统一导致结果错误， 除非写成 int(cols.size())
+	   /*// 即
+	    if(i - cols[i] == row - col)
+            {
+                return false;
+            }
+            if(i + cols[i] == row + col)
+            {
+                return false;
+            }
+        }
+	   */
+	   
         }
         return true;
     }
