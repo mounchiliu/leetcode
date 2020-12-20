@@ -74,7 +74,7 @@ class Solution {
         // 递归的拆解：挑一个数放入current
         for (int i = startIndex; i < candidatesNew.size(); i++) {
             //剪枝
-            if (remainTarget < candidatesNew[i]) {
+            if (remainTarget < candidatesNew[i]) { //剪枝；这个不满足，往下的都不考虑
                 break; //return;
             }
             current.push_back(candidatesNew[i]);
