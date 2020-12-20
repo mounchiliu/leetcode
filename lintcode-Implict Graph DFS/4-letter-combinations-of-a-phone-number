@@ -23,7 +23,7 @@ public:
             return;
         }
         for (char c : keyboard[digits[curIndex] - '0']) {
-            dfs(digits, curIndex + 1, path + c, results);
+            dfs(digits, curIndex + 1, path + c, results);//直接传入，后续不需要pop_back()操作
         }
     }
 };
