@@ -79,8 +79,8 @@ class Solution {
             }
             current.push_back(candidatesNew[i]);
             //从剩下的数里选
-            dfs(candidatesNew, i, current, remainTarget - candidatesNew[i], //继续从i开始，因为数字不限次数地出现.
-                results);
+            dfs(candidatesNew, i, current, remainTarget - candidatesNew[i], //继续从i开始，因为数字不限次数地出现. 
+                results); //这里不能写 target =remainTarget - candidatesNew[i],再传target。因为这样target值变了，for循环后面的数字就不能得到正确结果
             current.pop_back();
         }
     }
