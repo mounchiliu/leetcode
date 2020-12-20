@@ -1,0 +1,99 @@
+https://www.lintcode.com/problem/n-queens-ii/
+
+n-queens-ii简化版，不需要给出所有答案的形式
+
+//Version 1 自底而上找sum
+class Solution {
+public:
+    /**
+     * @param n: The number of queens.
+     * @return: The total number of distinct solutions.
+     */
+    int totalNQueens(int n) {
+        // write your code here
+        if(n <= 0)
+            return 0;
+        
+        vector<int> cols;
+        int num = 0;
+        search(n, num, cols);
+        return num;
+        
+    }
+    
+private:
+    void search(int n, int &num, vector<int> &cols){//注意num的引用，传递答案
+        if(n == cols.size()){
+            num++;
+            return;
+        }
+        
+        for(int i = 0; i < n; i++){
+            if(!isValid(cols, i)){//剪枝
+                continue;
+            }
+            
+            cols.push_back(i);
+            search(n, num, cols);
+            cols.pop_back();
+        }
+    }
+    
+    bool isValid(vector<int> &cols, int col){
+        for(int i = 0; i < cols.size(); i++){
+            if(cols[i] == col)
+                return false;
+            if(abs(cols[i] - col) == abs(int(cols.size())-i))
+                return false;
+        }
+        return true;
+    }
+};
+
+//version2 直接return结果，自上向下找sum，类似于分治。
+class Solution {
+public:
+    /**
+     * @param n: The number of queens.
+     * @return: The total number of distinct solutions.
+     */
+    int totalNQueens(int n) {
+        // write your code here
+        if(n <= 0)
+            return 0;
+        
+        vector<int> cols;
+        return search(n, cols);
+        
+        
+    }
+    
+private:
+    int search(int n, vector<int> &cols){//注意num的引用，传递答案
+        if(n == cols.size()){
+            return 1; //找到一种答案
+        }
+        
+        int sum = 0;//每一层初始化一个sum计数，记录从这一层往下的所有结果答案
+        for(int i = 0; i < n; i++){
+            if(!isValid(cols, i)){//剪枝
+                continue;
+            }
+            
+            cols.push_back(i);
+            sum += search(n, cols);
+            cols.pop_back();
+        }
+        return sum;
+    }
+    
+    bool isValid(vector<int> &cols, int col){
+        for(int i = 0; i < cols.size(); i++){
+            if(cols[i] == col)
+                return false;
+            if(abs(cols[i] - col) == abs(int(cols.size())-i))
+                return false;
+        }
+        return true;
+    }
+};
