@@ -1,0 +1,79 @@
+https://www.lintcode.com/problem/n-queens/description
+
+现在有N个皇后，保证没有任何两个皇后在同一行、同一列、同一对角线 --- 求出所有方案
+
+类比 https://www.lintcode.com/problem/n-queens-ii/ --- 求出所有方案的个数
+
+思路: n个棋子放在棋牌上, 要满足每一行没有两个皇后，则至少每一行要一个，同一列没有两个皇后，则每一列只有一个。
+按照一行一行往下排，则c排放方法的【列】为n个数组成的【全排列】
+
+所以，需要检查当前列是否合法，如果合法，则将皇后放置在当前位置，并进行递归，回溯。每行都摆满皇后时，则产生了一种解法，将所有解法收集并返回。 
+
+dfs找答案的过程注意【剪枝】：比如已经发现到某个节点处，已经不可以了，就不需要往下递归搜了
+
+
+class Solution {
+public:
+    /*
+     * @param n: The number of queens
+     * @return: All distinct solutions
+     */
+    vector<vector<string>> solveNQueens(int n) {
+        // write your code here
+        if(n <= 0){
+            return {};
+        }
+        
+        vector<vector<string>> results;
+        vector<int> cols;//每个皇后所在列
+        search(n, cols, results);
+        return results;
+    }
+    
+private:
+    void search(int n, vector<int> &cols, vector<vector<string>> &results){
+        //已经放置了n个皇后，则得到一个解法
+        if(cols.size() == n){
+            results.push_back(Draw(cols, n));
+            return;
+        }
+        
+        
+        //枚举当前皇后放置的列，若不合法则跳过
+        for(int col = 0; col < n; col++){ 
+            if(!isVliad(cols, col)){ 
+                continue;
+            }
+            
+            //合法则递归枚举下一个皇后
+            cols.push_back(col);
+            search(n, cols, results);
+            cols.pop_back();
+        }
+    }
+    
+    bool isVliad(vector<int> &cols, int col){
+        int row_num = cols.size();
+        for(int i = 0; i < row_num; i++){//枚举之前所有的皇后
+            //若有皇后在同一列或同一对角线上 则不合法
+            if(cols[i] == col)
+                return false;
+            if(abs(i - row_num) == abs(cols[i] - col))//查看对角线: 之前所有皇后的的x-y和我的 x-y不能一样[主对角线]， 同理x+y和我的x+y也不能一样[次对角线] ---- 【横坐标之差和纵坐标之差的绝对值是否相等来判断】
+                return false;
+        }
+        return true;
+    }
+    
+    //Draw函数为将col数组转换为答案的绘制函数
+	vector<string> Draw(vector<int> &cols, int n)
+	{
+		vector<string> result;
+		for(int i = 0; i < n; i++)
+		{
+			string temp(n, '.');
+			temp[cols[i]] = 'Q';
+			result.push_back(temp);
+		}
+		return result;
+	}
+};
