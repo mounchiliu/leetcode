@@ -1,0 +1,29 @@
+https://www.lintcode.com/problem/letter-combinations-of-a-phone-number/description
+
+class Solution {
+public:
+    /**
+     * @param digits: A digital string
+     * @return: all posible letter combinations
+     */
+
+    vector<string> letterCombinations (const string &digits) {
+        if (digits == "") return {};
+        vector<string> results ;
+        dfs(digits, 0, "", results);
+        return results;
+    }
+
+    void dfs(const string &digits, int cur, string path,
+            vector<string> &resulst) {
+        const vector<string> keyboard{"", "", "abc", "def", 	// '0','1','2',...
+    	"ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };        
+        if (cur == digits.size()) {
+            results.push_back(path);
+            return;
+        }
+        for (auto c : keyboard[digits[cur] - '0']) {
+            dfs(digits, cur + 1, path + c, results);
+        }
+    }
+};
