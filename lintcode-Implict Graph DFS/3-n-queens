@@ -72,7 +72,7 @@ private:
 		{
 			string temp(n, '.');
 			temp[cols[i]] = 'Q';
-			result.push_back(temp);
+			result.push_back(temp);//一行一行的处理
 		}
 		return result;
 	}
