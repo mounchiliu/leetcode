@@ -68,10 +68,10 @@ private:
 	vector<string> Draw(vector<int> &cols, int n)
 	{
 		vector<string> result;
-		for(int i = 0; i < n; i++)
+		for(int i = 0; i < n; i++)//i表示行数，col[i] 表示第1行Q应该放的index
 		{
 			string temp(n, '.');
-			temp[cols[i]] = 'Q';
+			temp[cols[i]] = 'Q';//第一行的第cols[i]个 为Q
 			result.push_back(temp);//一行一行的处理
 		}
 		return result;
