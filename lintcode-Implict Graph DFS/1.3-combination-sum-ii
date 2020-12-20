@@ -1,6 +1,6 @@
 https://www.lintcode.com/problem/combination-sum-ii/description
 
-在同一个组合中, num 中的每一个数字仅能被使用一次.（重复数字有2个，只能最多用两次）
+在同一个组合中, num 中的每一个数字仅能被使用一次.（e.g. 重复数字有2个，只能最多用两次）
 
 class Solution {
 public:
