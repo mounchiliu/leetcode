@@ -1,0 +1,46 @@
+https://www.lintcode.com/problem/combination-sum-ii/description
+
+在同一个组合中, num 中的每一个数字仅能被使用一次.（重复数字有2个，只能最多用两次）
+
+class Solution {
+public:
+    /**
+     * @param num: Given the candidate numbers
+     * @param target: Given the target number
+     * @return: All the combinations that sum to target
+     */
+    vector<vector<int>> combinationSum2(vector<int> &num, int target) {
+        // write your code here
+        if(num.size() == 0)
+            return {};
+            
+        sort(num.begin(), num.end());
+        vector<int> subset;
+        vector<vector<int>> results;
+        dfs(num, subset, results, 0, target);
+        return results;
+    }
+    
+private:
+    void dfs(vector<int> &num, vector<int> &subset, vector<vector<int>> &results, int startIndex, int target){
+        if(target == 0){
+            results.push_back(subset);
+            return;
+        }
+        
+        for(int i = startIndex; i < num.size(); i++){
+            if(target < num[i]){
+                return;
+            }
+            
+            //重复元素 选第一个出现的 （顺序原则来去除结果的重复）
+            if(i>startIndex && num[i] == num[i-1]){
+                continue;
+            }
+            
+            subset.push_back(num[i]);
+            dfs(num, subset, results, i+1, target-num[i]);
+            subset.pop_back();
+        }
+    }
+};
