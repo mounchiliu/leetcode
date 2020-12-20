@@ -81,6 +81,7 @@ class Solution {
             //从剩下的数里选
             dfs(candidatesNew, i, current, remainTarget - candidatesNew[i], //继续从i开始，因为数字不限次数地出现. 
                 results); //这里不能写 target =remainTarget - candidatesNew[i],再传target。因为这样target值变了，for循环后面的数字就不能得到正确结果
+                          //不回头，比如一直选第一个元素的可能在i=start的时候往下递归， 当i=start+1时，剩下的需要的数，只考虑当前数以及之后数的组合情况。
             current.pop_back();
         }
     }
