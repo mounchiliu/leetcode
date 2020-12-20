@@ -1,0 +1,39 @@
+https://www.lintcode.com/problem/k-sum-ii/
+
+class Solution {
+public:
+    /*
+     * @param A: an integer array
+     * @param k: a postive integer <= length(A)
+     * @param target: an integer
+     * @return: A list of lists of integer
+     */
+    vector<vector<int>> kSumII(vector<int> &A, int k, int target) {
+        // write your code here
+        if(A.size() < k)
+            return {};
+            
+        sort(A.begin(), A.end());
+        vector<vector<int>> results;
+        vector<int> subset;
+        dfs(A, subset, results, 0, k, target);
+        return results;
+    }
+    
+private:
+    void dfs(vector<int> &A, vector<int> &subset, vector<vector<int>> &results, int start, int k, int target){
+        if(k == 0 && target == 0){
+            results.push_back(subset);
+            return;
+        }
+        
+        for(int i = start; i < A.size(); i++){
+            if(target < A[i])
+                return;
+            
+            subset.push_back(A[i]);
+            dfs(A, subset, results, i+1, k-1, target-A[i]); // 每个数字只能选一次，所以i+1
+            subset.pop_back();
+        }
+    }
+};
