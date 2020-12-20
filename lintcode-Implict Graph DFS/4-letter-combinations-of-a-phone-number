@@ -14,16 +14,16 @@ public:
         return results;
     }
 
-    void dfs(const string &digits, int cur, string path,
-            vector<string> &resulst) {
+    void dfs(const string &digits, int curIndex, string path,
+            vector<string> &results) {
         const vector<string> keyboard{"", "", "abc", "def", 	// '0','1','2',...
     	"ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };        
-        if (cur == digits.size()) {
+        if (curIndex == digits.size()) {
             results.push_back(path);
             return;
         }
-        for (auto c : keyboard[digits[cur] - '0']) {
-            dfs(digits, cur + 1, path + c, results);
+        for (char c : keyboard[digits[curIndex] - '0']) {
+            dfs(digits, curIndex + 1, path + c, results);
         }
     }
 };
