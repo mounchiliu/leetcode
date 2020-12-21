@@ -38,7 +38,7 @@ private:
         }
         
         //此前没有匹配的，建立匹配
-        for(int i = 0; i < str.size(); i++){
+        for(int i = 1; i <= str.size(); i++){ //从len=1开始枚举，一直到str.size()
             //枚举匹配的字符串
             string word = str.substr(0, i + 1);
             //字符串已经枚举过，进行剪枝 (如果这个有匹配的ch，上面已经匹配了；所以这里是没有匹配的情况，且已经枚举过，所以跳过)
