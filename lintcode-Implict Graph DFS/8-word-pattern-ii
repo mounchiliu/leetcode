@@ -45,7 +45,6 @@ private:
                 continue;
                 
              // 下一步递归dfs
-
             dict[ch] = word;
             used.insert(word);
             if (match(pattern.substr(1), str.substr(i + 1), dict, used)) 
