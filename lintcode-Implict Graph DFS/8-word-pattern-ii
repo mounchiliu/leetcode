@@ -34,9 +34,10 @@ private:
             
             //match --- continue to search
             //string.substr(pos) //get from pos to end
-            return match(pattern.substr(1), str.substr(dict[ch].size()), dict, used);
+            return match(pattern.substr(1), str.substr(dict[ch].size()), dict, used); //pattern 每次取一个, 且找这个字符对应的在str里的字符串
         }
         
+        //此前没有匹配的，建立匹配
         for(int i = 0; i < str.size(); i++){
             //枚举匹配的字符串
             string word = str.substr(0, i + 1);
@@ -50,6 +51,7 @@ private:
             if (match(pattern.substr(1), str.substr(i + 1), dict, used)) 
                 return true;
             
+            //backtracing
             used.erase(word);
             dict.erase(ch);
         }
