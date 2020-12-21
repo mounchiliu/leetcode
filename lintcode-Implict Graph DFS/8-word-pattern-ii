@@ -41,7 +41,7 @@ private:
         for(int i = 0; i < str.size(); i++){
             //枚举匹配的字符串
             string word = str.substr(0, i + 1);
-            //字符串已经有出现过，进行剪枝
+            //字符串已经枚举过，进行剪枝 (如果这个有匹配的ch，上面已经匹配了；所以这里是没有匹配的情况，且已经枚举过，所以跳过)
             if(used.count(word))
                 continue;
                 
