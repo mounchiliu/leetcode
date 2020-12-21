@@ -34,7 +34,7 @@ public:
 private:
     unordered_map<string, bool> getPrefixSet(vector<string> words){
         unordered_map<string, bool> prefixIsWord;
-        for(string &word: words){
+        for(string &word: words){//对于每一个单词，遍历每一个letter,枚举前缀
             for(int i = 0; i < word.size()-1; i++){
                 string prefix = word.substr(0,i+1);//start from the first letter
                 if(!prefixIsWord.count(prefix)){//cant find it
