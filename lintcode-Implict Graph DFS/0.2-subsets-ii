@@ -26,7 +26,7 @@ private:
         for(int i = start; i < nums.size(); i++){
             if(nums[i] == nums[i-1] && i > start){//已经排序，重复元素会堆在一起
                 continue; //i > start 表明i-1没有放到subset里面 i-1最小为start-1, i=start时可以放；
-                          //当i = start + 1, 仍然为冲虚元素，i=start的时候已经把这一层加入重复元素的机会用掉了
+                          //当i = start + 1, 仍然为重复元素，i=start的时候已经把这一层加入重复元素的机会用掉了
                           //要继续加重复元素，只有当[1,...,start]成为初始subset传入的时候才有机会.
             }
             
