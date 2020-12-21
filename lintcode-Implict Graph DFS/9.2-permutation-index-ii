@@ -1,0 +1,38 @@
+https://www.lintcode.com/problem/permutation-index-ii/description
+difference: 这里可以有重复元素
+
+有重复元素和每重复元素的区别：
+每次算到的[全排列答案的个数]需要除以当前[重复元素的个数的阶乘]
+
+
+class Solution {
+public:
+    /**
+     * @param A: An array of integers
+     * @return: A long integer
+     */
+    long long permutationIndexII(vector<int> &A) {
+        // write your code here
+        if(A.size() == 0)
+            return -1;
+            
+        long long sum = 0, factorial = 1, repeatFact = 1;
+        unordered_map<int, int> counter;//count the num of the integer
+        
+        //initialize the last element
+        counter[A.back()]++;
+        for(int i = A.size()-2; i >= 0; i--){
+            int smaller = 0;
+            counter[A[i]]++;
+            repeatFact *= counter[A[i]];
+            for(int j = i+1; j < A.size(); j++){
+                
+                if(A[j] < A[i])
+                    smaller++;
+            }
+            sum += smaller*factorial/repeatFact; //当前指向倒数第n个元素, 所以是(n-1)全排列个数/(n-1)范围内重复元素个数
+            factorial *= (A.size()-i);
+        }
+        return sum + 1;
+    }
+};
