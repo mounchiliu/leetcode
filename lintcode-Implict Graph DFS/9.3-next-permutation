@@ -1,6 +1,6 @@
 http://www.lintcode.com/problem/next-permutation-ii/
 http://www.lintcode.com/problem/next-permutation/
-（两题类似，一个要求原地修改，一个要求返回新的排列）
+（两题类似，一个要求原地修改(ii-返回为void，且不使用额外空间)，一个可以返回新的排列(i-返回值为vector)）
 
 【思路】从右往左走找第一个下降的地方，然后换比它大1的元素 
 然后在右侧中，找比下降处大的最小的数(由于右侧从右向左单调增，所以从右向左找的第一个比下降处大的数一定是最小的)---若有重复元素也满足，交换两数
