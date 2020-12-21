@@ -6,7 +6,7 @@ DFS本身不适合求最短的问题，一般是BFS在简单图中求最短
 
 
 【思路】从终点开始BFS，每个单词可以得到它到终点的距离
-所以利用BFS给出的以上信息，再使用DFS，如果下一个单词距离终点的距离过长，剪枝
+所以利用BFS给出的以上信息，再使用DFS，如果下一个单词距离终点的距离过长，剪枝 --- 所以BFS从终点往前搜, 使得用DFS走的时候保证每一步dist在减小
 
 【sol】end-start: BFS, start-end: DFS
 
@@ -85,7 +85,7 @@ private:
     void dfs(vector<vector<string>> &ladders, vector<string> &path, string cur, string end){
         path.push_back(cur);//add cur node into the path
         if(cur == end){
-            ladders.push_back(path);//find one path --- 【不能return】，他有可能找的不是最短的，所以需要后续的pop_back, 然后才能return。这里是子程序结束，自动return
+            ladders.push_back(path);//find one path --- 【不能return】，他有可能找的不是最短的，所以需要后续的pop_back, 重新搜索。
         }else{
             for(string next: nextWords[cur]){
                 if(distances.count(next) && distances[cur] == distances[next] + 1){//先保证存在，且保证改变一个字符后的word向着end靠近
@@ -95,5 +95,6 @@ private:
             }
         }
         path.pop_back();//backtracing
+        //子程序结束，自动return
     }
 };
