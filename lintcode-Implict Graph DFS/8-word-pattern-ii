@@ -28,7 +28,8 @@ private:
         if(dict.count(ch)){
             string word = dict[ch];
             //ch对应的word当前无法和str前缀匹配---false
-            if(str.compare(0,word.size(),word) == 1){ //word是之前已经匹配好的 ch对应的string，如果这里不匹配了，说明不符合规则
+            if(str.compare(0,word.size(),word)){ //如果相等则输出为0，不等则输出为-1。
+            //word是之前已经匹配好的"ch对应的string"，如果这里不匹配了，说明不符合规则
                 return false;
             }
             
@@ -51,7 +52,7 @@ private:
             if (match(pattern.substr(1), str.substr(i + 1), dict, used)) 
                 return true;
             
-            //backtracing
+            //后面的没匹配上，则backtracing，换其他的组合
             used.erase(word);
             dict.erase(ch);
         }
