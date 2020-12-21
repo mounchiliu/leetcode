@@ -9,3 +9,90 @@ DFS本身不适合求最短的问题，一般是BFS在简单图中求最短
 所以利用BFS给出的以上信息，再使用DFS，如果下一个单词距离终点的距离过长，剪枝
 
 【sol】end-start: BFS, start-end: DFS
+
+class Solution {
+public:
+    /*
+     * @param start: a string
+     * @param end: a string
+     * @param dict: a set of string
+     * @return: a list of lists of string
+     */
+    unordered_map<string, vector<string>> nextWords;//word(靠近start的) + vector of related next word(only change one letter)
+    unordered_map<string, int> distances;//word + distances
+    vector<vector<string>> findLadders(string &start, string &end, unordered_set<string> &dict) {
+        // write your code here
+        if(dict.size() == 0)
+            return {};
+        
+        //将end添加进dict，防止BFS结果是[]
+        dict.insert(end);
+        //将start添加进dict，防止DFS结果是[]
+        dict.insert(start);
+        
+        //BFS 从end-start搜每个节点的距离
+        bfs(end, start, dict);
+        
+        vector<vector<string>> ladders;
+        vector<string> path;
+        dfs(ladders, path, start, end);
+        return ladders;
+    }
+    
+private:
+    vector<string> getNextWord(string cur, unordered_set<string> &dict){
+        vector<string> expansion;
+        
+        //对cur的每一个letter枚举替换,找是否在dict里面
+        for(int i = 0; i < cur.size(); i++){
+            for(char ch = 'a'; ch <= 'z'; ch++){
+                if(ch == cur[i])
+                    continue;
+                
+                char oldChar = cur[i];
+                cur[i] = ch;
+                if(dict.count(cur)){
+                    expansion.push_back(cur);
+                }
+                //backtracing, and move on to the next letter
+                cur[i] = oldChar;
+            }
+        }
+        return expansion;
+    }
+
+    void bfs(string &start, string &end, unordered_set<string> &dict){
+        //已经保证了所有单词具有相同的长度
+        queue<string> Q;
+        Q.push(start);
+        distances[start] = 0;//防止没有结果
+        while(!Q.empty()){
+            string cur = Q.front();
+            Q.pop();
+            
+            for(string next: getNextWord(cur, dict)){
+                nextWords[next].push_back(cur);
+                
+                if(!distances.count(next)){
+                    distances[next] = distances[cur] + 1;
+                    Q.push(next);
+                }
+            }
+        }
+    }
+    
+    void dfs(vector<vector<string>> &ladders, vector<string> &path, string cur, string end){
+        path.push_back(cur);//add cur node into the path
+        if(cur == end){
+            ladders.push_back(path);//find one path
+        }else{
+            for(string next: nextWords[cur]){
+                if(distances.count(next) && distances[cur] == distances[next] + 1){//先保证存在，且保证改变一个字符后的word向着end靠近
+                    //因为改变一个字符，distance会+1也可能-1
+                    dfs(ladders, path, next, end);//以next为起点继续搜
+                }
+            }
+        }
+        path.pop_back();//backtracin
+    }
+};
