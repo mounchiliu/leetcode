@@ -22,15 +22,15 @@ public:
         long long factorial = 1;
         long long sum = 0;
         for(int i = n-2; i>=0; i--){//from right to the left
-            int smaller = 0;
+            int smaller = 0;//每移动到一个新的元素，重新计数smaller
             //求出剩余可选择元素(当前界限向右)中小于自身的元素可数
             for(int j = i+1; j < n; j++){
-                if(A[j] < A[i]){//j右侧，i左侧
+                if(A[j] < A[i]){//j右侧，i左侧, 找i右侧比i小的数
                     smaller++;
                 }
             }
             sum += smaller * factorial;
-            factorial *= (n-i);
+            factorial *= (n-i);//更新factorial, 即设n为i及i右边的数， 计算n！给(i-1)处的元素用
         }
         return sum+1;//sum是多少个在A之前，+1表示A是第几个
     }
