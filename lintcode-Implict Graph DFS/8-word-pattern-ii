@@ -12,8 +12,8 @@ public:
         if(pattern.empty())
             return str.empty();
         
-        unordered_map<char, string> dict;
-        unordered_set<string> used;
+        unordered_map<char, string> dict;//dict记录char对应的字符串
+        unordered_set<string> used;//used记录这个配对的字符串是否被枚举过。
         return match(pattern, str, dict, used);
     }
     
