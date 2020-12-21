@@ -85,7 +85,7 @@ private:
     void dfs(vector<vector<string>> &ladders, vector<string> &path, string cur, string end){
         path.push_back(cur);//add cur node into the path
         if(cur == end){
-            ladders.push_back(path);//find one path --- 【不能return】，他有可能找的不是最短的，所以需要后续的pop_back, 重新搜索。
+            ladders.push_back(path);//find one path --- 【不能直接return】，因为需要backtracing 即pop_back()，便于后续搜索
         }else{
             for(string next: nextWords[cur]){
                 if(distances.count(next) && distances[cur] == distances[next] + 1){//先保证存在，且保证改变一个字符后的word向着end靠近
