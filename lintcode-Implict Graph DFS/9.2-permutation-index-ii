@@ -20,7 +20,7 @@ public:
         unordered_map<int, int> counter;//count the num of the integer
         
         //initialize the last element
-        counter[A.back()]++;
+        counter[A.back()] = 1;
         for(int i = A.size()-2; i >= 0; i--){
             int smaller = 0;
             counter[A[i]]++;
