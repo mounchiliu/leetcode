@@ -116,3 +116,35 @@ public:
     }
 };
 
+//【进制转换】--- Non-recursive
+//二进制
+class Solution {
+public:
+    /**
+     * @param nums: A set of numbers
+     * @return: A list of lists
+     */
+    vector<vector<int>> subsets(vector<int> &nums) {
+        // write your code here
+        if(nums.size() == 0)
+            return {{}};
+        //子集中的元素排列必须是非降序的，所以排序
+        sort(nums.begin(), nums.end());
+        
+        vector<vector<int>> result;
+        int n = 1 << nums.size(); //n表示子集的个数, 1 << nums.size() = 1* 2^nums.size();    
+        for(int i = 0; i < n; i++){//子集的一共是n种情况
+            vector<int> subset;
+            
+            for(int j = 0; j < nums.size(); j++){//j表示子集中元素的个数
+                //check which bit is 1
+                if((i&(1<<j))){ //查看i的第j位是不是0
+                    subset.push_back(nums[j]);
+                }
+            }
+            result.push_back(subset);
+        }
+        return result;
+    }
+};
+
