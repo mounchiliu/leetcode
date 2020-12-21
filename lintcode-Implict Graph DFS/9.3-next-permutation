@@ -2,5 +2,35 @@ http://www.lintcode.com/problem/next-permutation-ii/
 http://www.lintcode.com/problem/next-permutation/
 （两题类似，一个要求原地修改，一个要求返回新的排列）
 
-【思路】找第一个下降的地方，然后换比它大1的元素 
+【思路】从右往左走找第一个下降的地方，然后换比它大1的元素 
+然后在右侧中，找比下降处大的最小的数(由于右侧从右向左单调增，所以从右向左找的第一个比下降处大的数一定是最小的)，交换两数
+交换后，右侧为从左往右的降序数组(仍然因为单调性)，翻转得升序数组
 
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers
+     * @return: A list of integers
+     */
+    vector<int> nextPermutation(vector<int> &nums) {
+        // write your code here
+        if(nums.size() <= 1){
+            return nums;
+        }
+        
+        int i = nums.size() - 1;
+        while(i > 0 && nums[i-1] >= nums[i]){
+            i--;
+        }
+        //break when i-1 < i
+        if( i != 0){
+            int j = nums.size()-1;
+            while(nums[j] <= nums[i-1]){
+                j--;
+            }
+            swap(nums[j], nums[i-1]);
+        }
+        reverse(nums.begin()+i, nums.end()); //交换后 翻转 i-1位置处的右侧 即i到end这段
+        return nums;
+    }
+};
