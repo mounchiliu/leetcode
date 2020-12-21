@@ -24,10 +24,11 @@ public:
         // write your code here
         if(dict.size() == 0)
             return {};
-        
-        //将end添加进dict，防止BFS结果是[]
-        dict.insert(end);
-        //将start添加进dict，防止DFS结果是[]
+        /*
+        //将end添加进dict，防止end不在dict内
+        dict.insert(end);//可以不写
+        */
+        //将start添加进dict，防止start不在dict内，因为BFS要从end算每个点（包括起点）到end的距离
         dict.insert(start);
         
         //BFS 从end-start搜每个节点的距离
@@ -45,11 +46,11 @@ private:
         
         //对cur的每一个letter枚举替换,找是否在dict里面
         for(int i = 0; i < cur.size(); i++){
+            char oldChar = cur[i];
             for(char ch = 'a'; ch <= 'z'; ch++){
                 if(ch == cur[i])
                     continue;
                 
-                char oldChar = cur[i];
                 cur[i] = ch;
                 if(dict.count(cur)){
                     expansion.push_back(cur);
@@ -65,7 +66,7 @@ private:
         //已经保证了所有单词具有相同的长度
         queue<string> Q;
         Q.push(start);
-        distances[start] = 0;//防止没有结果
+        distances[start] = 0;//distance 从0开始计数，初始化为0，下面搜索一层（改变一个letter）依次+1
         while(!Q.empty()){
             string cur = Q.front();
             Q.pop();
@@ -88,11 +89,11 @@ private:
         }else{
             for(string next: nextWords[cur]){
                 if(distances.count(next) && distances[cur] == distances[next] + 1){//先保证存在，且保证改变一个字符后的word向着end靠近
-                    //因为改变一个字符，distance会+1也可能-1
+                    //因为改变一个字符，distance会+1也可能-1                         //(仅针对此程序可不写存在的判断，因为每一个word都已经给了dist)
                     dfs(ladders, path, next, end);//以next为起点继续搜
                 }
             }
         }
-        path.pop_back();//backtracin
+        path.pop_back();//backtracing
     }
 };
