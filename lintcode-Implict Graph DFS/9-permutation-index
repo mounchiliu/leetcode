@@ -1,1 +1,35 @@
 https://www.lintcode.com/problem/permutation-index/description
+只需计算有多少个排列在当前排列A的前面即可。
+e.g. 3,7,4,9,1，在它前面的必然是某位置i对应元素比原数组小，而i左侧和原数组一样。 也即3,7,4,1,X，3,7,1,X,X，3,1或4,X,X,X，1,X,X,X,X。
+所以每一个位置都是当前个数*当前阶乘；
+
+详细笔记讲解见chapter 6 课后Notes
+class Solution {
+public:
+    /**
+     * @param A: An array of integers
+     * @return: A long integer
+     */
+    long long permutationIndex(vector<int> &A) {
+        // write your code here
+        if(A.size() == 0){
+            return -1;
+        }
+        
+        int n = A.size();
+        long long factorial = 1;
+        long long sum = 1;
+        for(int i = n-1; i>=0; i--){//from right to the left
+            int smaller = 0;
+            //求出剩余可选择元素(当前界限向右)中小于自身的元素可数
+            for(int j = i+1; j < n; j++){
+                if(A[j] < A[i]){
+                    smaller++;
+                }
+            }
+            sum += smaller * factorial;
+            factorial *= (n-i);
+        }
+        return sum;
+    }
+};
