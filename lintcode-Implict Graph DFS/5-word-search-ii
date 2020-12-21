@@ -12,7 +12,7 @@ public:
      */
     vector<string> wordSearchII(vector<vector<char>> &board, vector<string> &words) {
         // write your code here
-        if(board.size() == 0)
+        if(board.empty() || board[0].empty())
             return {};
         
         vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(),false));
