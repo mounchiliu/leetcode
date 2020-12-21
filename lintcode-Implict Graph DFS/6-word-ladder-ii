@@ -1,0 +1,11 @@
+https://www.lintcode.com/problem/word-ladder-ii
+之前word ladder是输出一个最短路径，BFS简单图的遍历即可
+【区别】这里需要输出所有的最短路径 --- DFS搜索出所有
+
+DFS本身不适合求最短的问题，一般是BFS在简单图中求最短
+
+
+【思路】从终点开始BFS，每个单词可以得到它到终点的距离
+所以利用BFS给出的以上信息，再使用DFS，如果下一个单词距离终点的距离过长，剪枝
+
+【sol】end-start: BFS, start-end: DFS
