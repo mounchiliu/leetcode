@@ -1,0 +1,6 @@
+http://www.lintcode.com/problem/next-permutation-ii/
+http://www.lintcode.com/problem/next-permutation/
+（两题类似，一个要求原地修改，一个要求返回新的排列）
+
+【思路】找第一个下降的地方，然后换比它大1的元素 
+
