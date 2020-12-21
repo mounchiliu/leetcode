@@ -1,0 +1,59 @@
+https://www.lintcode.com/problem/word-pattern-ii/
+
+class Solution {
+public:
+    /**
+     * @param pattern: a string,denote pattern string
+     * @param str: a string, denote matching string
+     * @return: a boolean
+     */
+    bool wordPatternMatch(string &pattern, string &str) {
+        // write your code here
+        if(pattern.empty())
+            return str.empty();
+        
+        unordered_map<char, string> dict;
+        unordered_set<string> used;
+        return match(pattern, str, dict, used);
+    }
+    
+private:
+    bool match(const string &pattern, const string &str, unordered_map<char, string> dict, unordered_set<string> used){//const 不能丢，因为下面使用substr
+        if(pattern.size() == 0)//传入的pattern已经越界
+            return str.size() == 0;//查看对应的str是否一致
+            
+        char ch = pattern[0];
+        
+        //此前已经匹配过字母ch
+        if(dict.count(ch)){
+            string word = dict[ch];
+            //ch对应的word当前无法和str前缀匹配---false
+            if(str.compare(0,word.size(),word) == 1){
+                return false;
+            }
+            
+            //match --- continue to search
+            //string.substr(pos) //get from pos to end
+            return match(pattern.substr(1), str.substr(dict[ch].size()), dict, used);
+        }
+        
+        for(int i = 0; i < str.size(); i++){
+            //枚举匹配的字符串
+            string word = str.substr(0, i + 1);
+            //字符串已经有出现过，进行剪枝
+            if(used.count(word))
+                continue;
+                
+             // 下一步递归dfs
+
+            dict[ch] = word;
+            used.insert(word);
+            if (match(pattern.substr(1), str.substr(i + 1), dict, used)) 
+                return true;
+            
+            used.erase(word);
+            dict.erase(ch);
+        }
+        return false;
+    }
+};
