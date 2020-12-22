@@ -30,7 +30,7 @@ public:
     int top() {
         // write your code here
         if(!this->isEmpty()){//需要检测是否非空
-            return v[v.size()-1]; //返回栈顶元素
+            return v.back(); //返回栈顶元素
         }
     }
 
