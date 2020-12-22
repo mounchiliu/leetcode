@@ -1,1 +1,68 @@
 https://www.lintcode.com/problem/implement-stack-by-two-queues/description
+
+class Stack {
+public:
+    /*
+     * @param x: An integer
+     * @return: nothing
+     */
+    queue<int> q1, q2;//use q1to get data, use q2 to help q1 act as a stack
+    void push(int x) {
+        // write your code here
+        q1.push(x);
+    }
+
+    /*
+     * @return: nothing
+     */
+    //删除栈顶元素（最后一个进去的）
+    //而queue是FIFO && stack是FILO，所以q1顶头的是最先进去的
+    void pop() {
+        // write your code here 
+        //get the last one in the queue and remove it
+        while(q1.size() != 1){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        q1.pop();
+        
+        //recover q1 from q2 (q1 has removed the last element)
+        while(!q2.empty()){
+            q1.push(q2.front());
+            q2.pop();
+        }
+    }
+
+    /*
+     * @return: An integer
+     */
+    int top() {
+        // write your code here
+         //get the last one in the queue
+        while(q1.size() != 1){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        //get the last element
+        int top = q1.front();
+        //remove
+        q1.pop();
+        
+        //recover q1 from q2;
+        while(!q2.empty()){
+            q1.push(q2.front());
+            q2.pop();
+        }
+        //recover the last element
+        q1.push(top);
+        return top;
+    }
+
+    /*
+     * @return: True if the stack is empty
+     */
+    bool isEmpty() {
+        // write your code here
+        return q1.empty();
+    }
+};
