@@ -1,5 +1,90 @@
 https://www.lintcode.com/problem/implement-three-stacks-by-single-array/
 
+
+//Version 1 [Recommended]
+class ThreeStacks {
+private:
+    vector<int> stack;//数组实现栈
+    int spointers[3];//栈顶 index
+    int stackSize;
+public:
+    /*
+    * @param size: An integer
+    */
+    ThreeStacks(int size) {
+        // do intialization if necessary
+        stack.resize(3*size,0);
+        
+        spointers[0] = 0;
+        spointers[1] = size;
+        spointers[2] = size * 2;
+        
+        this->stackSize = size;
+    }
+
+    /*
+     * @param stackNum: An integer
+     * @param value: An integer
+     * @return: nothing
+     */
+    void push(int stackNum, int value) {
+        // Push value into stackNum stack
+        //push元素进入要首先查看是否溢出，即查看有没有超过数组中划分好的边界
+        //1.查看当前栈的endIndex + 1, 相当于下一个栈的开头,因为这里都是++，所以只需要考虑右边界
+        int end = (stackNum+1)*stackSize;
+        if(spointers[stackNum] < end){
+            //没有溢出,
+            stack[spointers[stackNum]] = value;
+            spointers[stackNum]++;//topIndex++， 为下一个新元素最准备
+        }
+    }
+
+    /*
+     * @param stackNum: An integer
+     * @return: the top element
+     */
+    int pop(int stackNum) {
+        // Pop and return the top element from stackNum stack
+        int res = -1;
+        // 2.查看当前栈的startIndex,因为这里都是--，所以只需要考虑左边界
+        int start = (stackNum)*stackSize;
+        if(spointers[stackNum] > start){//>是因为下一行代码要减回来
+            spointers[stackNum]--;//把push时候最后的++减回来
+            res = stack[spointers[stackNum]];
+            //pop这里没有再index--，是因为push里默认index是初始化好了给新元素的,只要有新的值push进来，会直接覆盖
+        }
+        //如果越界，则说明没有元素在当前栈，返回-1
+        return res;
+        
+    }
+
+    /*
+     * @param stackNum: An integer
+     * @return: the top element
+     */
+    int peek(int stackNum) {
+        // Return the top element
+        int res;
+        int start = (stackNum)*stackSize;
+        if(spointers[stackNum] > start){
+            res = stack[spointers[stackNum]-1];
+            //pop最后没有index--, 所以这里查看倒数第二个
+        }
+        return res;
+    }
+
+    /*
+     * @param stackNum: An integer
+     * @return: true if the stack is empty else false
+     */
+    bool isEmpty(int stackNum) {
+        // write your code here
+        return spointers[stackNum] == stackNum*stackSize;
+    }
+};
+
+
+//Version 2, 使用一个vector每次记录栈顶的index, 每次pop值的时候注意该改变链表前后的值 (复杂)
 class StackNode {
 public:
     int prev, next;
@@ -13,14 +98,18 @@ public:
 
 class ThreeStacks {
 private:
-    int indexUsed;
-    vector<int> stackPointer;
+    int indexUsed;//indexUsed记录index用到哪里了
+    vector<int> stackPointer;//three pointers to point the top in the stack
     vector<StackNode*> buffer;
+    //在c++的类体中，方法以外的区域不允许有初始化
+    //简单类型是可以的（例如int等简单类型变量，以及静态成员变量）
+    //但是有构造函数的复杂对象就不可以了（例如vector）
     
 public:
     ThreeStacks(int size) {
         // do intialization if necessary
         indexUsed = 0;
+	//initialize stackPointer and buffer
         for (int i = 0; i < 3; ++i)
             stackPointer.push_back(-1);
         buffer.resize(size * 3);
@@ -29,10 +118,11 @@ public:
     void push(int stackNum, int value) {
         // Write your code here
         // Push value into stackNum stack
+	//In a stack, the last one is the top one
         int lastIndex = stackPointer[stackNum];
         stackPointer[stackNum] = indexUsed;
-        indexUsed++;
         buffer[stackPointer[stackNum]] = new StackNode(lastIndex, value, -1);
+	indexUsed++;
     }
 
     int pop(int stackNum) {
@@ -40,8 +130,8 @@ public:
         // Pop and return the top element from stackNum stack
         int value = buffer[stackPointer[stackNum]]->value;
         int lastIndex = stackPointer[stackNum];
-        if (lastIndex != indexUsed - 1)
-            swap(lastIndex, indexUsed - 1, stackNum);
+        if (lastIndex != indexUsed - 1)//要pop的元素不在数组最后一个，交换两个元素
+            swap(lastIndex, indexUsed - 1, stackNum);//交换时需要修改这两个节点的prev,next
 
         stackPointer[stackNum] = buffer[stackPointer[stackNum]]->prev;
         if (stackPointer[stackNum] != -1)
