@@ -44,4 +44,58 @@ public:
 };
 
 
-//Version 2
+//Version 2 queue 见0.2
+
+//Version 3 List
+
+class Stack {
+private:
+    struct ListNode{
+        int val;
+        ListNode* next;
+        
+        //constructor
+        ListNode(int v){
+            this->val = v;
+            this->next = NULL;
+        }
+    };
+
+    ListNode* head;    
+public:
+    /*
+     * @param x: An integer
+     * @return: nothing
+     */
+    void push(int x) {
+        // write your code here
+        ListNode* node = new ListNode(x); //new 一块新资源给node
+        node->next = head;
+        head = node;
+    }
+
+    /*
+     * @return: nothing
+     */
+    void pop() {
+        // write your code here
+        head = head->next;
+    }
+
+    /*
+     * @return: An integer
+     */
+    int top() {
+        // write your code here
+        return head->val;
+    }
+
+    /*
+     * @return: True if the stack is empty
+     */
+    bool isEmpty() {
+        // write your code here
+        return head==NULL;
+    }
+};
+
