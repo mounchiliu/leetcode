@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/implement-stack/description
 【vector vs queue vs List】
 
-//Version 1 vector
+//【Version 1】 vector
 class Stack {
 public:
     /*
@@ -46,7 +46,7 @@ public:
 
 //Version 2 queue 见0.2
 
-//Version 3 List
+//【Version 3】 List
 
 class Stack {
 private:
