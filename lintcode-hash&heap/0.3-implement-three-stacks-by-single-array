@@ -48,10 +48,10 @@ public:
         int res = -1;
         // 2.查看当前栈的startIndex,因为这里都是--，所以只需要考虑左边界
         int start = (stackNum)*stackSize;
-        if(spointers[stackNum] > start){//>是因为下一行代码要减回来
-            spointers[stackNum]--;//把push时候最后的++减回来
+        if(spointers[stackNum] > start){//【>而不含=是因为下一行代码要减回来】
+            spointers[stackNum]--;//【把push时候最后的++操作减回来】
             res = stack[spointers[stackNum]];
-            //pop这里没有再index--，是因为push里默认index是初始化好了给新元素的,只要有新的值push进来，会直接覆盖
+            //pop这里没有再index--，是因为【push里默认index是初始化好了给新元素的】,只要有新的值push进来，会直接【覆盖】
         }
         //如果越界，则说明没有元素在当前栈，返回-1
         return res;
@@ -68,7 +68,7 @@ public:
         int start = (stackNum)*stackSize;
         if(spointers[stackNum] > start){
             res = stack[spointers[stackNum]-1];
-            //pop最后没有index--, 所以这里查看倒数第二个
+            //【pop最后没有index--,是为了让push的时候直接覆盖， 所以这里查看倒数第二个】，倒数第一个理论上以及pop掉了
         }
         return res;
     }
