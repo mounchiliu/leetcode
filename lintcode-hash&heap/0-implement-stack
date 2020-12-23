@@ -69,9 +69,9 @@ public:
      */
     void push(int x) {
         // write your code here
-        ListNode* node = new ListNode(x); //new 一块新资源给node
-        node->next = head;
-        head = node;
+        ListNode* newHead = new ListNode(x); //new 一块新资源给node
+        newHead->next = head;
+        head = newHead;//给下一个压进栈的数值使用
     }
 
     /*
