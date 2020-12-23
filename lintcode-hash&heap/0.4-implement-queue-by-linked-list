@@ -20,6 +20,7 @@ public:
 
 class MyQueue {
 private:
+    //Initialize
     Node* dummy = new Node(-1), *tail = dummy;
 
 public:
