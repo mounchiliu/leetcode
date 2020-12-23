@@ -1,0 +1,65 @@
+https://www.lintcode.com/problem/implement-queue-by-linked-list/
+
+队列为一种【先进先出】的线性表
+只允许在【表的一端进行入队】，在【另一端进行出队】操作。
+在队列中，允许插入的一端叫队尾，允许删除的一端叫队头，即入队只能从队尾入，出队只能从队头出
+
+需要两个节点：
+- 一个头部节点，也就是dummy节点，它是在加入的第一个元素的前面，也就是dummy.next=第一个元素，这样做是为了方便我们删除元素
+- 还有一个尾部节点，也就是tail节点，表示的是最后一个元素的节点
+
+class Node {
+public:
+    int val;
+    Node* next;
+    Node(int _val) {
+        val = _val, next = NULL;
+    }
+};
+
+
+class MyQueue {
+private:
+    Node* dummy = new Node(-1), *tail = dummy;
+
+public:
+    /*
+     * @param item: An integer
+     * @return: nothing
+     */
+    void enqueue(int item) {
+        // write your code here
+        //尾部入栈
+        Node *node = new Node(item);
+        tail->next = node;
+        tail = node;
+    }
+
+    /*
+     * @return: An integer
+     */
+    int dequeue() {
+        // write your code here
+        //头部出栈
+        if(dummy->next != NULL){
+            int res = dummy->next->val;//get front value
+            dummy->next = dummy->next->next;//pop
+        
+            if(dummy->next == NULL){//pop之前dummy->next->next为空，即queue中只剩下一个元素
+                tail = dummy;//reset
+            }
+            return res;
+        }
+       return -1;//error
+    }
+    
+    int peek() {//自己加的func, 模拟queue中常见操作
+        int ele = dummy->next->val;
+        return ele;
+    }
+    
+    bool isEmpty(){//自己加的func
+        return dummy->next == NULL;
+    }
+
+};
