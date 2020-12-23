@@ -63,7 +63,8 @@ public:
         end++;
         if(end == size){//end = n end++后为n+1时，reset从0开始 
                         //不是end==size-1 是因为，由于不会在队列满的时候调用 enqueue,
-                        //[这样到达最后一个位置后，指针预备停在预留判断full的地方], 如果直接这个时候reset0，当只发生push且队列满，没有pop时 isFull判断错误
+                        //【这样到达数组末尾后，指针++后停在多预留的地方】, 如果, 不多预留，到达末尾后指针++，然后reset0，比如当只发生push且队列满，没有pop时 isFull判断错误
+                        //因为 start - 1 = 0 - 1 = -1 -> startmod = size - 1 = n - 1; end == 0, isFull 不对， 
             end = 0;//reset, store new element from 0
         }
         return;
