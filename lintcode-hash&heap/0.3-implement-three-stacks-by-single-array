@@ -5,7 +5,7 @@ https://www.lintcode.com/problem/implement-three-stacks-by-single-array/
 class ThreeStacks {
 private:
     vector<int> stack;//数组实现栈
-    int spointers[3];//栈顶 index
+    int spointers[3];//栈顶 index //元素比较少这里要是用数组，为了节省空间而不选择vector
     int stackSize;
 public:
     /*
