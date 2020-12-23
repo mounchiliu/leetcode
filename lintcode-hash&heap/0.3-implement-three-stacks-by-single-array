@@ -1,114 +1,105 @@
 https://www.lintcode.com/problem/implement-three-stacks-by-single-array/
 
-【这样使用指针, 频繁的出栈入栈会runtime error】
-class StackNode{
+class StackNode {
 public:
-    StackNode* pre, *next;//前驱表示先进栈的，后驱表示后进栈
-    int val, index;
-    StackNode(int v, int id){
-        val = v;
-        index = id;
+    int prev, next;
+    int value;
+    StackNode(int p, int v, int n) { 
+        value = v;
+	    prev = p;
+        next = n;
     }
 };
 
-
 class ThreeStacks {
 private:
-    int stackSize, indexUsed;//indexUsed记录index用到哪里了
-    vector<int> stackPointer;//three pointers to point the top in the stack
-    //在c++的类体中，方法以外的区域不允许有初始化
-    //简单类型是可以的（例如int等简单类型变量，以及静态成员变量）
-    //但是有构造函数的复杂对象就不可以了（例如vector）
+    int indexUsed;
+    vector<int> stackPointer;
     vector<StackNode*> buffer;
-
+    
 public:
-    /*
-    * @param size: An integer
-    */ThreeStacks(int size) {
+    ThreeStacks(int size) {
         // do intialization if necessary
-        stackSize = size;
         indexUsed = 0;
-        
-        //initialize stackPointer and buffer
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; ++i)
             stackPointer.push_back(-1);
-        }
-        buffer.resize(stackSize*3);
+        buffer.resize(size * 3);
     }
-
-    /*
-     * @param stackNum: An integer
-     * @param value: An integer
-     * @return: nothing
-     */
+ 
     void push(int stackNum, int value) {
+        // Write your code here
         // Push value into stackNum stack
-        int lastIndex = stackPointer[stackNum];//栈顶元素是最后一个进栈的
-        
-        if(lastIndex == -1){
-            //栈空
-            stackPointer[stackNum] = indexUsed;//记录栈顶index
-            buffer[indexUsed] = new StackNode(value, indexUsed);//建立新node
-            indexUsed++;
-        }else{
-            //栈非空，需要建立新顺序
-            StackNode* topNode = buffer[lastIndex];
-            if(topNode->next == NULL){
-                //后继为NULL，则为新数据开一个新的node接上去
-                buffer[indexUsed] = new StackNode(value, indexUsed);
-                //建立顺序
-                topNode->next = buffer[indexUsed];
-                topNode->next->pre = topNode;
-                
-                //更新栈顶
-                stackPointer[stackNum] = indexUsed;
-                indexUsed++;
-            }else{
-                //topNode 身后不是NULL, 则之前以及new过一个新节点,这里直接覆盖即可
-                topNode->next->val = value;
-                stackPointer[stackNum] = topNode->next->index; 
-
-            }
-        }
-        
-       
+        int lastIndex = stackPointer[stackNum];
+        stackPointer[stackNum] = indexUsed;
+        indexUsed++;
+        buffer[stackPointer[stackNum]] = new StackNode(lastIndex, value, -1);
     }
 
-    /*
-     * @param stackNum: An integer
-     * @return: the top element
-     */
     int pop(int stackNum) {
+        // Write your code here
         // Pop and return the top element from stackNum stack
-        int topIndex = stackPointer[stackNum];
-        StackNode* topNode = buffer[topIndex];
-        int topVal = topNode->val;
-        
-        //前驱为NULL(之前进栈的没了)，说明pop完栈空，所以又一次初始化-1即可
-        if(topNode->pre == NULL){
-            stackPointer[stackNum] = -1;
-        }else{
-            stackPointer[stackNum] = topNode->pre->index;
-        }
-        return topVal;//这里规定要返回值，正常C++使用stack.pop()不需要
+        int value = buffer[stackPointer[stackNum]]->value;
+        int lastIndex = stackPointer[stackNum];
+        if (lastIndex != indexUsed - 1)
+            swap(lastIndex, indexUsed - 1, stackNum);
+
+        stackPointer[stackNum] = buffer[stackPointer[stackNum]]->prev;
+        if (stackPointer[stackNum] != -1)
+            buffer[stackPointer[stackNum]]->next = -1;
+
+        buffer[indexUsed-1] = NULL;
+        indexUsed --;
+        return value;
     }
 
-    /*
-     * @param stackNum: An integer
-     * @return: the top element
-     */
     int peek(int stackNum) {
+        // Write your code here
         // Return the top element
-        int topIndex = stackPointer[stackNum];
-        return buffer[topIndex]->val;
+        return buffer[stackPointer[stackNum]]->value;
     }
 
-    /*
-     * @param stackNum: An integer
-     * @return: true if the stack is empty else false
-     */
     bool isEmpty(int stackNum) {
-        // write your code here
+        // Write your code here
         return stackPointer[stackNum] == -1;
+    }
+
+    void swap(int lastIndex, int topIndex, int stackNum) {
+        if (buffer[lastIndex]->prev == topIndex) {
+            int tmp = buffer[lastIndex]->value;
+            buffer[lastIndex]->value = buffer[topIndex]->value;
+            buffer[topIndex]->value = tmp;
+            int tp = buffer[topIndex]->prev;
+            if (tp != -1) {
+                buffer[tp]->next = lastIndex;
+            }
+            buffer[lastIndex]->prev = tp;
+            buffer[lastIndex]->next = topIndex;
+            buffer[topIndex]->prev = lastIndex;
+            buffer[topIndex]->next = -1;
+            stackPointer[stackNum] = topIndex;
+            return;
+        }
+
+        int lp = buffer[lastIndex]->prev;
+        if (lp != -1)
+            buffer[lp]->next = topIndex;
+        
+        int tp = buffer[topIndex]->prev;
+        if (tp != -1)
+            buffer[tp]->next = lastIndex;
+
+        int tn = buffer[topIndex]->next;
+        if (tn != -1)
+            buffer[tn]->prev = lastIndex;
+        else {
+            for (int i = 0; i < 3; ++i)
+                if (stackPointer[i] == topIndex)
+                    stackPointer[i] = lastIndex;
+        }
+
+        StackNode* tmp = buffer[lastIndex];
+        buffer[lastIndex] = buffer[topIndex];
+        buffer[topIndex] = tmp;
+        stackPointer[stackNum] = topIndex;
     }
 };
