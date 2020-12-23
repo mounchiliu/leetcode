@@ -21,14 +21,19 @@ public:
      */
     CircularQueue(int n) {
         // do intialization if necessary
-        circular_array.resize(n+1, 0);
-        size = n + 1;
+        circular_array.resize(n+1, 0);//保证不会在队列满的时候调用 enqueue, 所以预留出一个索引位判断Full
+        size = n+1;
         start = end = 0;
     }
     bool isFull() {
         // write your code here
         int start_mod = start - 1 < 0 ? size - 1 : start - 1;
-        if(start_mod == end)
+        //【start - 1 返回队头的index, 】当start=0的时候，就返回size-1(尾部)；
+        //start 需要-1是因为，pop操作的时候 start预+1了
+        //【end是队尾元素index+1】
+        
+        //如果数组中还有【空的位】置 一定在[队尾]向[队头]的方向有空格，而不是这俩相邻
+        if(start_mod == end)//两指针相交，即队尾、队头相邻
             return true;
         return false;
     }
@@ -38,7 +43,7 @@ public:
      */
     bool isEmpty() {
         // write your code here
-        if(start == end){
+        if(start == end){//队头队尾重合
             return true;
         }
         return false;
@@ -56,8 +61,10 @@ public:
         //队尾入队
         circular_array[end] = element;
         end++;
-        if(end == size){
-            end = 0;//reset
+        if(end == size){//end = n end++后为n+1时，reset从0开始 
+                        //不是end==size-1 是因为，由于不会在队列满的时候调用 enqueue,
+                        //[这样到达最后一个位置后，指针预备停在预留判断full的地方], 如果直接这个时候reset0，当只发生push且队列满，没有pop时 isFull判断错误
+            end = 0;//reset, store new element from 0
         }
         return;
     }
@@ -73,8 +80,8 @@ public:
         //队头出队
         int element = circular_array[start];
         start++;
-        if(start == size){
-            start = 0;//reset
+        if(start == size-1){
+            start = 0;//reset the pointer.
         }
         return element;
     }
