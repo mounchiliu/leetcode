@@ -1,6 +1,6 @@
 https://www.lintcode.com/problem/implement-three-stacks-by-single-array/
 
-【使用指针会runtime error】
+【这样使用指针, 频繁的出栈入栈会runtime error】
 class StackNode{
 public:
     StackNode* pre, *next;//前驱表示先进栈的，后驱表示后进栈
