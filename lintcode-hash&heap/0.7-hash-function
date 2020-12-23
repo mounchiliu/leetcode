@@ -1,0 +1,38 @@
+https://www.lintcode.com/problem/hash-function/description
+
+class Solution {
+public:
+    /**
+     * @param key: A string you should hash
+     * @param HASH_SIZE: An integer
+     * @return: An integer
+     */
+    int hashCode(string &key, int HASH_SIZE) {
+        // write your code here
+        int ans = 0;
+        for(int i = 0; i < key.size();i++) {
+            // *1LL 将数转换成long long
+            ans = (1LL * ans * 33 + key[i]) % HASH_SIZE; 
+            //OR // ans = (1LL * ans * 33 + key[i]% HASH_SIZE) % HASH_SIZE;
+            //由于(a % n) % n = a % n
+        }
+        return ans;
+        //e.g.若是size = 3 
+        // 10*33^2 + 8*33 + 5*33^0
+        //=(10*33 + 8)*33 + 5  
+        
+        //以及取余的相关定理
+        //(a b ) % MOD = ((a % MOD) (b % MOD)) % MOD
+        //(a + b) % n = [(a % n) + (b % n)] mod n
+        //(a % n) % n = a % n
+
+        
+        //每次循环都是
+        //(sum + extra) % M = ((sum % M) + extra % M) % M
+        //每次循环都会计算完当前的sum % M 给 下一轮
+        
+        // [(10*33 + 8)*33 + 5] % M
+        //= [(10*33 + 8)*33 % M + 5 % M] % M
+        //the first part is (10*33 + 8)%M]*33 = (10*33 % M + 8 % M) % M * 33, 33相当于常系数k
+    }
+};
