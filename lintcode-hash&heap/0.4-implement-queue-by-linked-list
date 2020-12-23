@@ -30,7 +30,7 @@ public:
      */
     void enqueue(int item) {
         // write your code here
-        //尾部入栈
+        //尾部入队
         Node *node = new Node(item);
         tail->next = node;
         tail = node;
@@ -41,7 +41,7 @@ public:
      */
     int dequeue() {
         // write your code here
-        //头部出栈
+        //头部出队
         if(dummy->next != NULL){
             int res = dummy->next->val;//get front value
             dummy->next = dummy->next->next;//pop
