@@ -74,7 +74,7 @@ private:
         while(k*2 + 1 < A.size()){ //ensure the index below is valid
             int son = k*2 + 1; //initialize as the index of the left son
             if(son+1 < A.size() && A[son] > A[son+1]) //ensure that the id of the right son is valid
-                son = son + 1; //choose the smaller son (RIGHT) ---【保证交换后，一定是父亲大于任意儿子】
+                son = son + 1; //choose the smaller son (RIGHT) ---【保证交换后，一定是父亲小于任意儿子】
                 
             //compre to the son
             if(A[k] <= A[son])
