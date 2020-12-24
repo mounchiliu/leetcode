@@ -33,8 +33,8 @@ public:
         for(int i = 0; i < hashTable.size(); i++){
             ListNode* p = hashTable[i];//visit all the index in the array
             while(p != NULL){
-                addnode(reTable, p->val);//find all the ListNode in the same index.
-                p = p->next;
+                addnode(reTable, p->val);
+                p = p->next;//find all the ListNode in the same index.
             }
         }
         return reTable;
