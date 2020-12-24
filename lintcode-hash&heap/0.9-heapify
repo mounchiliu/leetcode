@@ -63,6 +63,7 @@ public:
         }
         
         //start from the n/2-th element
+        //第n/2的index是 (A.size() -1 )/2,  不是A.size()/2 - 1 是因为 size/2 是去尾运算，会少算一些数
         for(int i = (A.size() - 1)/2; i >= 0; i--){
             siftDown(A, i);
         }
