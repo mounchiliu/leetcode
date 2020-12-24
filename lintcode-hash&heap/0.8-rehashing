@@ -54,14 +54,14 @@ private:
         }
     }
     
-    void addListnode(ListNode* node, int val){
+    void addListnode(ListNode* head, int val){
         //按照原来list顺序连接
-        if(node->next != NULL){
+        if(head->next != NULL){
             //如果已占用index的node有next，找对最后一个，添加next
-            addListnode(node->next, val);
+            addListnode(head->next, val);
         }else{
             //如果已占用index的node没有next，直接占用next
-            node->next = new ListNode(val);
+            head->next = new ListNode(val);
         }
     }
 };
