@@ -25,12 +25,10 @@ public:
         if(hashTable.size() == 0)
             return {};
             
-        vector<ListNode*> reTable;
         //扩容
-        for(int i = 0; i < hashTable.size()*2; i++){
-            reTable.push_back(NULL);
-        }
+        vector<ListNode *> reTable(hashTable.size()*2, NULL);
         
+        //visit all the index
         int HASH_SIZE = reTable.size();
         for(int i = 0; i < hashTable.size(); i++){
             ListNode* p = hashTable[i];//visit all the index in the array
