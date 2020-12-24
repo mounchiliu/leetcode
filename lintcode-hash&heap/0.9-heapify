@@ -1,0 +1,87 @@
+https://www.lintcode.com/problem/heapify/description
+【siftup】 vs 【Siftdown - recommended】
+
+//version 1 SiftUp 时间复杂度O(nlogn) --- 每个元素遍历，且向上移动元素的距离每次最长为logn
+class Solution {
+public:
+    /*
+     * @param A: Given an integer array
+     * @return: nothing
+     */
+    void heapify(vector<int> &A) {
+        // write your code here
+        if(A.size() <= 1){
+            return;
+        }
+        
+        //遍历每个元素
+        for(int i = 0; i < A.size(); i++){
+            siftup(A, i);
+        }
+    }
+    
+    
+private:
+    void siftup(vector<int> &A, int k){
+        while(k != 0){//k==0, 说明已经在顶部了，无需交换
+            int father = (k - 1)/2; //根据题目左右儿子定义可得
+            if(A[k] >= A[father]){//符合要求
+                break;
+            }
+            //不符合要求，swap，再和当前的爸爸比
+            swap(A[k], A[father]);
+            //update new index
+            k = father;
+        }
+    }
+};
+
+
+
+
+// Version 2 SiftDown --- 倒数第二层开始siftDown 再向上
+/*
+倒数第2层最后一个结点应该是第n/2个，所以算法从第 n/2 个数开始，向上进行 siftdown。
+因为 --- 第n/2的位置在二叉树的第(log(n/2))层 (log(n/2) = logn - log2 = logn -1)
+也就是说，相当于从 heap 的倒数第二层开始进行 siftdown 操作，再依次向上
+【底层有几个节点： 1.层数logn 2.每层节点 = 2 ^ (logn-1) = n*1/2,】
+时间复杂度为 O ( n ) ，使用的是 siftdown 之所以是 O(n) 是因为从第 N/2 个位置开始往下 siftdown
+那么(倒数第二层)就有大约 N/4 个数在 siftdown 中最多交换 1 次，(倒数第三层)N/8 个数最多交换 2 次，N/16 个数最多交换 3 次。 
+所以 O ( N / 4 ∗ 1 + N / 8 ∗ 2 + N / 16 ∗ 3 + . . . + 1 ∗ L o g N ) = O ( N )
+*/
+
+class Solution {
+public:
+    /*
+     * @param A: Given an integer array
+     * @return: nothing
+     */
+    void heapify(vector<int> &A) {
+        // write your code here
+        if(A.size() <= 1){
+            return;
+        }
+        
+        //start from the n/2-th element
+        for(int i = (A.size() - 1)/2; i >= 0; i--){
+            siftDown(A, i);
+        }
+    }
+    
+private:
+    void siftDown(vector<int> &A, int k){
+        while(k*2 + 1 < A.size()){ //ensure the index below is valid
+            int son = k*2 + 1; //initialize as the index of the left son
+            if(son+1 < A.size() && A[son] > A[son+1]) //ensure that the id of the right son is valid
+                son = son + 1; //choose the smaller son (RIGHT)
+                
+            //compre to the son
+            if(A[k] <= A[son])
+                break;
+            
+            swap(A[son], A[k]);
+            k = son;
+        }
+    }
+};
+
