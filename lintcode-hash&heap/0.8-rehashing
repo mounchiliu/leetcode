@@ -1,1 +1,66 @@
 https://www.lintcode.com/problem/rehashing/description
+
+当哈希表的容量超过一定数额的时候需要扩容
+
+/**
+ * Definition of ListNode
+ * class ListNode {
+ * public:
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int val) {
+ *         this->val = val;
+ *         this->next = NULL;
+ *     }
+ * }
+ */
+class Solution {
+public:
+    /**
+     * @param hashTable: A list of The first node of linked list
+     * @return: A list of The first node of linked list which have twice size
+     */    
+    vector<ListNode*> rehashing(vector<ListNode*> hashTable) {
+        // write your code here
+        vector<ListNode*> reTable;
+        //扩容
+        for(int i = 0; i < hashTable.size()*2; i++){
+            reTable.push_back(NULL);
+        }
+        
+        int HASH_SIZE = reTable.size();
+        for(int i = 0; i < hashTable.size(); i++){
+            ListNode* p = hashTable[i];//visit all the index in the array
+            while(p != NULL){
+                addnode(reTable, p->val);//find all the ListNode in the same index.
+                p = p->next;
+            }
+        }
+        return reTable;
+    }
+    
+private:
+    void addnode(vector<ListNode*> &reTable, int val){
+        int p = (val + reTable.size()) % reTable.size();
+        //加上size是因为算-4 % 3，你会得到-1
+        //你可以应用函数：a % b = (a % b + b) %b得到一个非负整数。
+        if(reTable[p] == NULL){
+            //has not been initialized
+            reTable[p] = new ListNode(val);
+        }else{
+            //conflict --- open hasing using listnode
+            addListnode(reTable[p], val);
+        }
+    }
+    
+    void addListnode(ListNode* node, int val){
+        //按照原来list顺序连接
+        if(node->next != NULL){
+            //如果已占用index的node有next，找对最后一个，添加next
+            addListnode(node->next, val);
+        }else{
+            //如果已占用index的node没有next，直接占用next
+            node->next = new ListNode(val);
+        }
+    }
+};
