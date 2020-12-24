@@ -47,7 +47,7 @@ private:
         //你可以应用函数：a % b = (a % b + b) %b得到一个非负整数。
         if(reTable[p] == NULL){
             //has not been initialized
-            reTable[p] = new ListNode(val);
+            reTable[p] = new ListNode(val); //需要重建次序，所以使用val new 一个新的listnode，而不能直接使用原来的listnode
         }else{
             //conflict --- open hasing using listnode
             addListnode(reTable[p], val);
