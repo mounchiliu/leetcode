@@ -4,9 +4,116 @@ https://www.lintcode.com/problem/lru-cache/
 思路:1. 寻找一个数据结构，可以保证能快速剔除中间节点，且挪到最后 (链表 可以O(1)完成) --- 注意改动节点位置后，需要知道它前面的和后面的值，所以需要使用双向链表(pre、next)
 (【如果使用单向链表, 只要在hashmap中每个key存前一个值】
 2. 寻找一个数据结构，可以通过key得到对应value --- hashmap
-3. 需要知道中间某个节点在链表中的位置---需要存储每个key在链表中的位置
+3. 需要知道中间某个节点在链表中的位置---需要存储每个key在链表中的位置 --- hashmap
+
 
 所以 我们使用hashmap + 链表
 hashmap 中是 key - Listnode，且每个key都对应前一个Listnode (单向链表，使用这样的操作来记录前驱, 链表又自带后驱的记录功能)
+key 和 对应的val 都放在listnode属性里面，节省一个哈希表
 
+class LRUCache {
+    
+    class ListNode {
+        public:
+        int key, val;
+        ListNode *next;
+    
+        //key 和 对应的val 都放在listnode属性里面，节省一个哈希表
+        ListNode(int key, int val){
+            this->key = key;
+            this->val = val;
+            //initialize next
+            next = NULL;
+        }
+    };
+    
+    unordered_map<int, ListNode*> keyToPrev;
+    ListNode *dummy, *tail;
+    int capacity, size;
+    
+public:
+    /*
+    * @param capacity: An integer
+    */LRUCache(int capacity) {
+        // do intialization if necessary
+        this->dummy = new ListNode(-1, -1);
+        this->tail = dummy;
+        this->capacity = capacity;
+        this->size = 0;
+    }
 
+    /*
+     * @param key: An integer
+     * @return: An integer
+     */
+    //查询
+    int get(int key) {
+        // write your code here
+        //note find
+        if(!keyToPrev.count(key)){
+            return -1;
+        }
+        
+        //find --- 最新访问的move to tail
+        moveToTail(key);
+        
+        //the key has been moved to the end
+        return tail->val;
+    }
+
+    /*
+     * @param key: An integer
+     * @param value: An integer
+     * @return: nothing
+     */
+    void set(int key, int value) {
+        // write your code here
+        //get method will move the key to the tail
+        if(get(key) != -1){
+            ListNode *prev = keyToPrev[key];
+            prev->next->val = value;//覆盖
+            return;
+        }
+        
+        if(size < capacity){
+            size++;
+            ListNode *cur = new ListNode(key,value);
+            tail->next = cur;
+            keyToPrev[key] = tail;
+            
+            tail = cur;//move the ptr
+            return;
+        }
+        
+        //超出缓存上限
+        //replace the first node with new key & value
+        ListNode *first = dummy->next;
+        keyToPrev.erase(first->key);
+        
+        first->key = key;
+        first->val = value;
+        keyToPrev[key] = dummy;
+        
+        moveToTail(key);
+    }
+    
+private:
+    void moveToTail(int key){
+        ListNode *pre = keyToPrev[key];
+        ListNode *cur = pre->next;
+        
+        if(tail == cur){
+            return;
+        }
+        
+        pre->next = pre->next->next;
+        tail->next = cur;
+        cur->next = NULL;
+        
+        //record the position
+        keyToPrev[pre->next->key] = pre;
+        keyToPrev[cur->key] = tail;
+        
+        tail = cur;//move the ptr
+    }
+};
