@@ -11,7 +11,6 @@ hashmap 中是 key - Listnode，且每个key都对应前一个Listnode (单向�
 key 和 对应的val 都放在listnode属性里面，节省一个哈希表
 
 class LRUCache {
-    
     class ListNode {
         public:
         int key, val;
@@ -28,7 +27,7 @@ class LRUCache {
     
     unordered_map<int, ListNode*> keyToPrev;
     ListNode *dummy, *tail;
-    int capacity, size;
+    int capacity, size;//size---used capacity
     
 public:
     /*
@@ -48,7 +47,7 @@ public:
     //查询
     int get(int key) {
         // write your code here
-        //note find
+        //not find
         if(!keyToPrev.count(key)){
             return -1;
         }
@@ -69,11 +68,15 @@ public:
         // write your code here
         //get method will move the key to the tail
         if(get(key) != -1){
+            //if find 
+            //1. move to the tail(get method has done)
+            //modify the next of the pre node
             ListNode *prev = keyToPrev[key];
             prev->next->val = value;//覆盖
             return;
         }
         
+        //not find
         if(size < capacity){
             size++;
             ListNode *cur = new ListNode(key,value);
@@ -87,8 +90,10 @@ public:
         //超出缓存上限
         //replace the first node with new key & value
         ListNode *first = dummy->next;
+        //delete old info
         keyToPrev.erase(first->key);
         
+        //update new info
         first->key = key;
         first->val = value;
         keyToPrev[key] = dummy;
@@ -101,6 +106,7 @@ private:
         ListNode *pre = keyToPrev[key];
         ListNode *cur = pre->next;
         
+        //if cur is the tail, return
         if(tail == cur){
             return;
         }
@@ -109,7 +115,7 @@ private:
         tail->next = cur;
         cur->next = NULL;
         
-        //record the position
+        //record the position of [pre->next] and [cur]
         keyToPrev[pre->next->key] = pre;
         keyToPrev[cur->key] = tail;
         
