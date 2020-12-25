@@ -116,8 +116,8 @@ private:
         cur->next = NULL;
         
         //record the position of [pre->next] and [cur] --- 【只要链表的结构改变了，就一定要更新记录顺序的hashmap】
-        if(pre->next != NULL)//这里可以不写这个if直接写if里的keyToPrev[pre->next->key] = pre; 因为这里已经保证了pre->next一定有值，因为已经判断tail在cur前，cur原来是next，那nextnext一定可以是tail
-            keyToPrev[pre->next->key] = pre;
+        if(pre->next != NULL)//这里可以不写这个if直接写if里的keyToPrev[pre->next->key] = pre; 因为这里已经保证了pre->next一定有值 
+            keyToPrev[pre->next->key] = pre; //因为之前已经判断tail在cur前，而cur原来是pre->next，那pre->next->next 最差一定可以是tail(非空)
         keyToPrev[cur->key] = tail;
         
         tail = cur;//move the ptr
