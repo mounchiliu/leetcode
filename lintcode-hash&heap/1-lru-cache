@@ -111,12 +111,13 @@ private:
             return;
         }
         
-        pre->next = pre->next->next;
+        pre->next = pre->next->next;//断开现有连接，跳过当前点。  千万不可写cur->next, 因为后续cur节点会改变，这里也会跟着变
         tail->next = cur;
         cur->next = NULL;
         
-        //record the position of [pre->next] and [cur]
-        keyToPrev[pre->next->key] = pre;
+        //record the position of [pre->next] and [cur] --- 【只要链表的结构改变了，就一定要更新记录顺序的hashmap】
+        if(pre->next != NULL)//这里可以不写这个if直接写if里的keyToPrev[pre->next->key] = pre; 因为这里已经保证了pre->next一定有值，因为已经判断tail在cur前，cur原来是next，那nextnext一定可以是tail
+            keyToPrev[pre->next->key] = pre;
         keyToPrev[cur->key] = tail;
         
         tail = cur;//move the ptr
