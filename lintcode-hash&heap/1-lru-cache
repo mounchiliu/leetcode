@@ -71,8 +71,7 @@ public:
             //if find, we only need to update the value
             //1. move to the tail(get method has done)
             //2. modify the next of the pre node
-            ListNode *prev = keyToPrev[key];
-            prev->next->val = value;//覆盖
+            tail->next->val = value;//覆盖
             return;
         }
         
@@ -99,7 +98,7 @@ public:
         first->val = value;
         keyToPrev[key] = dummy;
         
-        moveToTail(key);
+        moveToTail(key);//最新访问，移到最前面
     }
     
 private:
