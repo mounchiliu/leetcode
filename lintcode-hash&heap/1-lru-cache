@@ -6,7 +6,6 @@ https://www.lintcode.com/problem/lru-cache/
 2. 寻找一个数据结构，可以通过key得到对应value --- hashmap
 3. 需要知道中间某个节点在链表中的位置---需要存储每个key在链表中的位置 --- hashmap
 
-
 所以 我们使用hashmap + 链表
 hashmap 中是 key - Listnode，且每个key都对应前一个Listnode (单向链表，使用这样的操作来记录前驱, 链表又自带后驱的记录功能)
 key 和 对应的val 都放在listnode属性里面，节省一个哈希表
