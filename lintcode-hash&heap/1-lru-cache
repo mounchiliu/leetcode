@@ -70,7 +70,7 @@ public:
         if(get(key) != -1){
             //if find 
             //1. move to the tail(get method has done)
-            //modify the next of the pre node
+            //2. modify the next of the pre node
             ListNode *prev = keyToPrev[key];
             prev->next->val = value;//覆盖
             return;
