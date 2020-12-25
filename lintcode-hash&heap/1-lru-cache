@@ -90,7 +90,8 @@ public:
         //超出缓存上限
         //replace the first node with new key & value
         ListNode *first = dummy->next;
-        //delete old info
+        //delete old info, and then add new info
+        //【因为key值可能改变了，不删的话而hashmap通过原来key访问这个位置的节点，可能会找不到导致segmentation fault】
         keyToPrev.erase(first->key);
         
         //update new info
