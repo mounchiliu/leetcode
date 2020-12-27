@@ -93,7 +93,7 @@ public:
         //【因为key值可能改变了，不删的话而hashmap通过原来key访问这个位置的节点，可能会找不到导致segmentation fault】
         keyToPrev.erase(first->key);
         
-        //update new info
+        //update new info, 用新值覆盖要删去的值，然后把它移到最后
         first->key = key;
         first->val = value;
         keyToPrev[key] = dummy;
