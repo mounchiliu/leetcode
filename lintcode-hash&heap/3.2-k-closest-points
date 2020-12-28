@@ -1,0 +1,87 @@
+https://www.lintcode.com/problem/k-closest-points/description
+
+思路：
+Version 1：离线算法
+1. 首先需要获得n个点的距离 O(n) --- 必备
+2. 距离使用Quick Select，选择第k个小的O(n)
+3. 枚举一遍，找所有比这个数小的 O(n)
+4. 找到的 top k smallest points 按 distance 排序并返回 -- O(klogk) 
+所以时间复杂度为 O(n + klogk) 
+
+Version 2：
+0. 获得距离 O(n)
+使用堆
+1. 建立 O(n)
+2. 每次吐出一个当前最小的，然后重建 一共吐k次
+时间复杂度为 O(n +nlogn) --- 最差
+
+Version 3：Recommended
+在线算法
+获得距离 O(n)
+每次获得距离后 维护当前为止 k个数，当有新的数进来，和k个数中最大的比较，再决定是否插入删除
+所以开k大小的堆，实现快速插入、删除 (每次插入删除的时间复杂度为 O(logk) )
+时间复杂度O(nlogk)
+
+//Version 3 Recommended
+/**
+ * Definition for a point.
+ * struct Point {
+ *     int x;
+ *     int y;
+ *     Point() : x(0), y(0) {}
+ *     Point(int a, int b) : x(a), y(b) {}
+ * };
+ */
+Point global_origin; //全局变量
+int getDistance(Point a, Point b){
+        return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+}
+struct compare{
+    bool operator()(const Point &a, const Point &b) const {  //return a的距离是否比b小
+        int diff = getDistance(a, global_origin) - getDistance(b, global_origin);
+        if (diff == 0)//一样大，按照x值排序
+            diff = a.x - b.x;
+        if (diff == 0)//x值也一样大，按照y值排序
+            diff = a.y - b.y;
+        return diff < 0;
+    }
+};
+
+class Solution {
+public:
+    /**
+     * @param points: a list of points
+     * @param origin: a point
+     * @param k: An integer
+     * @return: the k closest points
+     */
+    vector<Point> kClosest(vector<Point> &points, Point &origin, int k) {
+        // write your code here
+        if(points.size() < k){
+            return {};
+        }
+        
+        global_origin = Point(origin.x, origin.y);
+        //自己定义compare，来得到排序
+        priority_queue<Point, vector<Point>, compare> heap;
+        
+        int n = points.size();
+        for(int i = 0; i < n; i++){
+            Point p = points[i];
+            heap.push(p);
+            if(heap.size() > k){
+                heap.pop();
+            }
+        }
+        
+        vector<Point> result;
+        while(!heap.empty()){
+            result.push_back(heap.top());
+            heap.pop();
+        }
+        
+        reverse(result.begin(), result.end());
+        return result;
+        
+    }
+};
