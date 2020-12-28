@@ -3,10 +3,6 @@ https://www.lintcode.com/problem/top-k-largest-numbers/description
 思路1：离线算法 quickSort O(nlogn)
 
 思路2：在线算法 使用堆 每次要排前k大，所以使用最小堆维护k个数字，这样可以O（1）找到k中最小的
-bool cmp(const int& a, const int& b) {
-    return a > b;
-}
-
 class Solution {
 public:
     /*
@@ -16,25 +12,24 @@ public:
      */
     vector<int> topk(vector<int>& nums, int k) {
         // Write your code here
-        priority_queue<int, vector<int>, greater<int>> queue;
-        int n = nums.size();
-        for (int i = 0; i < k; ++i)
-            queue.push(nums[i]);
-
-        for (int i = k; i < n; i ++) {
-            if(nums[i] > queue.top()) {
-                queue.pop();
-                queue.push(nums[i]);
+        if(nums.size() < k)
+            return {};
+            
+        priority_queue<int, vector<int>, greater<int>> heap;
+        for(int i = 0; i < nums.size(); i++){
+            heap.push(nums[i]);
+            if(heap.size() > k){
+                heap.pop();
             }
         }
-
-        vector<int> topk;
-        for (int i = 0; i < k; ++i) {
-            topk.push_back(queue.top());
-            queue.pop();
+        
+        vector<int> result;
+        while(!heap.empty()){
+            result.push_back(heap.top());
+            heap.pop();
         }
-
-        sort(topk.begin(), topk.end(), cmp);
-        return topk;
+        
+        reverse(result.begin(), result.end());
+        return result;
     }
 };
