@@ -1,0 +1,41 @@
+https://www.lintcode.com/problem/moving-average-from-data-stream/description
+
+online algorithm，只遍历一次来处理数据
+且先进入的数，可能因为size满了而进来新的数被踢出去，所以可以使用队列
+
+class MovingAverage {
+private:
+    queue<int> Q;
+    int size;
+    double sum = 0;
+public:
+    /*
+    * @param size: An integer
+    */MovingAverage(int size) {
+        // do intialization if necessary
+        this->size = size;
+    }
+
+    /*
+     * @param val: An integer
+     * @return:  
+     */
+    double next(int val) {
+        // write your code here
+        if(Q.size() == this->size){
+            //已经满了，减去最前面进去的
+            sum = sum - Q.front();
+            Q.pop();
+        }
+        //insert new val
+        Q.push(val);
+        sum = sum + val;
+        return sum / Q.size(); //注意这里不可以写成sum = ... 因为不可改变sum的值，后面还要用
+    }
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage obj = new MovingAverage(size);
+ * double param = obj.next(val);
+ */
