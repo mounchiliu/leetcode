@@ -4,7 +4,7 @@ https://www.lintcode.com/problem/ugly-number-ii/description
 既然求第n小的丑数，可以采用最小堆来解决。
 相当于堆排序找第n小的丑数---时间复杂度 O(NlogN)
 
-思路2：动态规划， 见https://www.jiuzhang.com/problem/ugly-number-ii/
+思路2：动态规划+指针， 见https://www.jiuzhang.com/problem/ugly-number-ii/
 class Solution {
 public:
     /**
