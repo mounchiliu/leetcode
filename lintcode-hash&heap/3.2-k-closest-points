@@ -36,7 +36,7 @@ Point global_origin; //全局变量
 long getDistance(Point a, Point b){
         return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
 }
-//【使用max heap， 这样可以O(1)获取最大的用来比较】
+//【使用max heap,存放前k小个数， 这样可以O(1)获取最大的用来比较】
 struct compare{
     //重载 operator, 没有指定运算符比如less、greater 所以()
     bool operator() (const Point &a, const Point &b) const {  //找最小的几个 --- return a的距离是否比b小
