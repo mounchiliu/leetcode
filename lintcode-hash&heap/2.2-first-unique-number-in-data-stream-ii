@@ -1,0 +1,82 @@
+https://www.lintcode.com/problem/first-unique-number-in-data-stream-ii/description
+只许遍历一次
+
+每个数的生命历程均为：
+- 没出现 -> 出现一次 -> 出现第二次 (不可能是答案)
+或者
+- 没出现 -> 出现一次 -> 之后一直没出现 (有可能是答案)
+
+所以
+- 使用ListNode, 维护:到当前位置，所有出现了一次的点，且维护:他们的先后顺序。
+(当链表中的点，又一次出现后，需要把它从链表里删除)
+- 使用哈希表，记录链表点在哈希表里的顺序
+使用类似 LRU Cache 的做法来做。 hash 的 key 为 num，value 为对应的 linkedlist 上的 previous node
+
+class DataStream {
+private:
+    ListNode* dummy, *tail;
+    //记录只出现过一次的数据
+    //一个链表点对应链表中位置的前一个 (因为使用单向链表)
+    unordered_map<int, ListNode*> numToPrev;
+    //垃圾桶，一个数如果出现过一次以上，丢进去
+    unordered_set<int> duplicates;
+public:
+    DataStream(){
+        // do intialization if necessary
+        dummy = new ListNode(-1);
+        tail = dummy;
+    }
+    
+    /**
+     * @param num: next number in stream
+     * @return: nothing
+     */
+    void add(int num) {
+        // write your code here
+        if(duplicates.count(num)){
+            return;
+        }
+        
+        //不在垃圾桶里，则有两种情况
+        if(numToPrev.count(num)){
+            //1. 已经出现过一次，又出现了，不符合 
+            //从链表中删除
+            removeData(num);
+            //丢垃圾桶
+            duplicates.insert(num);
+        }else{
+            //2. 没出现过
+            ListNode* node = new ListNode(num);
+            numToPrev[num] = tail;
+            tail->next = node;
+            tail = node;
+        }
+    }
+
+    /**
+     * @return: the first unique number in stream
+     */
+    int firstUnique() {
+        // write your code here
+        if(dummy->next != NULL){
+            return dummy->next->val;
+        }
+        return -1;
+    }
+    
+private:
+    void removeData(int num){
+        ListNode* pre = numToPrev[num];
+        pre->next = pre->next->next;
+        numToPrev.erase(num);
+        
+        //change tail and prev of next
+        if(pre->next != NULL){
+            //记录新有顺序
+            numToPrev[pre->next->val] = pre;
+        }else{
+            //说明需要删除的点就是tail, 所以直接删就行
+            tail = pre;
+        }
+    }
+};
