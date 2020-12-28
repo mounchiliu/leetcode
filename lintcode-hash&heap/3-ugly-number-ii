@@ -5,6 +5,8 @@ https://www.lintcode.com/problem/ugly-number-ii/description
 相当于堆排序找第n小的丑数---时间复杂度 O(NlogN)
 
 思路2：动态规划+指针， 见https://www.jiuzhang.com/problem/ugly-number-ii/
+
+
 class Solution {
 public:
     /**
@@ -37,8 +39,8 @@ public:
         
         for(int i = 0; i < n; i++){
             curUgly = heap.top();
-            heap.pop();
-            
+            heap.pop();//升序，所以每次pop是弹出当前最小值
+                       //【注意】，这里pop的时候，每次重建heap时的规模从小到大，对应堆排序中堆顶下沉，删堆顶、重新排，规模从大到小，所以都是 O(NlogN) --- ppt pp43 有证明
             //生成新的丑数
             for(int &f: factors){
                 newUgly = curUgly * f;
