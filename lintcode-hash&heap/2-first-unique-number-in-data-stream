@@ -1,0 +1,50 @@
+https://www.lintcode.com/problem/first-unique-number-in-data-stream/description
+
+找出所有只出现一次的数据里，出现最早的
+
+思路：开哈希表记录每个元素出现的次数, 读第一遍，记录哈希表里的数据。读第二遍的时候，从左往右找第一个哈希表里次数是1的数据
+但是数据流有一个问题是，他只能读一次就没了，如果只遍历一次，见2.2 first-unique-number-in-data-stream-ii
+
+这题给了data stream, 给了一个number, 其中number是终止的数，且如果在nums中没有number这个数，则return -1
+
+class Solution {
+public:
+    /**
+     * @param nums: a continuous stream of numbers
+     * @param number: a number
+     * @return: returns the first unique number
+     */
+    int firstUniqueNumber(vector<int> &nums, int number) {
+        // Write your code here
+        if(nums.size() == 0){
+            return -1;
+        }
+        
+        unordered_map<int, int> times;
+        for(int i = 0; i < nums.size(); i++){
+            if(times.count(nums[i])){
+                times[nums[i]]++;
+            }else{
+                times[nums[i]] = 1; //initialize times as 1
+            }
+            
+            //check whether get the end number
+            if(nums[i] == number)
+                break;
+        }
+        
+        //check whether we find the end number
+        if(!times.count(number)){
+            return -1;
+        }
+        
+        //find the first one
+        for(int i = 0; i < nums.size(); i++){
+            if(times[nums[i]] == 1){
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+};
+
