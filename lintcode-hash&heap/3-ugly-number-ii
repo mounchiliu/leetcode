@@ -29,8 +29,8 @@ public:
         */
         //使用long防止越界
         priority_queue<long,vector<long>, greater<long>> heap;
-        vector<int> factors = {2,3,5};
         set<long> seen; //record ugly numbers;
+        vector<int> factors = {2,3,5};
         
         heap.push(1L);//1 as long data structure
         
