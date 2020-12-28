@@ -75,7 +75,7 @@ private:
             //记录新有顺序
             numToPrev[pre->next->val] = pre;
         }else{
-            //说明需要删除的点就是tail, 所以直接删就行
+            //说明需要删除的点就是tail, 所以直接删就行（覆盖）
             tail = pre;
         }
     }
