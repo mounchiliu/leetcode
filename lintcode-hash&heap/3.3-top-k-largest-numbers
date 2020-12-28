@@ -2,7 +2,7 @@ https://www.lintcode.com/problem/top-k-largest-numbers/description
 
 思路1：离线算法 quickSort O(nlogn)
 
-思路2：在线算法 使用堆
+思路2：在线算法 使用堆 每次要排前k大，所以使用最小堆维护k个数字，这样可以O（1）找到k中最小的
 bool cmp(const int& a, const int& b) {
     return a > b;
 }
