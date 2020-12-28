@@ -43,6 +43,10 @@ public:
             if(times[nums[i]] == 1){
                 return nums[i];
             }
+            
+            if(nums[i] == number){
+                break;
+            }
         }
         return -1;
     }
