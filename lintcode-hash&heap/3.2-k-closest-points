@@ -33,14 +33,14 @@ Version 3：Recommended
  * };
  */
 Point global_origin; //全局变量
-int getDistance(Point a, Point b){
+long getDistance(Point a, Point b){
         return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
 }
 //【使用max heap， 这样可以O(1)获取最大的用来比较】
 struct compare{
-    //重载 operator，因为这里没有运算符，所以()
-    bool operator < (const Point &a, const Point &b) const {  //找最小的几个 --- return a的距离是否比b小
-        int diff = getDistance(a, global_origin) - getDistance(b, global_origin);
+    //重载 operator, 没有指定运算符比如less、greater 所以()
+    bool operator() (const Point &a, const Point &b) const {  //找最小的几个 --- return a的距离是否比b小
+        long diff = getDistance(a, global_origin) - getDistance(b, global_origin);//long 防止溢出
         if (diff == 0)//一样大，按照x值排序
             diff = a.x - b.x;
         if (diff == 0)//x值也一样大，按照y值排序
@@ -50,7 +50,7 @@ struct compare{
 };
 
 /*
-//重写比较函数
+//e.g.重写比较函数
 struct Data_Func 
 {
 	bool operator() (Data_Compare a, Data_Compare b)
