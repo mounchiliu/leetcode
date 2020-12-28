@@ -45,7 +45,7 @@ public:
             for(int &f: factors){
                 newUgly = curUgly * f;
                 
-                if(!seen.count(newUgly)){
+                if(!seen.count(newUgly)){ //使用哈希表获得O(1)的查找的时间复杂度，而heap不支持O(1)时间复杂度的查找
                     seen.insert(newUgly);
                     heap.push(newUgly);
                 }
