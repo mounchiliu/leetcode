@@ -52,6 +52,8 @@ public:
                 pos++;
             }
         }
-        return str[pos];
+        if(pos < str.size())
+            return str[pos];
+        return char();//没找到
     }
 };
