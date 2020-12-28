@@ -1,7 +1,7 @@
 https://www.lintcode.com/problem/insert-delete-getrandom-o1/description
 
 思路: 哈希表可以O(1)插入和删除，但是get Random不可以(hash里的key不一定连续)
-数组因为是连续的，可以random一个index实现O(1) get random
+数组因为是连续的，可以random一个index来实现O(1) get random
 
 Sol:
 使用数组来保存当前集合中的元素，同时用一个hashMap来保存数字与它在数组中下标的对应关系。
@@ -54,7 +54,7 @@ public:
         }
         
         //存在时先根据hashMap得到要删除数字的下标
-        //再将数组的最后一个数放到需要删除的数的位置上 【更新位置】
+        //再将数组的最后一个数放到需要删除的数的位置上 【用最后一个位置的来补要删的空洞---来使得数组连续】
         //删除数组最后一位，同时更新hashMap。
         int index = num2index[val];
         if(index < nums.size() -1){ //检查是不是最后一个，如果是直接删
