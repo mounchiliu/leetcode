@@ -1,0 +1,45 @@
+https://www.lintcode.com/problem/top-k-largest-numbers-ii/description
+
+class Solution {
+private:
+    priority_queue<int, vector<int>, greater<int>> heap;
+    int k;
+public:
+    /*
+    * @param k: An integer
+    */Solution(int k) {
+        // do intialization if necessary
+        this->k = k;
+    }
+
+    /*
+     * @param num: Number to be added
+     * @return: nothing
+     */
+    void add(int num) {
+        // write your code here
+        heap.push(num);
+        if(heap.size() > k){
+            heap.pop();
+        }
+    }
+
+    /*
+     * @return: Top k element
+     */
+    vector<int> topk() {
+        // write your code here
+        
+        vector<int> result;
+        while(!heap.empty()){
+            result.push_back(heap.top());
+            heap.pop();
+        }
+        
+        reverse(result.begin(), result.end());
+        for(int i = 0; i < result.size(); i++){
+            heap.push(result[i]);
+        }
+        return result;
+    }
+};
