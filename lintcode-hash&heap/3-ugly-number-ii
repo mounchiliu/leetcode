@@ -6,6 +6,7 @@ https://www.lintcode.com/problem/ugly-number-ii/description
 
 思路2：动态规划+指针， 见https://www.jiuzhang.com/problem/ugly-number-ii/
 
+【priority_queue<Type, Container, Functional>】
 
 class Solution {
 public:
