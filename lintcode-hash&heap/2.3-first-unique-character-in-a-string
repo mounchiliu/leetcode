@@ -1,0 +1,57 @@
+https://www.lintcode.com/problem/first-unique-character-in-a-string/description
+【遍历一次 VS 遍历两次】
+
+//Version1, 遍历两次
+class Solution {
+public:
+    /**
+     * @param str: str: the given string
+     * @return: char: the first unique character in a given string
+     */
+    char firstUniqChar(string &str) {
+        // Write your code here
+        if(str.size() == 0){
+            return char();
+        }
+        
+        //先将所有字符扫一遍，保存出现过的字符
+        //然后再扫一遍，遇到第一个出现一次的字符就是答案
+        //数据结构可以使用hashmap 也可以使用vector代替
+        vector<int> cnt(256,0);
+        for(int i = 0; i < str.size(); i++){
+            cnt[str[i]]++;//通过ascii访问
+        }
+        for(int i = 0; i < str.size(); i++){
+            if(cnt[str[i]] == 1){
+                return str[i];
+            }
+        }
+        return char();
+    }
+};
+
+//Version2 遍历一次 --- 可以使用类似2.2的写法或者设立一个指针指向目前认为的只出现一次的字符
+class Solution {
+public:
+    /**
+     * @param str: str: the given string
+     * @return: char: the first unique character in a given string
+     */
+    
+    char firstUniqChar(string &str) {
+        // Write your code here
+        if(str.size() == 0)
+            return char();
+            
+        int pos = 0;
+        unordered_map<int, int> cnt;
+        for(int i = 0; i < str.size(); i++){
+            cnt[str[i]]++;
+            
+            while(cnt[str[pos]] > 1){
+                pos++;
+            }
+        }
+        return str[pos];
+    }
+};
