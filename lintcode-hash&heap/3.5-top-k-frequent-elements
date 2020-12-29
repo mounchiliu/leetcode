@@ -3,3 +3,41 @@ https://www.lintcode.com/problem/top-k-frequent-elements/description
 top-k: heap
 frequency: hashmap
 
+//min-heap
+struct cmp {
+    bool operator()(pair<int, int>& m, pair<int, int>& n) {
+        return m.second > n.second;
+    }
+};
+class Solution {
+public:
+    /**
+     * @param nums: the given array
+     * @param k: the given k
+     * @return: the k most frequent elements
+     */
+    vector<int> topKFrequent(vector<int> &nums, int k) {
+        // Write your code here
+        unordered_map<int, int> freq;
+        for(int i = 0; i < nums.size(); i++){
+                freq[nums[i]]++;
+        }
+        
+        priority_queue<pair<int,int>, vector<pair<int,int>>,cmp> heap;
+        for(auto &ele: freq){
+            if(heap.size() < k){
+                heap.push(ele);
+            }else if(ele.second > heap.top().second){
+                heap.pop();
+                heap.push(ele);
+            }
+        }
+        
+        vector<int> topKs;
+        while(!heap.empty()){
+            topKs.push_back(heap.top().first);
+            heap.pop();
+        }
+        return topKs;
+    }
+};
