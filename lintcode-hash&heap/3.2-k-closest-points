@@ -45,7 +45,7 @@ struct compare{
             diff = a.x - b.x;
         if (diff == 0)//x值也一样大，按照y值排序
             diff = a.y - b.y;
-        return diff < 0;//max_heap
+        return diff < 0;//max_heap，使用less，所以 <
     }
 };
 
