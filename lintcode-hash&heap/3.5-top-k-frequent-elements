@@ -3,7 +3,7 @@ https://www.lintcode.com/problem/top-k-frequent-elements/description
 top-k: heap
 frequency: hashmap
 
-//min-heap
+//min-heap --- greater 使用 >
 struct cmp {
     bool operator()(pair<int, int>& m, pair<int, int>& n) {
         return m.second > n.second;
