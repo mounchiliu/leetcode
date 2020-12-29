@@ -1,0 +1,130 @@
+https://www.lintcode.com/problem/merge-k-sorted-lists/description
+
+Sol：
+0. 自底向上的两两归并算法 (第一个和第二个合并的结果和第三个合并，再和第四个合并...) ---- 时间复杂度 O(Nk)
+最差的情况： - 所有链表共有n个数，第一组就有接近n个数，第一组和第二组合并，最差需要扫描整个数组 O(n)， 
+            - 每次都要重复以上操作，做k次
+1. 归并排序的分治算法 --- 形成一个树结构，层数为logk，即每个链表合并的次数为logK，一次合并中每个数贡献O(1)，一共有n个数 --- O(nlogk)
+2. 每次比较k个头，取最小的，然后取出来的那个移动指针，（每次比较k个数，取最小 是使用堆来快速解决）---  O(nlogk)
+
+ //sol 1
+class Solution {
+public:
+    /**
+     * @param lists: a list of ListNode
+     * @return: The head of one sorted list.
+     */
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        // write your code here
+        if(lists.size() == 0)
+            return NULL;
+        if(lists.size() == 1)
+            return lists[0];
+        vector<ListNode *> mergeTemp;
+        for(int i = 0; i < lists.size()/2; i++){
+            mergeTemp.push_back(
+                mergeTwoLists(lists[i*2], lists[i*2+1]));
+        }
+        //for odd numbers of lists
+        if(lists.size() % 2 == 1){
+            mergeTemp.push_back(lists.back());
+        }
+        
+        return mergeKLists(mergeTemp);
+    }
+private:
+    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2){
+        //version 1 non-reversive
+        /*if(l1 == NULL)
+            return l2;
+        if(l2 == NULL)
+            return l1;
+        
+        ListNode *dummy = new ListNode(-1);
+        ListNode *ptr = dummy;
+        while(l1 && l2){
+            if(l1->val < l2->val){
+                ptr->next = l1;
+                l1 = l1->next;
+            }else{
+                ptr->next = l2;
+                l2 = l2->next;
+            }
+            ptr = ptr->next;
+        }
+        
+        while(l1){
+            ptr->next = l1;
+            l1 = l1->next;
+            ptr = ptr->next;
+        }
+        while(l2){
+            ptr->next = l2;
+            l2 = l2->next;
+            ptr = ptr->next;
+        }
+        return dummy->next;*/
+        
+        //version 2 recursive
+        if(l1 == NULL)
+            return l2;
+        if(l2 == NULL)
+            return l1;
+        
+        if(l1->val < l2->val){
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
+        }else{
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
+        }
+        
+    }
+};
+ 
+ 
+ 
+ 
+ //sol 2
+class Solution {
+private:
+    struct cmp{
+        bool operator() (const ListNode* l1, const ListNode* l2){
+            return l1->val > l2->val;//min heap
+        }
+    };
+
+public:
+    /**
+     * @param lists: a list of ListNode
+     * @return: The head of one sorted list.
+     */
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        // write your code here
+        if(lists.empty())
+            return NULL;
+        if(lists.size() == 1)
+            return lists[0];
+            
+        priority_queue<ListNode*, vector<ListNode*>, cmp> heap;
+        for(ListNode* i: lists){
+            if(i != NULL){//null 放进去没有比较的意义，所以跳过
+                heap.push(i);//因为是排好序的，先把k个链表头放进去比大小，他们分别都是每个链表中最小的
+            }
+        }
+        
+        ListNode* dummy = new ListNode(-1);
+        ListNode* ptr = dummy;
+        while(!heap.empty()){
+            ListNode* head = heap.top(); //每次取出最小的
+            heap.pop();
+            ptr->next = head; //最小的连在排好的后面
+            ptr = head;//移动指针
+            
+            if(head->next != NULL){//查看取出最小值的链表，后面还有没有数据
+                heap.push(head->next);
+            }
+        }
+        return dummy->next;
+    }
+};
