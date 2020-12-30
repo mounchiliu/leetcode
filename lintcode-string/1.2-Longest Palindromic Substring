@@ -129,43 +129,50 @@ class Solution {
 public:
     /**
      * @param s: input string
-     * @return: the longest palindromic substring
+     * @return: a string as the longest palindromic substring
      */
     string longestPalindrome(string &s) {
-        int len = s.length();
-        vector<vector<int>> isPalindrome(len, vector<int>(len));
-        int maxLen = 1;
-        int start = 0;
+        // write your code here
+        if(s.size() <= 1){
+            return s;
+        }
         
-        // 将长度为 1 的 dp 值设为真
-        for (int i = 0; i < len; i++) {
-            isPalindrome[i][i] = 1;
+        //每一对是否是回文，建立在表格的左下角否是回文的基础上，认证当前i,j
+        int n = s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        
+        
+        //initialize the condition that len = 1;
+        //即赋值对角线
+        for(int i = 0; i < n; i++){
+            dp[i][i] = true;
         }
-        for (int i = 0; i + 1 < len; i++) {
-            if (s[i] == s[i + 1]) {
-                isPalindrome[i][i + 1] = 1;
-                maxLen = 2;
-                start = i;
-            }
-        }
-        for (int left = len - 1; left >= 0; left--) {
-            for (int right = left + 2; right < len; right++) {
-                if (isPalindrome[left + 1][right - 1] == 1
-                        and s[left] == s[right]) {
-                    
-                    isPalindrome[left][right] = 1;
-                    // 更新答案
-                    if (right - left + 1 > maxLen) {
-                        maxLen = right - left + 1;
-                        start = left;
+        
+        //先一列一列的填写,因为需要看【左下角】找答案
+        int maxLen = 1, start = 0;
+        for(int right = 1; right < n; right++){
+            for(int left = 0; left < right; left++){
+                if(s[left] != s[right]){
+                    dp[left][right] = false;
+                }else{
+                    if(right - left < 3){
+                        //头尾已经是相等的，头尾去掉后如果只有一个或者没有 一定true
+                        dp[left][right] = true;
+                    }else{
+                         //向左下角看齐，它是true，我i，j位又是true，那就是true
+                         //【即向之前缩进去的substr看齐】left应++，right应--
+                        dp[left][right] = dp[left+1][right-1];
                     }
+                }
+                if(dp[left][right] && right - left + 1 > maxLen){
+                    maxLen = right - left + 1;
+                    start = left;
                 }
             }
         }
         return s.substr(start, maxLen);
     }
 };
-
 
 
 
