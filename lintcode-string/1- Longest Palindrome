@@ -33,9 +33,7 @@ public:
 
 
 
-SOL2:
-
-
+SOL2: 数组也可以用哈希表代替
 class Solution {
 public:
     int longestPalindrome(string s) {
