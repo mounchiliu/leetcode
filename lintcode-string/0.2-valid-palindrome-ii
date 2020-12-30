@@ -16,6 +16,7 @@ public:
         while(left < right){
             if(s[left] != s[right]){
                 return (isValid(s, left + 1, right) || isValid(s, left, right - 1)); //两种删字符的情况都要考虑
+                //【截取字符串有一定的性能消耗，最好记录、传入指针操作子串】
             }
             left++;
             right--;
