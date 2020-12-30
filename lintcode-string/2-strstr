@@ -7,7 +7,7 @@ public:
     int strStr(string source, string  target) {
         int i, j, len_s = source.length(), len_t =  target.length(); 
         if (len_t == 0)  return 0;//异常处理
-        for (i = 0; i <= len_s - len_t; i++) { //【注意等号 因为i+j最大取值是lens-lent+lent-1 所以有等号 OR i < len_s-len_t + 1】//对于source从头开始搜的情况 只有这么多。 
+        for (i = 0; i <= len_s - len_t; i++) { //【注意最大取值：从sourc尾巴往前填满len_t长度的index】//对于source从头开始搜的情况 只有这么多。 
             for (j = 0; j < len_t; j++) 
                 if (source[i + j] !=  target[j]) break; //【break只跳出一层】，continue是跳过当前index，继续
             // 匹配成功
