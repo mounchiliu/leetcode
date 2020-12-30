@@ -1,89 +1,56 @@
-https://www.lintcode.com/problem/longest-palindromic-substring/description   --- 重点掌握 sol 3的两种形式
+https://www.lintcode.com/problem/longest-palindromic-substring/description   --- 掌握(sol1、sol3)、重点掌握 sol2
 
-
-my trun:
-SOL1: Naive
+Sol1: Naive O(n^3)
 class Solution {
 public:
     /**
-     * @param s: a string which consists of lowercase or uppercase letters
-     * @return: the length of the longest palindromes that can be built
+     * @param s: input string
+     * @return: a string as the longest palindromic substring
      */
     string longestPalindrome(string &s) {
         // write your code here
-        
-        //【NOTE】特殊情况的考虑 s is none or s is empty 下面的sol都要加上！
-        if(s.empty())
+        if(s.size() <= 1){
             return s;
-            
-        int i,j;
-        int longestlength = 0;
-        int start = 0;
-        for(i = 0; i < s.length(); i++){
-            for(j = i; j < s.length(); j++){
-                int length = j - i + 1;
-                if(length > longestlength && isPalindrome(s,i,j)){
-                    start = i;
-                    longestlength = length;
-                }
-            }
         }
-        /*
-        OR
-         string longestPalindrome(string &s) {
-        // write your code here
-        int longest_result = 0;
-        int start;
         
-        for(int i = 0; i < s.length(); i++){
-            for(int j = i; j < s.length(); j++){
-                if((j-i+1) > longest_result && checkPalidrome(s,i,j)){
-                    longest_result = j-i+1;
+        int len = 0, start = 0;
+        for(int i = 0; i < s.size(); i++){
+            for(int j = s.size()-1; j > i; j--){ //固定i，从最长的j开始枚举
+                if(j - i + 1 <= len){
+                    continue; //剪枝
+                }
+                
+                if(isValid(s, i, j)){
+                    //record
+                    len = j - i + 1;
                     start = i;
                 }
             }
         }
-        */
-        
-        return s.substr(start,longestlength);//c++ string 的用法！！！
-                                                //strVariable.substring(start, len)     
+        return s.substr(start, len);
     }
     
-    
-    
-    bool isPalindrome(string &s, int i, int j){
-        while(i<j && s[i]==s[j]){
-            i++;//move to right
-            j--;//move to left
+private:
+    bool isValid(string &s, int left, int right){
+        if(s. size() <= 1){
+            return true;
         }
-        //until two pointer encounter with each other-->valid palindrome
         
-        return i>=j; //【Note】
-        
-        //if(i>=j){
-       //     return true;
-        //}
-        //return false;
-    }
-    
-    
-    /*
-    OR
-        bool checkPalidrome(string &s, int i, int j){
-        while(i<j){
-            if(s[i]!=s[j]){
+        while(left < right){
+            if(s[left] != s[right]){
                 return false;
             }
-            i++; j--;
+            
+            left++;
+            right--;
         }
         return true;
     }
-    */
 };
 
 
 
-SOL2:
+SOL1.2: 优化:找最长的回文子串，反过来找，那么第一个找到的就应该是最优的 最差时间复杂度依旧是O（n^3）
 class Solution {
 public:
     /**
@@ -93,7 +60,7 @@ public:
     string longestPalindrome(string &s) {
         // write your code here
 
-        //优化:找最长的回文子串，反过来找，那么第一个找到的就应该是最优的 【SOL2】
+        //优化:找最长的回文子串，反过来找，那么第一个找到的就应该是最优的 
         //但是时间复杂度（最坏情况依然和上面一样是O(n^3)
         int len,l,r,i;
         for(len = s.length(); len > 0; len --){ //先长度固定、移动指针，再长度依次递减寻找
@@ -115,7 +82,7 @@ public:
 
 
 
-SOL3: 【重要】 O(n^2)
+SOL2: 【重要】 O(n^2)
 class Solution {
 public:
     /**
@@ -157,37 +124,7 @@ public:
 };
 
 
-
-OR 更加优化的方法
-  string longestPalindrome(string s) {
-        string str = "", ans = "";
-        int len = s.length();
-        int maxl = -1, cnt; //注意max1 = -1
-        for (int i = 0; i < len; i++) {
-            str += '#';
-            str += s[i];
-        }
-        str += '#';// the end #
-        // 将原字符串扩展成#a#b#的形式可以直接枚举长度，不用考虑回文串长度的奇偶性
-        for (int i = 1; i < 2 * len; i++) { //<s.length()*2 举例可得
-            cnt = 0;
-            while ((i - cnt >= 0) && (i + cnt <= 2 * len) && (str[i - cnt] == str[i + cnt])) //<=s.length()*2 举例可得
-                cnt++;
-            cnt--;//循环出来cnt为第一个不满足的情况，所以回退
-            if (cnt > maxl) {
-                maxl = cnt;
-                ans = s.substr((i - cnt) / 2, (i + cnt) / 2 - (i - cnt) / 2);//这个len为什么是这个，没有+1
-                                                                             //这边可以只记录start 和 len
-                                                                             
-                                                                             //创造了奇数回文，中间一定是#，左右两边各偶数各元素，且其中一半是#
-                                                                          
-            }
-        }
-        return ans;
-    }
-
-
-SOL4: dynamic programming
+SOL3: dynamic programming 时间复杂度 O(n^2)，但是会耗费额外的 O(n^2) 的空间复杂度
 class Solution {
 public:
     /**
