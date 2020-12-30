@@ -9,13 +9,13 @@ public:
     bool validPalindrome(string &s) {
         // Write your code here
         //双指针算法。从两头走到中间，发现第一对不一样的字符之后，要么删左边的，要么删右边的。 --- 证明可见双指针的预习NOTES
-        if(s.empty())
+        if(s.size() <= 1)
             return true;
             
         int left = 0, right = s.size() - 1;
         while(left < right){
             if(s[left] != s[right]){
-                return (isValid(s, left + 1, right) || isValid(s, left, right - 1));
+                return (isValid(s, left + 1, right) || isValid(s, left, right - 1)); //两种删字符的情况都要考虑
             }
             left++;
             right--;
@@ -26,6 +26,9 @@ public:
     
 private:
     bool isValid(string &s, int left, int right){
+        if(s.size() <= 1)
+            return true;
+            
         while(left < right){
             if(s[left] != s[right]){
                 return false;
