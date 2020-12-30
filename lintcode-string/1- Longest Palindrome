@@ -1,7 +1,35 @@
 https://www.lintcode.com/problem/longest-palindrome/description --- sol2的版本2列举了所有情况更好理解一点
 
 SOL1: 哈希表 记录次数
+配对了 就删掉。
 
+class Solution {
+public:
+    /**
+     * @param s: a string which consists of lowercase or uppercase letters
+     * @return: the length of the longest palindromes that can be built
+     */
+    int longestPalindrome(string &s) {
+        // write your code here
+        if(s.size() <= 1)
+            return s.size();
+            
+        unordered_set<char> visited;
+
+        for(int i=0;i<s.length();i++){
+            if(!visited.count(s[i])){
+                visited.insert(s[i]);
+                continue;
+            }
+            visited.erase(s[i]);
+        }
+        
+        if(visited.size() == 0)
+            return s.size();//所有元素构成回文
+        else
+            return s.size() - visited.size() + 1;//有一些元素是奇数，会被落下一次记录在hash里，只能选择其中一个作为中心
+    }
+};
 
 
 
