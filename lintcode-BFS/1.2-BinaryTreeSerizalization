@@ -18,7 +18,33 @@ public:
             return "{}";
         }
         
-        //使用容器方便存储、读取信息。//这里使用vector是因为一个根可能有多个子元素一次性压进去了，使用vector可以方便访问直接q[i]
+        //使用queue处理
+        queue<TreeNode*> Q;
+        Q.push(root);
+        string s = "{";
+        
+        while(!Q.empty()){
+            TreeNode* head = Q.front();
+            Q.pop();
+            if(head == NULL){
+                s += "#,";
+                continue;
+            }else{
+                s += to_string(head->val);
+                s += ",";
+                Q.push(head->left);
+                Q.push(head->right);
+            }
+        }
+        
+        s.pop_back();
+        s += "}";
+        return s;
+        
+        
+        /*
+        //Version 2    
+        //使用容器处理。//这里使用vector是因为一个根可能有多个子元素一次性压进去了，使用vector可以方便访问直接q[i]
                                    //且vector尾巴可以出 即pop_back
                                    //这里使用vector最主要是一件给了你树结构，只需要根据BFS一层一层左右往下走就行，走到一个压进vector即可。
         vector<TreeNode *> q;
@@ -55,6 +81,7 @@ public:
         //处理结尾
         sb += "}";
         return sb;
+        */
     }
     /**
      * This method will be invoked second, the argument data is what exactly
