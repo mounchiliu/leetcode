@@ -43,7 +43,7 @@ public:
                         }
                         if (dict.find(word) != dict.end()) {	//如果新单词存在于dict中
                             Q.push(word);						//存入队列继续搜索
-                            dict.erase(word);
+                            dict.erase(word);  //dict中删除，要找最短的，所以要防止重复走
                         }
                     }
                     word[j] = oldChar;//每一个位置a~z试完，复原，尝试下一个位置a~z替换
