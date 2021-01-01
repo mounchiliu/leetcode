@@ -43,7 +43,7 @@ public:
                 int x = head.x + d[k][0];//dir x
                 int y = head.y + d[k][1];//dir y
                 if (x >=0 && x < n && y >= 0 && y < m && !grid[x][y] &&
-                    record[head.x][head.y] + 1 < record[x][y]) {
+                    record[head.x][head.y] + 1 < record[x][y]) {//这一行表示这一点没走过
                     record[x][y] = record[head.x][head.y] + 1;//更新 record 值 从head跳至x、y坐标点处
                     Q.push(Point(x, y));
                 }
