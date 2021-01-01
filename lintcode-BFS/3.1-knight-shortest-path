@@ -1,6 +1,7 @@
 https://www.lintcode.com/problem/knight-shortest-path/description
 
-注意destination 和 source 要为0才可以
+Recommend sol 2
+注意destination 和 source 要为0才可以 
 e.g. 
 [[1,1,0,0],[0,0,0,0],[0,1,1,1],[1,1,1,0]]
 [1,0]
