@@ -10,7 +10,7 @@ Question: why we use unordered_multiset， instead of unordered_set or vector?
 //unordered_multiset 与 set的最大区别是前者可以容纳多个相同的值并且容器内部无序，后者容器中的元素具有唯一性并且容器内部有序。
 //map保存关键字-值；set只保存关键字。
 //具体区分请看：https://blog.csdn.net/qq_41209741/article/details/89431595
-//【这题使用multiset是因为，一个点可能多次指向另一个点，这个入度就要多算几次】
+//【这题使用multiset是因为，一个点可能多次指向另一个点，这个入度就要多算几次，所以他的邻居的时候就要都塞进去，使用set会自动把重复的归一 】
 
 class Solution {
 public:
