@@ -20,6 +20,10 @@ public:
      */
     bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
         // Write your code here
+        if(prerequisites.size() == 0){
+            return true;//【没有约束，一定可以】
+        }
+
         vector<unordered_multiset<int>> edges(numCourses); //vector[i]为一个multiset，multiset的单位是int, 即vector[i]存放 需在i之后的课程名(int类型) 
         vector<int> d(numCourses, 0);
         //【Step1】 find indegree
