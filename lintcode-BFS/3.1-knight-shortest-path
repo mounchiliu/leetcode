@@ -38,7 +38,7 @@ public:
         int n = grid.size();
         int m = grid[0].size();
         
-        vector<vector<int>> record(n, vector<int>(m, INT_MAX));//C++ vector 初始化 //初始化-1也可以
+        vector<vector<int>> record(n, vector<int>(m, INT_MAX));//C++ vector 初始化 
         record[source.x][source.y] = 0;//recorder用于记录步数,记录由上一层（上一点）跳到这一点的步数
 
         vector<vector<int>> d = {{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
@@ -51,7 +51,9 @@ public:
                 int x = head.x + d[k][0];//dir x
                 int y = head.y + d[k][1];//dir y
                 if (x >=0 && x < n && y >= 0 && y < m && !grid[x][y] &&
-                    record[head.x][head.y] + 1 < record[x][y]) {//这一行表示这一点没走过
+                    record[head.x][head.y] + 1 < record[x][y]) {//这一行表示这一点x,y没走过
+                    
+                    
                     record[x][y] = record[head.x][head.y] + 1;//更新 record 值 从head跳至x、y坐标点处
                     Q.push(Point(x, y));
                 }
@@ -75,7 +77,7 @@ public:
 
 
 
-solution 2:  【与上方差别:直接计算层级】
+solution 2:  【与上方差别:直接计算层级】 Recommended
 
 /**
  * Definition for a point.
