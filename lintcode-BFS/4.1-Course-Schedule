@@ -7,9 +7,10 @@ https://www.lintcode.com/problem/course-schedule-ii/description
 Question: why we use unordered_multiset， instead of unordered_set or vector?
 
 //unordered_multiset 与 unordered_set 的最大区别就是(multiset)前者可以容纳多个相同的值，(set)后者容器中的元素具有唯一性，相同点是两者都是无序的。
-//unordered_multiset 与set的最大区别是前者可以容纳多个相同的值并且容器内部无序，后者容器中的元素具有唯一性并且容器内部有序。
+//unordered_multiset 与 set的最大区别是前者可以容纳多个相同的值并且容器内部无序，后者容器中的元素具有唯一性并且容器内部有序。
 //map保存关键字-值；set只保存关键字。
 //具体区分请看：https://blog.csdn.net/qq_41209741/article/details/89431595
+//【这题使用multiset是因为，一个点可能多次指向另一个点，这个入度就要多算几次】
 
 class Solution {
 public:
@@ -23,7 +24,8 @@ public:
         if(prerequisites.size() == 0){
             return true;//【没有约束，一定可以】
         }
-
+        
+        //记录 名字为index的这个数 他后面有哪些东西
         vector<unordered_multiset<int>> edges(numCourses); //vector[i]为一个multiset，multiset的单位是int, 即vector[i]存放 需在i之后的课程名(int类型) 
         vector<int> d(numCourses, 0);
         //【Step1】 find indegree
