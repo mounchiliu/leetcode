@@ -1,5 +1,11 @@
 https://www.lintcode.com/problem/knight-shortest-path/description
 
+注意destination 和 source 要为0才可以
+e.g. 
+[[1,1,0,0],[0,0,0,0],[0,1,1,1],[1,1,1,0]]
+[1,0]
+[2,2]
+没有答案 返回-1
 
 /**
  * Definition for a point.
