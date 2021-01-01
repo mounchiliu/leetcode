@@ -30,7 +30,11 @@ public:
     int shortestPath(vector<vector<bool>> &grid, Point &source, Point &destination) {
         // write your code here
         if(grid.empty()) return -1;
-        if(grid[source.x][source.y] == true || grid[destination.y][destination.y] == true) return -1;//source和destination被遮挡
+        
+        //if(grid[source.x][source.y] == true || grid[destination.y][destination.y] == true) return -1;//source和destination被遮挡
+        //【注意】 不能直接这么写在这里，当grid非常大的时候访问会出现segmentation fault
+        //所以要放在下面判断
+        
         if(source.x == destination.x && source.y == destination.y) return 0;
 
         //Explanation
@@ -104,7 +108,9 @@ public:
             return -1;
         }
         
-        if(grid[source.x][source.y] == true || grid[destination.y][destination.y] == true) return -1;//source和destination被遮挡
+        //if(grid[source.x][source.y] == true || grid[destination.y][destination.y] == true) return -1;//source和destination被遮挡
+        //【注意】 不能直接这么写在这里，当grid非常大的时候访问会出现segmentation fault
+        //所以要放在下面判断
         
         if(source.x == destination.x && source.y == destination.y){
             return 0;
