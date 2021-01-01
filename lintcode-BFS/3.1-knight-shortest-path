@@ -11,6 +11,7 @@ https://www.lintcode.com/problem/knight-shortest-path/description
  * };
  */
 
+//Sol1: 计算 起点到每一个点的距离，最后返回重点的距离
 class Solution {
 public:
     /**
@@ -67,7 +68,17 @@ public:
 
 
 
-mysolution:  【与上方差别:recorder记录访问，length计算路径长度，这种情况一开始要处理两个特殊情况】
+solution 2:  【与上方差别:直接计算层级】
+
+/**
+ * Definition for a point.
+ * struct Point {
+ *     int x;
+ *     int y;
+ *     Point() : x(0), y(0) {}
+ *     Point(int a, int b) : x(a), y(b) {}
+ * };
+ */
 
 class Solution {
 public:
@@ -79,46 +90,52 @@ public:
      */
     int shortestPath(vector<vector<bool>> &grid, Point &source, Point &destination) {
         // write your code here
-        
-        if(grid.empty()) return -1;
-        if(source.x == destination.x && source.y == destination.y) return 0;
-        
-        //Explanation
-        //[2,0] 表示 row = 2; col = 0;
-        
-        int n = grid.size();
-        int m = grid[0].size();
-        
-        vector<vector<int>> record(n, vector<int>(m, INT_MAX));//C++ vector 初始化
-        record[source.x][source.y] = 0;//recorder用于记录访问
-
-        vector<vector<int>> d = {{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
-
+        if(grid.size() == 0){
+            return -1;
+        }
+        if(source.x == destination.x && source.y == destination.y){
+            return 0;
+        }
+        vector<vector<int>> dir ={{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
         queue<Point> Q;
         Q.push(source);
-        int length = 0; 
-        
-        while (!Q.empty()) {
-            int size = Q.size();//这里需要一层层访问记录length，所以必须分层，上面的方法只需要访问每个必要节点，所以无需分层。
-            for(int i = 0; i<size; i++){
-                Point head = Q.front(); Q.pop();
-                for (int k = 0; k < 8; ++k) {
-                 int x = head.x + d[k][0];//dir x
-                 int y = head.y + d[k][1];//dir y
-                 
-                 if (x >=0 && x < n && y >= 0 && y < m && !grid[x][y] &&  //in bound & not occupied & not visited
-                    record[head.x][head.y] + 1 < record[x][y]) {
-                    record[x][y] = record[head.x][head.y] + 1;//更新 record 值 从head跳至x、y坐标点处
-                    Q.push(Point(x, y));
+        int cnt = 1;
+        while(!Q.empty()){
+            int size = Q.size();
+            for(int i = 0; i < size; i++){
+                Point head = Q.front();
+                Q.pop();
+                
+                for(int j = 0; j < 8; j++){
+                    int x_ = head.x + dir[j][0];
+                    int y_ = head.y + dir[j][1];
+                    
+                    if(!inBound(grid, x_, y_)){
+                        continue;
+                    }
+                    if(!grid[x_][y_]){
+                        if(x_ == destination.x && y_ == destination.y)
+                            return cnt; //【source destination 必须为空】
+                    
+                        Q.push(Point(x_,y_));
+                        grid[x_][y_] = 1;
+                        
                     }
                 }
             }
-            
-            length++;
-            if (record[destination.x][destination.y] != INT_MAX) return length;
+            cnt++;
         }
-
         return -1;
-
+    }
+    
+private:
+    bool inBound(vector<vector<bool>> &grid, int &x, int &y){
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        if(x >= 0 && x < m && y >= 0 && y < n){
+            return true;
+        }
+        return false;
     }
 };
