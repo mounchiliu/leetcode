@@ -57,7 +57,7 @@ public:
                     }
                 }
             
-            if(index ==size){  //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的,
+            if(index == size){  //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的,
                 if(words[i].size()>words[i+1].size()) //此时, words中后一个单词长度一定要比前一个单词长
                     return map<char,set<char>>(); //如果不满足，return 空 (因为不满足字典序，即题目中的【顺序无效】返回空)
             }
