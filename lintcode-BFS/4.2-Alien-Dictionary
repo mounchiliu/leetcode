@@ -56,6 +56,7 @@ public:
                         break;//【重要】
                     }
                 }
+              }
             
             if(index == size){  //当index 遍历完words[i] 或者 words[i+1], 即前n个元素都是相同的,
                 if(words[i].size()>words[i+1].size()) //此时, words中后一个单词长度一定要比前一个单词长
@@ -67,7 +68,8 @@ public:
 
     map<char, int> getIndegree(map<char, set<char>> &graph) {
         map<char, int> indegree;
-
+        
+        //因为使用的是map, 有顺序要求，所以先需要初始化，按照顺序放入红黑树
         for(auto &node_edges: graph){
             indegree[node_edges.first] = 0;//【要先initialize key value】不然map的顺序会乱(你还没initialize key value 就已经用indegree[nb]++ 来访问了)
                                             //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
