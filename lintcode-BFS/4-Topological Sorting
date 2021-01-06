@@ -64,6 +64,7 @@ public:
         queue<DirectedGraphNode*> Q;
         //【2】将所有入度为0的点，放到宽度优先搜索的queue中,他们在队列以及拓扑结构的前排
         //点没有入度->map里面没有他，放到queue里面和结果里面
+	//【注意】不可以直接查看map[key]==0, 因为入度为0的并没有在前一步有操作。
         for(auto &node: graph){
             if(MapForRecord.count(node)==0){
                 Q.push(node);
