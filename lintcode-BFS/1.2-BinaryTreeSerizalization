@@ -27,8 +27,8 @@ public:
             TreeNode* head = Q.front();
             Q.pop();
             if(head == NULL){
-                s += "#,";
-                continue;
+                s += "#,"; 
+                continue;//【不能少】因为NULL没有left和right
             }else{
                 s += to_string(head->val);
                 s += ",";
