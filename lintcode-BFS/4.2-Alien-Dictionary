@@ -69,10 +69,9 @@ public:
     map<char, int> getIndegree(map<char, set<char>> &graph) {
         map<char, int> indegree;
         
-        //因为使用的是map, 有顺序要求，所以先需要初始化，按照顺序放入红黑树
+        //都初始化0，方便后面判断入度==0
         for(auto &node_edges: graph){
-            indegree[node_edges.first] = 0;//【要先initialize key value】不然map的顺序会乱(你还没initialize key value 就已经用indegree[nb]++ 来访问了)
-                                            //graph中每条记录的first 组成了图中所有的点；second表示其关联的点，构成边
+            indegree[node_edges.first] = 0;
         }
         
         //count indegree
@@ -89,7 +88,8 @@ public:
         priority_queue<char, vector<char>, greater<char>> Q;//【minheap】，使用heap是因为题目中需要按照字典序大小返回，同一时刻可能有多个节点满足indegree=0，但是要先pop字典序最小的
         
         for(auto &node: indegree){
-            if(node.second == 0) 
+            if(node.second == 0) //如果计算入度的时候没有初始化0，这里不可以直接使用node.second判断,因为入度为0的没有放进indegree里,
+                                 //【indegree的size也会和result.size不一致---得错误答案】
                 Q.push(node.first);
         }
         
