@@ -71,7 +71,7 @@ public:
         
         
         //【统计入度】
-        int count = 0;//后面用于判断org是否包含所有给出的字符 //e.g. org = [1]; seqs = [[],[]]; seqs中所有seq的元素数量一定要大于等于org.size()
+        int count = 0;//后面用于判断org是否包含所有给出的字符 //e.g. org = [1]; seqs = [[],[]]; 【seqs中所有seq的元素数量一定要大于等于org.size()】
         for(auto &seq: seqs){ //取seqs其中一条seq
             count += seq.size();
             if (seq.size() > 0 && (seq[0] < 1 || seq[0] > org.size())) //【首先判断size保证seq[0]存在】，在查看seq[0]是否符合要求
