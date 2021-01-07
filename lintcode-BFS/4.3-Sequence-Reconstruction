@@ -74,7 +74,7 @@ public:
         int count = 0;//后面用于判断org是否包含所有给出的字符
         for(auto &seq: seqs){ //取seqs其中一条seq
             count += seq.size();
-            if (seq.size() > 0 && (seq[0] < 1 || seq[0] > org.size())) //首先判断size保证seq[0]存在，在查看seq[0]是否符合要求
+            if (seq.size() > 0 && (seq[0] < 1 || seq[0] > org.size())) //【首先判断size保证seq[0]存在】，在查看seq[0]是否符合要求
                 return false;
                 //【判断当下seq中第一个元素是否符合】
                 //seq.size() >=1 --- 大于等于1列的情况 【改成seq[int]？？？答案是0】
@@ -99,7 +99,7 @@ public:
             }
         }
         
-        //【for case [1] [] 】
+        //【for case [1] [] 】  [] [[]]
         if(count<org.size())
             return false;
         
